@@ -1,0 +1,26 @@
+{
+  "name": "NEET UG 2028 — Target 720/720 Medical Entrance OS",
+  "short_name": "NEET 2028",
+  "description": "All-in-One 720/720 Preparation Platform & Medical Entrance Study OS for AIIMS & Top GMCs",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0d9488",
+  "categories": ["education", "medical"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "brand-mark.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
