@@ -175,9 +175,17 @@ const MockTestEngine = {
             <span class="tag gold" style="font-weight:800; font-size:11px;">+4 / -1 Mark</span>
           </div>
 
-          <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
-            <span style="font-family:'Outfit',sans-serif; font-size:18px; font-weight:800; color:var(--brand-teal);">Q.${qNum}</span>
-            <p style="font-size:15px; font-weight:600; line-height:1.6; white-space:pre-line; color:var(--text-main); margin:0;">${escapeHtml(q.question)}</p>
+          <div class="bilingual-q-container" style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <span style="font-family:'Outfit',sans-serif; font-size:18px; font-weight:800; color:var(--brand-teal);">Q.${qNum}</span>
+              <p class="question-text-en" style="font-size:15px; font-weight:600; line-height:1.6; white-space:pre-line; color:var(--text-main); margin:0;">${escapeHtml(q.question)}</p>
+            </div>
+            ${q.questionHi ? `
+              <div class="question-text-hi" style="margin-left:32px; font-size:14px; font-weight:500; line-height:1.6; color:#38bdf8; background:rgba(56, 189, 248, 0.08); padding:8px 12px; border-radius:8px; border-left:3px solid #38bdf8; white-space:pre-line;">
+                <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; opacity:0.85; display:block; margin-bottom:2px;">🇮🇳 हिंदी (Hindi Translation):</span>
+                ${escapeHtml(q.questionHi)}
+              </div>
+            ` : ''}
           </div>
 
           <div class="list" style="display:flex; flex-direction:column; gap:8px; margin:16px 0;">
@@ -185,11 +193,18 @@ const MockTestEngine = {
               <button 
                 type="button"
                 class="option-btn ${selectedAns === i ? 'selected' : ''}" 
-                style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; text-align:left; border-radius:10px; border:1px solid ${selectedAns === i ? 'var(--brand-emerald)' : 'var(--border-color)'}; background:${selectedAns === i ? 'rgba(16, 185, 129, 0.12)' : 'var(--bg-secondary)'}; color:var(--text-main); cursor:pointer; transition:all 0.2s;"
+                style="display:flex; flex-direction:column; gap:4px; padding:12px 14px; text-align:left; border-radius:10px; border:1px solid ${selectedAns === i ? 'var(--brand-emerald)' : 'var(--border-color)'}; background:${selectedAns === i ? 'rgba(16, 185, 129, 0.12)' : 'var(--bg-secondary)'}; color:var(--text-main); cursor:pointer; transition:all 0.2s;"
                 onclick="MockTestEngine.selectAnswer(${i})"
               >
-                <strong style="font-family:'JetBrains Mono',monospace; color:${selectedAns === i ? 'var(--brand-emerald)' : 'var(--text-muted)'}; min-width:20px;">${String.fromCharCode(65 + i)}.</strong>
-                <span style="font-size:13.5px; line-height:1.4;">${escapeHtml(opt)}</span>
+                <div style="display:flex; align-items:flex-start; gap:10px; width:100%;">
+                  <strong style="font-family:'JetBrains Mono',monospace; color:${selectedAns === i ? 'var(--brand-emerald)' : 'var(--brand-teal)'}; min-width:20px;">${String.fromCharCode(65 + i)}.</strong>
+                  <span style="font-size:13.5px; line-height:1.4; font-weight:600;">${escapeHtml(opt)}</span>
+                </div>
+                ${q.optionsHi && q.optionsHi[i] ? `
+                  <div style="padding-left:30px; font-size:12.5px; line-height:1.4; color:var(--text-muted); border-top:1px dashed rgba(255,255,255,0.08); padding-top:4px; margin-top:2px;">
+                    ${escapeHtml(q.optionsHi[i])}
+                  </div>
+                ` : ''}
               </button>
             `).join('')}
           </div>
@@ -284,12 +299,14 @@ const MockTestEngine = {
 
   toggleReview() {
     if (!this.currentTest) return;
-    const idx = this.currentTest.currentIndex;
-    if (this.currentTest.markedForReview[idx]) {
-      delete this.currentTest.markedForReview[idx];
-    } else {
-      this.currentTest.markedForReview[idx] = true;
-    }
+    const cur = this.currentTest.currentIndex;
+    this.currentTest.markedForReview[cur] = !this.currentTest.markedForReview[cur];
+    this.renderExamInterface();
+  },
+
+  prevQuestion() {
+    if (!this.currentTest || this.currentTest.currentIndex <= 0) return;
+    this.currentTest.currentIndex--;
     this.renderExamInterface();
   },
 
@@ -298,14 +315,8 @@ const MockTestEngine = {
     if (this.currentTest.currentIndex < this.currentTest.totalQuestions - 1) {
       this.currentTest.currentIndex++;
       this.renderExamInterface();
-    }
-  },
-
-  prevQuestion() {
-    if (!this.currentTest) return;
-    if (this.currentTest.currentIndex > 0) {
-      this.currentTest.currentIndex--;
-      this.renderExamInterface();
+    } else {
+      this.confirmSubmit();
     }
   },
 
@@ -316,121 +327,126 @@ const MockTestEngine = {
   },
 
   confirmSubmit() {
-    const answered = Object.keys(this.currentTest.userAnswers).length;
-    const remaining = this.currentTest.totalQuestions - answered;
-    if (confirm(`Submit Test? \n\n• Answered: ${answered}\n• Unattempted: ${remaining}\n\nYour score and mistakes will be analyzed immediately.`)) {
-      this.submitTest();
-    }
+    if (!this.currentTest) return;
+    const test = this.currentTest;
+    const answeredCount = Object.keys(test.userAnswers).length;
+    const markedCount = Object.values(test.markedForReview).filter(Boolean).length;
+    const leftCount = test.totalQuestions - answeredCount;
+
+    const modalBody = document.getElementById('modalBody');
+    if (!modalBody) return;
+
+    modalBody.innerHTML = `
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-size:36px; margin-bottom:8px;">📊</div>
+        <h3 style="margin-bottom:6px;">Submit ${escapeHtml(test.title)}?</h3>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Review your exam summary before final evaluation.</p>
+
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:20px;">
+          <div class="card" style="padding:10px; text-align:center;">
+            <div style="font-size:20px; font-weight:800; color:var(--brand-emerald);">${answeredCount}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Answered</div>
+          </div>
+          <div class="card" style="padding:10px; text-align:center;">
+            <div style="font-size:20px; font-weight:800; color:var(--brand-purple);">${markedCount}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Marked</div>
+          </div>
+          <div class="card" style="padding:10px; text-align:center;">
+            <div style="font-size:20px; font-weight:800; color:var(--text-secondary);">${leftCount}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Unattempted</div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:10px;">
+          <button class="btn ghost btn-sm" onclick="MockTestEngine.renderExamInterface()">← Back to Exam</button>
+          <button class="btn-danger btn-sm" onclick="MockTestEngine.submitTest()">Confirm & Evaluate Score</button>
+        </div>
+      </div>
+    `;
   },
 
   submitTest() {
-    if (!this.currentTest || this.currentTest.isSubmitted) return;
-    if (this.timerInterval) clearInterval(this.timerInterval);
+    if (!this.currentTest) return;
+    this.stopTimer();
 
-    this.currentTest.isSubmitted = true;
-    let correct = 0;
-    let wrong = 0;
-    let unattempted = 0;
+    const test = this.currentTest;
+    let correctCount = 0;
+    let wrongCount = 0;
     let score = 0;
+    const mistakes = [];
 
-    const mistakesToLog = [];
-    const subjectStats = {
-      phy: { correct: 0, wrong: 0, score: 0 },
-      chem: { correct: 0, wrong: 0, score: 0 },
-      bot: { correct: 0, wrong: 0, score: 0 },
-      zoo: { correct: 0, wrong: 0, score: 0 }
-    };
-
-    this.currentTest.questions.forEach((q, idx) => {
-      const userAns = this.currentTest.userAnswers[idx];
-      const sCode = q.subjectCode || 'phy';
-
-      if (userAns === undefined) {
-        unattempted++;
-      } else if (userAns === q.correctIndex) {
-        correct++;
-        score += 4;
-        if (subjectStats[sCode]) {
-          subjectStats[sCode].correct++;
-          subjectStats[sCode].score += 4;
+    test.questions.forEach((q, idx) => {
+      const userAns = test.userAnswers[idx];
+      if (userAns !== undefined) {
+        if (userAns === q.correctIndex) {
+          correctCount++;
+          score += 4;
+        } else {
+          wrongCount++;
+          score -= 1;
+          mistakes.push({
+            id: `mistake-${Date.now()}-${idx}`,
+            questionId: q.id,
+            questionText: q.question,
+            questionTextHi: q.questionHi || null,
+            subject: q.subject,
+            subjectCode: q.subjectCode,
+            chapter: q.chapter,
+            userAnswer: q.options[userAns],
+            userAnswerHi: q.optionsHi ? q.optionsHi[userAns] : null,
+            correctAnswer: q.options[q.correctIndex],
+            correctAnswerHi: q.optionsHi ? q.optionsHi[q.correctIndex] : null,
+            explanation: q.explanation,
+            explanationHi: q.explanationHi || null,
+            ncertRef: q.ncertRef,
+            testTitle: test.title,
+            testLevel: test.level,
+            timestamp: new Date().toISOString()
+          });
         }
-      } else {
-        wrong++;
-        score -= 1;
-        if (subjectStats[sCode]) {
-          subjectStats[sCode].wrong++;
-          subjectStats[sCode].score -= 1;
-        }
-        // Auto-log to Mistake Notebook
-        mistakesToLog.push({
-          questionId: q.id,
-          question: q.question,
-          chapter: q.chapter || 'NEET Chapter',
-          subject: q.subject || 'Physics',
-          subjectCode: sCode,
-          userSelected: q.options[userAns],
-          correctAnswer: q.options[q.correctIndex],
-          explanation: q.explanation,
-          ncertRef: q.ncertRef || 'NCERT Master Text',
-          date: new Date().toISOString()
-        });
       }
     });
 
-    const maxScore = this.currentTest.maxScore || (this.currentTest.totalQuestions * 4);
-    const percentage = Math.max(0, Math.round((score / maxScore) * 100));
-    const passed = percentage >= (this.currentTest.level === 6 ? 50 : 60);
+    const unattemptedCount = test.totalQuestions - (correctCount + wrongCount);
+    const maxScore = test.totalQuestions * 4;
+    const accuracy = (correctCount + wrongCount) > 0 ? Math.round((correctCount / (correctCount + wrongCount)) * 100) : 0;
 
-    this.currentTest.correctCount = correct;
-    this.currentTest.wrongCount = wrong;
-    this.currentTest.unattemptedCount = unattempted;
-    this.currentTest.score = score;
-    this.currentTest.maxScore = maxScore;
-    this.currentTest.percentage = percentage;
-    this.currentTest.passed = passed;
-    this.currentTest.subjectStats = subjectStats;
+    test.score = score;
+    test.correctCount = correctCount;
+    test.wrongCount = wrongCount;
+    test.unattemptedCount = unattemptedCount;
+    test.maxScore = maxScore;
+    test.accuracy = accuracy;
+    test.isCompleted = true;
 
-    // Save to App State test history
-    if (typeof appState !== 'undefined') {
-      appState.testHistory = appState.testHistory || [];
-      appState.testHistory.push({
-        date: new Date().toISOString(),
-        testId: this.currentTest.testId,
-        title: this.currentTest.title,
-        level: this.currentTest.level,
-        subject: this.currentTest.subjectCode,
+    // Save test result to NEET2028State
+    if (window.NEET2028State) {
+      if (!window.NEET2028State.testHistory) window.NEET2028State.testHistory = [];
+      window.NEET2028State.testHistory.unshift({
+        id: test.id,
+        title: test.title,
+        level: test.level,
         score,
         maxScore,
-        percentage,
-        correct,
-        wrong,
-        unattempted,
-        drillType: this.currentTest.drillType
+        accuracy,
+        correctCount,
+        wrongCount,
+        unattemptedCount,
+        date: new Date().toLocaleDateString()
       });
 
-      // Auto-log mistakes to MistakeNotebook
-      mistakesToLog.forEach(m => {
-        if (typeof MistakeNotebook !== 'undefined') {
-          MistakeNotebook.addMistake(m);
-        }
-      });
-
-      // Record in Hierarchical Tree Engine
-      if (typeof TestTreeEngine !== 'undefined' && TestTreeEngine.recordResult) {
-        TestTreeEngine.recordResult({
-          level: this.currentTest.level,
-          testId: this.currentTest.testId,
-          score,
-          maxScore,
-          percentage,
-          passed,
-          correct,
-          wrong,
-          unattempted
-        });
+      // Save mistakes to Mistake Notebook
+      if (mistakes.length) {
+        if (!window.NEET2028State.mistakes) window.NEET2028State.mistakes = [];
+        window.NEET2028State.mistakes = [...mistakes, ...window.NEET2028State.mistakes].slice(0, 100);
       }
 
-      if (typeof saveState === 'function') saveState();
+      // Check level unlocking
+      if (window.HierarchicalTestTree && typeof window.HierarchicalTestTree.checkAndUnlockLevels === 'function') {
+        window.HierarchicalTestTree.checkAndUnlockLevels(test.level, accuracy, score, maxScore);
+      }
+
+      if (typeof window.saveState === 'function') window.saveState();
     }
 
     this.renderScorecard();
@@ -438,29 +454,27 @@ const MockTestEngine = {
 
   renderScorecard() {
     const test = this.currentTest;
-    const modalBody = document.getElementById('modalBody');
-    if (!modalBody || !test) return;
+    if (!test) return;
 
-    // Estimate All India Rank projection based on 720 conversion
-    const normalized720 = Math.round((test.score / test.maxScore) * 720);
-    let rankEstimate = 'AIR Top 50 (AIIMS New Delhi)';
-    if (normalized720 < 450) rankEstimate = 'Foundation Level · Needs Revision';
-    else if (normalized720 < 550) rankEstimate = 'State Medical College Qualified';
-    else if (normalized720 < 620) rankEstimate = 'Govt Medical College (Top 15,000)';
-    else if (normalized720 < 680) rankEstimate = 'Top Central Medical College (Top 2,000)';
+    const modalBody = document.getElementById('modalBody');
+    if (!modalBody) return;
+
+    const isPassed = test.accuracy >= 65;
 
     modalBody.innerHTML = `
-      <div style="text-align:center; padding:10px 0 20px;">
-        <span class="tag gold" style="margin-bottom:8px; font-weight:800;">
-          ${test.passed ? '🎉 TEST CLEARED' : '⚠️ RETEST RECOMMENDED'} · LEVEL ${test.level}
+      <div style="text-align:center; padding-bottom:12px; border-bottom:1px solid var(--border-color); margin-bottom:16px;">
+        <span class="tag ${isPassed ? 'bot' : 'phy'}" style="font-size:12px; font-weight:800;">
+          ${isPassed ? '🎯 LEVEL MILESTONE CRACKED!' : '⚠️ NCERT REVISION REQUIRED'}
         </span>
-        <h2 style="font-size:2rem; margin:6px 0;">${test.score} / ${test.maxScore} Marks</h2>
-        <p style="color:var(--text-muted); font-size:14px; margin-top:2px;">
-          Accuracy: <b>${test.percentage}%</b> · Normalized NEET Projection: <b>${normalized720}/720</b> (${rankEstimate})
-        </p>
+        <h2 style="font-size:22px; margin:8px 0 4px;">${escapeHtml(test.title)}</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin:0;">Level ${test.level} · Diagnostic Scorecard & AI Performance Audit</p>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:20px;">
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-bottom:16px;">
+        <div class="card" style="text-align:center; padding:12px; border-left:4px solid var(--brand-teal);">
+          <div style="font-size:22px; font-weight:800; color:var(--brand-teal);">${test.score} / ${test.maxScore}</div>
+          <div style="font-size:11px; color:var(--text-muted);">FINAL SCORE</div>
+        </div>
         <div class="card" style="text-align:center; padding:12px; border-left:4px solid var(--brand-emerald);">
           <div style="font-size:22px; font-weight:800; color:var(--brand-emerald);">${test.correctCount}</div>
           <div style="font-size:11px; color:var(--text-muted);">CORRECT (+${test.correctCount * 4})</div>
@@ -475,7 +489,7 @@ const MockTestEngine = {
         </div>
       </div>
 
-      <h3 style="font-size:15px; margin:16px 0 10px;">NCERT Clinical Solutions & Page References</h3>
+      <h3 style="font-size:15px; margin:16px 0 10px;">NCERT Bilingual Solutions & Clinical Page References</h3>
       <div style="display:flex; flex-direction:column; gap:12px; max-height:300px; overflow-y:auto; padding-right:4px;">
         ${test.questions.map((q, idx) => {
           const userAns = test.userAnswers[idx];
@@ -492,13 +506,19 @@ const MockTestEngine = {
                 <span style="font-weight:700; font-size:12.5px;">Q${idx + 1}. ${escapeHtml(q.chapter || q.subject)}</span>
                 ${statusTag}
               </div>
-              <p style="font-size:13px; margin-bottom:6px; white-space:pre-line; line-height:1.4;">${escapeHtml(q.question)}</p>
+              <p style="font-size:13px; margin-bottom:4px; white-space:pre-line; line-height:1.4;">${escapeHtml(q.question)}</p>
+              ${q.questionHi ? `
+                <div style="font-size:12px; color:#38bdf8; margin-bottom:8px; line-height:1.4; background:rgba(56, 189, 248, 0.06); padding:4px 8px; border-radius:6px;">
+                  🇮🇳 ${escapeHtml(q.questionHi)}
+                </div>
+              ` : ''}
               <div style="font-size:12px; line-height:1.4;">
-                <div><b>Your Answer:</b> ${userAns !== undefined ? escapeHtml(q.options[userAns]) : '<i>Not Attempted</i>'}</div>
-                <div><b>Correct Answer:</b> <span style="color:var(--brand-emerald); font-weight:700;">${escapeHtml(q.options[q.correctIndex])}</span></div>
+                <div><b>Your Answer:</b> ${userAns !== undefined ? `${escapeHtml(q.options[userAns])} ${q.optionsHi && q.optionsHi[userAns] ? `(${escapeHtml(q.optionsHi[userAns])})` : ''}` : '<i>Not Attempted</i>'}</div>
+                <div><b>Correct Answer:</b> <span style="color:var(--brand-emerald); font-weight:700;">${escapeHtml(q.options[q.correctIndex])} ${q.optionsHi && q.optionsHi[q.correctIndex] ? `(${escapeHtml(q.optionsHi[q.correctIndex])})` : ''}</span></div>
                 <div style="margin-top:6px; padding:6px 8px; background:var(--bg-secondary); border-radius:6px; font-size:11.5px;">
                   <b>NCERT Solution:</b> ${escapeHtml(q.explanation)}<br>
-                  <span style="color:var(--brand-teal); font-weight:600;">📖 ${escapeHtml(q.ncertRef)}</span>
+                  ${q.explanationHi ? `<div style="color:var(--text-muted); margin-top:2px;"><b>हिंदी व्याख्या:</b> ${escapeHtml(q.explanationHi)}</div>` : ''}
+                  <span style="color:var(--brand-teal); font-weight:600; display:inline-block; margin-top:4px;">📖 ${escapeHtml(q.ncertRef || 'NCERT Standard')}</span>
                 </div>
               </div>
             </div>
@@ -514,6 +534,10 @@ const MockTestEngine = {
         </div>
       </div>
     `;
+  },
+  
+  stopTimer() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
   }
 };
 

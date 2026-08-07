@@ -200,6 +200,11 @@ const TestTreeEngine = {
 
   // Launch Level 5: 3-Subject Combo Test
   launchCombo3Test(testId) {
+    if (typeof window !== 'undefined' && window.PaymentEngine && !window.PaymentEngine.isLevelUnlocked(5)) {
+      window.PaymentEngine.openCheckoutModal('level5');
+      return;
+    }
+
     const config = this.COMBO_3_TESTS.find(t => t.id === testId);
     if (!config || !window.MockTestEngine) return;
 
@@ -216,6 +221,11 @@ const TestTreeEngine = {
 
   // Launch Level 6: 10 Pre-NEET Grand Mocks
   launchPreNeetMock(mockNum) {
+    if (typeof window !== 'undefined' && window.PaymentEngine && !window.PaymentEngine.isLevelUnlocked(6)) {
+      window.PaymentEngine.openCheckoutModal('level6');
+      return;
+    }
+
     const config = this.GRAND_MOCKS.find(m => m.mockNum === +mockNum);
     if (!config || !window.MockTestEngine) return;
 

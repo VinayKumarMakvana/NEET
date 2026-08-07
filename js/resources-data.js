@@ -92,11 +92,89 @@ const NEET_RESOURCES = [
   },
 
   // =========================================================================
-  // 📚 OFFICIAL NCERT E-BOOKS & EXEMPLARS (PDF DIRECT)
+  // 📚 OFFICIAL NCERT E-BOOKS & EXEMPLARS (HINDI & ENGLISH MEDIUM PDF DIRECT)
   // =========================================================================
   {
+    id: 'res-ncert-bio-11-hi',
+    title: 'NCERT जीव विज्ञान कक्षा 11 (हिन्दी माध्यम सम्पूर्ण ई-बुक PDF)',
+    url: 'https://ncert.nic.in/textbook.php?khbo1=0-22',
+    subject: 'Botany',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 120,
+    priority: 'हिन्दी माध्यम के विद्यार्थियों के लिए मूल NCERT पुस्तक (प्रत्येक पंक्ति से प्रश्न)',
+    description: 'कक्षा 11 जीव विज्ञान की सम्पूर्ण 22 अध्यायों की आधिकारिक NCERT पुस्तक हिन्दी में सीधे डाउनलोड करें।',
+    tags: ['NCERT Hindi', 'Class 11', 'जीव विज्ञान', 'Free']
+  },
+  {
+    id: 'res-ncert-bio-12-hi',
+    title: 'NCERT जीव विज्ञान कक्षा 12 (हिन्दी माध्यम सम्पूर्ण ई-बुक PDF)',
+    url: 'https://ncert.nic.in/textbook.php?lhbo1=0-16',
+    subject: 'Zoology',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 110,
+    priority: 'जीव विज्ञान में 360/360 अंक प्राप्त करने के लिए सबसे महत्वपूर्ण पुस्तक',
+    description: 'कक्षा 12 जीव विज्ञान की सम्पूर्ण 16 अध्यायों की आधिकारिक NCERT पुस्तक हिन्दी में सीधे डाउनलोड करें।',
+    tags: ['NCERT Hindi', 'Class 12', 'जीव विज्ञान', 'Free']
+  },
+  {
+    id: 'res-ncert-chem-11-hi',
+    title: 'NCERT रसायन विज्ञान कक्षा 11 भाग 1 व 2 (हिन्दी माध्यम)',
+    url: 'https://ncert.nic.in/textbook.php?khch1=0-7',
+    subject: 'Chemistry',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 90,
+    priority: 'अकार्बनिक आबंधन, ऊष्मागतिकी व साम्यावस्था हेतु आवश्यक',
+    description: 'कक्षा 11 रसायन विज्ञान भाग 1 व भाग 2 की आधिकारिक NCERT पुस्तक हिन्दी में।',
+    tags: ['NCERT Hindi', 'Class 11', 'रसायन विज्ञान', 'Free']
+  },
+  {
+    id: 'res-ncert-chem-12-hi',
+    title: 'NCERT रसायन विज्ञान कक्षा 12 भाग 1 व 2 (हिन्दी माध्यम)',
+    url: 'https://ncert.nic.in/textbook.php?lhch1=0-10',
+    subject: 'Chemistry',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 95,
+    priority: 'कार्बनिक अभिक्रियाएं, d-ब्लॉक व उपसहसंयोजन यौगिक',
+    description: 'कक्षा 12 रसायन विज्ञान भाग 1 व भाग 2 की आधिकारिक NCERT पुस्तक हिन्दी में।',
+    tags: ['NCERT Hindi', 'Class 12', 'रसायन विज्ञान', 'Free']
+  },
+  {
+    id: 'res-ncert-phy-11-hi',
+    title: 'NCERT भौतिकी कक्षा 11 भाग 1 व 2 (हिन्दी माध्यम)',
+    url: 'https://ncert.nic.in/textbook.php?khph1=0-8',
+    subject: 'Physics',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 80,
+    priority: 'विचारणीय बिंदु (Points to Ponder) और सारांश रेखाएं',
+    description: 'कक्षा 11 भौतिकी भाग 1 व भाग 2 की आधिकारिक NCERT पुस्तक हिन्दी में।',
+    tags: ['NCERT Hindi', 'Class 11', 'भौतिक विज्ञान', 'Free']
+  },
+  {
+    id: 'res-ncert-phy-12-hi',
+    title: 'NCERT भौतिकी कक्षा 12 भाग 1 व 2 (हिन्दी माध्यम)',
+    url: 'https://ncert.nic.in/textbook.php?lhph1=0-8',
+    subject: 'Physics',
+    type: 'Official NCERT Hindi',
+    category: 'Official NCERT',
+    provider: 'NCERT Official (हिन्दी)',
+    hours: 85,
+    priority: 'आधुनिक भौतिकी, अर्धचालक व प्रकाशिकी',
+    description: 'कक्षा 12 भौतिकी भाग 1 व भाग 2 की आधिकारिक NCERT पुस्तक हिन्दी में।',
+    tags: ['NCERT Hindi', 'Class 12', 'भौतिक विज्ञान', 'Free']
+  },
+  {
     id: 'res-ncert-bio-11',
-    title: 'NCERT Biology Class 11 (Official Text E-Book PDF)',
+    title: 'NCERT Biology Class 11 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?kebo1=0-22',
     subject: 'Botany',
     type: 'Official NCERT',
@@ -109,7 +187,7 @@ const NEET_RESOURCES = [
   },
   {
     id: 'res-ncert-bio-12',
-    title: 'NCERT Biology Class 12 (Official Text E-Book PDF)',
+    title: 'NCERT Biology Class 12 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?lebo1=0-16',
     subject: 'Zoology',
     type: 'Official NCERT',
@@ -122,7 +200,7 @@ const NEET_RESOURCES = [
   },
   {
     id: 'res-ncert-chem-11',
-    title: 'NCERT Chemistry Class 11 (Part 1 & Part 2 Official)',
+    title: 'NCERT Chemistry Class 11 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?kech1=0-7',
     subject: 'Chemistry',
     type: 'Official NCERT',
@@ -135,7 +213,7 @@ const NEET_RESOURCES = [
   },
   {
     id: 'res-ncert-chem-12',
-    title: 'NCERT Chemistry Class 12 (Part 1 & Part 2 Official)',
+    title: 'NCERT Chemistry Class 12 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?lech1=0-10',
     subject: 'Chemistry',
     type: 'Official NCERT',
@@ -148,7 +226,7 @@ const NEET_RESOURCES = [
   },
   {
     id: 'res-ncert-phy-11',
-    title: 'NCERT Physics Class 11 (Part 1 & Part 2 Official)',
+    title: 'NCERT Physics Class 11 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?keph1=0-8',
     subject: 'Physics',
     type: 'Official NCERT',
@@ -161,7 +239,7 @@ const NEET_RESOURCES = [
   },
   {
     id: 'res-ncert-phy-12',
-    title: 'NCERT Physics Class 12 (Part 1 & Part 2 Official)',
+    title: 'NCERT Physics Class 12 (English Medium Official PDF)',
     url: 'https://ncert.nic.in/textbook.php?leph1=0-8',
     subject: 'Physics',
     type: 'Official NCERT',
@@ -182,8 +260,77 @@ const NEET_RESOURCES = [
     provider: 'NCERT Official',
     hours: 60,
     priority: 'Direct Source of 15-20% Multi-Concept MCQs in NEET',
-    description: 'Official NCERT Exemplar question bank with Single Option Correct, Multiple Correct, Matching, and Statement questions.',
+    description: 'Official NCERT Exemplar question bank with Single Option Correct, Multiple Correct, Matching, and Statement questions in Hindi and English.',
     tags: ['Exemplar', 'MCQs', 'High-Yield', 'NCERT']
+  },
+
+  // =========================================================================
+  // 🎥 HINDI & HINGLISH FREE MASTERCLASSES (FOR SELF-STUDY STUDENTS)
+  // =========================================================================
+  {
+    id: 'vid-khan-academy-hindi',
+    title: 'खान एकेडमी हिन्दी (Khan Academy Hindi) — 100% नि:शुल्क सम्पूर्ण विज्ञान',
+    url: 'https://hi.khanacademy.org/science',
+    subject: 'All Subjects',
+    type: 'Hindi Video Lectures',
+    category: 'Full Lectures',
+    provider: 'Khan Academy Hindi',
+    hours: 110,
+    priority: 'बिना किसी विज्ञापन के स्पष्ट और सरल हिन्दी में समझें',
+    description: 'कक्षा 11 व 12 के सम्पूर्ण भौतिकी, रसायन और जीव विज्ञान के संकल्पनात्मक वीडियो पाठ नि:शुल्क उपलब्ध हैं।',
+    tags: ['Hindi Medium', 'Khan Academy', 'Free', 'NCERT']
+  },
+  {
+    id: 'vid-pw-hindi-neet',
+    title: 'Physics Wallah हिन्दी माध्यम — NEET सम्पूर्ण भौतिकी, रसायन एवं जीव विज्ञान',
+    url: 'https://www.youtube.com/results?search_query=physics+wallah+hindi+medium+neet+lectures',
+    subject: 'All Subjects',
+    type: 'Hindi Video Lectures',
+    category: 'Full Lectures',
+    provider: 'Physics Wallah (हिन्दी माध्यम)',
+    hours: 180,
+    priority: 'ग्रामीण व हिन्दी माध्यम के विद्यार्थियों के लिए देश की सर्वश्रेष्ठ फ्री कक्षाएं',
+    description: 'अलख पाण्डेय सर एवं पीडब्ल्यू के शीर्ष शिक्षकों द्वारा हिन्दी माध्यम में NEET 720/720 की पूरी तैयारी।',
+    tags: ['Hindi Medium', 'Physics Wallah', 'Alakh Pandey', 'Free']
+  },
+  {
+    id: 'vid-pankaj-sir-chem-hi',
+    title: 'पंकज सर केमिस्ट्री (Pankaj Sir Chemistry) — कार्बनिक व अकार्बनिक रसायन',
+    url: 'https://www.youtube.com/results?search_query=pankaj+sir+chemistry+neet+lectures',
+    subject: 'Chemistry',
+    type: 'Hindi Video Lectures',
+    category: 'Full Lectures',
+    provider: 'Pankaj Sir',
+    hours: 120,
+    priority: 'केमिस्ट्री में 180/180 का लक्ष्य — आसान भाषा में पूरे नियम व ट्रिक्स',
+    description: 'कक्षा 11 व 12 की ऑर्गेनिक, इनऑर्गेनिक और फिजिकल केमिस्ट्री के फ्री मास्टर वीडियो लेक्चर्स।',
+    tags: ['Chemistry', 'Pankaj Sir', 'Hindi Medium', 'Free']
+  },
+  {
+    id: 'vid-tarun-sir-bot-hi',
+    title: 'तरुण सर बॉटनी (Tarun Sir Botany) — NCERT लाइन-बाय-लाइन व्याख्या',
+    url: 'https://www.youtube.com/results?search_query=tarun+sir+botany+ncert+neet',
+    subject: 'Botany',
+    type: 'Hindi Video Lectures',
+    category: 'Full Lectures',
+    provider: 'Tarun Sir (Botany Master)',
+    hours: 100,
+    priority: 'पादप कार्यिकी, आनुवंशिकी और कोशिका विज्ञान की सर्वोत्तम व्याख्या',
+    description: 'NCERT की प्रत्येक पंक्ति और आरेख की गहराई से समझ — बॉटनी में पूरे 180 अंक।',
+    tags: ['Botany', 'Tarun Sir', 'Hindi', 'NCERT']
+  },
+  {
+    id: 'vid-seep-pahuja-zoo-hi',
+    title: 'डॉ. सीप पाहुजा (Dr. Seep Pahuja) — प्राणी विज्ञान (Zoology) NCERT मास्टरक्लास',
+    url: 'https://www.youtube.com/results?search_query=seep+pahuja+zoology+ncert+neet',
+    subject: 'Zoology',
+    type: 'Hindi Video Lectures',
+    category: 'Full Lectures',
+    provider: 'Dr. Seep Pahuja',
+    hours: 95,
+    priority: 'मानव कार्यिकी, जनन एवं जैव प्रौद्योगिकी की संपूर्ण NCERT व्याख्या',
+    description: 'NCERT जूलॉजी के आरेख, टेबल और पिछले 10 वर्षों के NEET प्रश्नों का सम्पूर्ण हल।',
+    tags: ['Zoology', 'Seep Pahuja', 'Hindi', 'NCERT']
   },
 
   // =========================================================================

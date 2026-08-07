@@ -97,22 +97,36 @@ const MistakeNotebook = {
               </div>
             </div>
 
-            <p style="font-size:14px; font-weight:600; margin-bottom:8px;">${escapeHtml(m.question)}</p>
-
-            <div style="font-size:13px; color:var(--text-muted); background:var(--bg-secondary); padding:10px; border-radius:8px; margin-bottom:10px;">
-              <div style="color:var(--brand-red);">Your past answer: <strong>${escapeHtml(m.userSelected || 'Incorrect')}</strong></div>
-              <div style="color:var(--brand-emerald); margin-top:2px;">Correct answer: <strong>${escapeHtml(m.correctAnswer)}</strong></div>
+            <div class="bilingual-q-container" style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;">
+              <p style="font-size:14px; font-weight:600; margin:0; line-height:1.5; color:var(--text-main);">${escapeHtml(m.question || m.questionText)}</p>
+              ${(m.questionTextHi || m.questionHi) ? `
+                <div style="font-size:13px; color:#38bdf8; background:rgba(56, 189, 248, 0.08); padding:6px 10px; border-radius:6px; border-left:3px solid #38bdf8; line-height:1.4;">
+                  🇮🇳 ${escapeHtml(m.questionTextHi || m.questionHi)}
+                </div>
+              ` : ''}
             </div>
 
-            <div class="callout" style="font-size:12px; margin:8px 0;">
-              <strong>Key Takeaway:</strong> ${escapeHtml(m.explanation)}<br>
-              <span class="ncert-highlight" style="font-size:11px; margin-top:4px; display:inline-block;">📖 ${escapeHtml(m.ncertRef || 'NCERT Chapter')}</span>
+            <div style="font-size:13px; color:var(--text-muted); background:var(--bg-secondary); padding:10px 12px; border-radius:8px; margin-bottom:10px; border:1px solid var(--border-color);">
+              <div style="color:var(--brand-red); margin-bottom:4px;">
+                <b>Your past answer:</b> ${escapeHtml(m.userSelected || m.userAnswer || 'Incorrect')} 
+                ${(m.userAnswerHi) ? `<span style="opacity:0.8;">(${escapeHtml(m.userAnswerHi)})</span>` : ''}
+              </div>
+              <div style="color:var(--brand-emerald); font-weight:600;">
+                <b>Correct answer:</b> ${escapeHtml(m.correctAnswer)} 
+                ${(m.correctAnswerHi) ? `<span style="opacity:0.8;">(${escapeHtml(m.correctAnswerHi)})</span>` : ''}
+              </div>
             </div>
 
-            <div style="display:flex; gap:12px; align-items:center; margin-top:12px; flex-wrap:wrap;">
-              <label style="font-size:12px; color:var(--text-muted);">
-                Mistake Type:
-                <select style="margin-left:6px; padding:4px 8px; font-size:12px; border-radius:6px;" onchange="MistakeNotebook.setReason('${m.id}', this.value)">
+            <div class="callout" style="font-size:12.5px; margin:8px 0; padding:10px 12px;">
+              <strong>📖 NCERT Key Takeaway:</strong> ${escapeHtml(m.explanation)}
+              ${(m.explanationHi) ? `<div style="color:var(--text-muted); margin-top:4px;"><b>हिंदी व्याख्या:</b> ${escapeHtml(m.explanationHi)}</div>` : ''}
+              <span class="ncert-highlight" style="font-size:11px; margin-top:6px; display:inline-block;">📖 ${escapeHtml(m.ncertRef || 'NCERT Master Text')}</span>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap;">
+              <label style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">
+                <span>Mistake Type:</span>
+                <select style="padding:4px 8px; font-size:12px; border-radius:6px; background:var(--bg-secondary); color:var(--text-main); border:1px solid var(--border-color);" onchange="MistakeNotebook.setReason('${m.id}', this.value)">
                   <option value="Conceptual Gap" ${m.reason === 'Conceptual Gap' ? 'selected' : ''}>Conceptual Gap</option>
                   <option value="Calculation Error" ${m.reason === 'Calculation Error' ? 'selected' : ''}>Calculation Error</option>
                   <option value="Silly Mistake / Misread" ${m.reason === 'Silly Mistake / Misread' ? 'selected' : ''}>Silly Mistake / Misread</option>
@@ -124,7 +138,7 @@ const MistakeNotebook = {
                 type="text" 
                 placeholder="Add your personalized NCERT correction note..." 
                 value="${escapeHtml(m.notes || '')}" 
-                style="flex:1; min-width:200px; padding:6px 12px; font-size:12px;" 
+                style="flex:1; min-width:180px; padding:6px 12px; font-size:12px; border-radius:6px; background:var(--bg-secondary); color:var(--text-main); border:1px solid var(--border-color);" 
                 onchange="MistakeNotebook.setNotes('${m.id}', this.value)"
               >
             </div>

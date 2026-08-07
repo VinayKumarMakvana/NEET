@@ -3,6 +3,17 @@
  * Supports Clerk Cloud OAuth (Google/Email) & Verified Student Passcode Accounts
  */
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+window.escapeHtml = escapeHtml;
+
 const CLERK_DEFAULT_KEY = 'pk_test_cG9zc2libGUtdHJvdXQtNTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
 const AUTH_STUDENTS_STORAGE_KEY = 'neet_registered_students_v1';
 const AUTH_ACTIVE_SESSION_KEY = 'neet_active_student_session';
@@ -391,7 +402,74 @@ const ClerkAuth = {
     }
   },
 
-  // Student Passcode Management
+  // Real-Time Sync & Single-Device Heartbeat Engine
+  _heartbeatTimer: null,
+
+  startSessionHeartbeat() {
+    if (this._heartbeatTimer) clearInterval(this._heartbeatTimer);
+    this._heartbeatTimer = setInterval(() => {
+      this.checkActiveSession();
+    }, 15000); // Check every 15 seconds
+  },
+
+  stopSessionHeartbeat() {
+    if (this._heartbeatTimer) {
+      clearInterval(this._heartbeatTimer);
+      this._heartbeatTimer = null;
+    }
+  },
+
+  async checkActiveSession() {
+    if (!this.currentUser || !this.currentUser.id || !this.currentUser.sessionId) return;
+    try {
+      const res = await fetch(`/api/auth/check-session?userId=${encodeURIComponent(this.currentUser.id)}&sessionId=${encodeURIComponent(this.currentUser.sessionId)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.active === false) {
+          console.warn('🚨 Single Device Policy Triggered: Logged in on another device.');
+          this.handleSingleDeviceMismatch();
+        }
+      }
+    } catch (e) {
+      // Server unreachable, ignore silent check
+    }
+  },
+
+  handleSingleDeviceMismatch() {
+    this.stopSessionHeartbeat();
+    this.signOut(true); // silent logout
+    this.showSingleDeviceWarningModal();
+  },
+
+  showSingleDeviceWarningModal() {
+    const modalBody = document.getElementById('modalBody');
+    const modal = document.getElementById('modal');
+    if (!modalBody || !modal) {
+      alert('⚠️ Single Device Security Alert:\nAapka account kisi doosre device me login kiya gaya he.\nEk time me sirf 1 device allowed he. Is device se logout kar diya gaya he.');
+      return;
+    }
+
+    modalBody.innerHTML = `
+      <div style="padding:10px 0; text-align:center;">
+        <div style="width:64px; height:64px; border-radius:50%; background:rgba(239, 68, 68, 0.15); border:2px solid #ef4444; color:#ef4444; font-size:32px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+          🔒
+        </div>
+        <h3 style="font-size:20px; font-weight:800; color:#ef4444; margin:0 0 8px;">Single Device Security Alert</h3>
+        <p style="font-size:13px; color:var(--text-main); font-weight:600; margin:0 0 10px;">
+          Aapka account kisi doosre phone ya device me login kiya gaya he.
+        </p>
+        <p style="font-size:12px; color:var(--text-muted); line-height:1.5; margin:0 0 18px;">
+          Security aur Fair Usage policy ke antargat ek time par sirf <strong>1 Active Device</strong> me hi account chal sakta he. Aapka sabhi data & purchases (Level 5/6 unlocks) safe hain.
+        </p>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:12px;" onclick="document.getElementById('modal').close(); ClerkAuth.openSignIn('pin');">
+          🔑 Re-Login on This Device
+        </button>
+      </div>
+    `;
+    modal.showModal();
+  },
+
+  // Student Passcode Management (Permanent Cross-Device & Server Storage)
   getRegisteredStudents() {
     try {
       return JSON.parse(localStorage.getItem(AUTH_STUDENTS_STORAGE_KEY) || '[]');
@@ -400,7 +478,7 @@ const ClerkAuth = {
     }
   },
 
-  registerStudentAccount(name, emailOrPhone, pin, targetCollege = 'AIIMS New Delhi') {
+  async registerStudentAccount(name, emailOrPhone, pin, targetCollege = 'AIIMS New Delhi') {
     if (!name || !pin) {
       throw new Error('Name and Security PIN are required.');
     }
@@ -408,55 +486,197 @@ const ClerkAuth = {
       throw new Error('Security PIN must be at least 4 characters/digits.');
     }
 
-    const students = this.getRegisteredStudents();
-    const cleanId = 'std_' + Date.now();
-    const existing = students.find(s => s.emailOrPhone.toLowerCase() === emailOrPhone.trim().toLowerCase());
-    
-    if (existing && emailOrPhone) {
-      throw new Error('An account with this Email/Phone already exists. Please Log In.');
+    const cleanName = name.trim().startsWith('Dr.') ? name.trim() : 'Dr. ' + name.trim();
+    const cleanEmail = (emailOrPhone || '').trim();
+
+    // 1. Send to server for permanent cross-device persistence
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: cleanName,
+          emailOrPhone: cleanEmail,
+          pin: pin,
+          targetCollege: targetCollege,
+          initialData: window.appState || {}
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Server registration failed.');
+      }
+
+      const userProfile = {
+        ...data.user,
+        sessionId: data.sessionId,
+        lastLoginAt: new Date().toISOString()
+      };
+
+      // Also save locally as offline fallback
+      const students = this.getRegisteredStudents();
+      students.push({
+        id: userProfile.id,
+        fullName: userProfile.fullName,
+        firstName: userProfile.firstName,
+        emailOrPhone: userProfile.emailOrPhone,
+        pin: btoa(pin),
+        targetCollege: userProfile.targetCollege,
+        provider: 'local_pin',
+        sessionId: data.sessionId
+      });
+      localStorage.setItem(AUTH_STUDENTS_STORAGE_KEY, JSON.stringify(students));
+
+      this.setActiveUser(userProfile);
+      this.startSessionHeartbeat();
+      return userProfile;
+    } catch (serverErr) {
+      if (serverErr.message && serverErr.message.includes('already exists')) {
+        throw serverErr;
+      }
+      console.warn('⚠️ Server offline, falling back to local storage registration:', serverErr);
+
+      // Local fallback
+      const students = this.getRegisteredStudents();
+      const cleanId = 'std_' + Date.now();
+      const existing = students.find(s => s.emailOrPhone.toLowerCase() === cleanEmail.toLowerCase());
+      
+      if (existing && cleanEmail) {
+        throw new Error('An account with this Email/Phone already exists. Please Log In.');
+      }
+
+      const newStudent = {
+        id: cleanId,
+        fullName: cleanName,
+        firstName: cleanName.replace(/^Dr\.\s*/i, '').split(' ')[0],
+        emailOrPhone: cleanEmail,
+        pin: btoa(pin),
+        targetCollege: targetCollege || 'AIIMS New Delhi',
+        targetYear: 2028,
+        provider: 'local_pin',
+        sessionId: 'sess_local_' + Date.now(),
+        createdAt: new Date().toISOString()
+      };
+
+      students.push(newStudent);
+      localStorage.setItem(AUTH_STUDENTS_STORAGE_KEY, JSON.stringify(students));
+
+      this.setActiveUser(newStudent);
+      return newStudent;
     }
-
-    const newStudent = {
-      id: cleanId,
-      fullName: name.trim().startsWith('Dr.') ? name.trim() : 'Dr. ' + name.trim(),
-      firstName: name.trim().replace(/^Dr\.\s*/i, '').split(' ')[0],
-      emailOrPhone: emailOrPhone.trim(),
-      pin: btoa(pin), // Base64 encoded verification pin
-      targetCollege: targetCollege || 'AIIMS New Delhi',
-      targetYear: 2028,
-      provider: 'local_pin',
-      createdAt: new Date().toISOString()
-    };
-
-    students.push(newStudent);
-    localStorage.setItem(AUTH_STUDENTS_STORAGE_KEY, JSON.stringify(students));
-
-    this.setActiveUser(newStudent);
-    return newStudent;
   },
 
-  loginWithStudentPin(emailOrPhone, pin) {
+  async loginWithStudentPin(emailOrPhone, pin) {
     if (!emailOrPhone || !pin) {
       throw new Error('Please enter your Student ID / Email and Security PIN.');
     }
 
-    const students = this.getRegisteredStudents();
-    const target = students.find(s => 
-      s.emailOrPhone.toLowerCase() === emailOrPhone.trim().toLowerCase() ||
-      s.fullName.toLowerCase().includes(emailOrPhone.trim().toLowerCase()) ||
-      s.id === emailOrPhone.trim()
-    );
+    const cleanInput = emailOrPhone.trim();
 
-    if (!target) {
-      throw new Error('Student account not found. Please check your credentials or Register.');
+    // 1. Attempt Server Login (Cross-device + single device session generation)
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          emailOrPhone: cleanInput,
+          pin: pin
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed.');
+      }
+
+      const userProfile = {
+        ...data.user,
+        sessionId: data.sessionId,
+        lastLoginAt: new Date().toISOString()
+      };
+
+      // 2. Restore all user study data and purchases permanently (ZERO DATA LOSS!)
+      if (data.studyData && typeof data.studyData === 'object' && Object.keys(data.studyData).length > 0) {
+        console.log('📦 Restoring student database & purchases from server...', data.studyData);
+        window.appState = {
+          ...(window.appState || {}),
+          ...data.studyData,
+          progress: { ...((window.appState && window.appState.progress) || {}), ...(data.studyData.progress || {}) },
+          testHistory: [ ...(data.studyData.testHistory || (window.appState && window.appState.testHistory) || []) ],
+          mistakes: [ ...(data.studyData.mistakes || (window.appState && window.appState.mistakes) || []) ],
+          purchases: {
+            ...((window.appState && window.appState.purchases) || {}),
+            ...(data.studyData.purchases || {})
+          }
+        };
+
+        if (typeof STORAGE_KEY !== 'undefined') {
+          localStorage.setItem(`${STORAGE_KEY}_${userProfile.id}`, JSON.stringify(window.appState));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appState));
+        }
+      }
+
+      this.setActiveUser(userProfile);
+      this.startSessionHeartbeat();
+      return userProfile;
+    } catch (serverErr) {
+      if (serverErr.message && (serverErr.message.includes('not found') || serverErr.message.includes('Incorrect'))) {
+        throw serverErr;
+      }
+
+      console.warn('⚠️ Server login offline, checking local storage:', serverErr);
+
+      // Local offline fallback
+      const students = this.getRegisteredStudents();
+      const target = students.find(s => 
+        s.emailOrPhone.toLowerCase() === cleanInput.toLowerCase() ||
+        s.fullName.toLowerCase().includes(cleanInput.toLowerCase()) ||
+        s.id === cleanInput
+      );
+
+      if (!target) {
+        throw new Error('Student account not found. Please check your credentials or Register.');
+      }
+
+      if (target.pin !== btoa(pin) && target.pin !== pin) {
+        throw new Error('Incorrect Security PIN. Please try again.');
+      }
+
+      target.sessionId = 'sess_local_' + Date.now();
+      this.setActiveUser(target);
+      return target;
     }
+  },
 
-    if (target.pin !== btoa(pin)) {
-      throw new Error('Incorrect Security PIN. Please try again.');
+  // Server Data Synchronizer (Runs on every saveState, test complete, or purchase)
+  async syncUserStateToServer() {
+    if (!this.currentUser || !this.currentUser.id || !this.currentUser.sessionId) return;
+    try {
+      const response = await fetch('/api/auth/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: this.currentUser.id,
+          sessionId: this.currentUser.sessionId,
+          studyData: window.appState || {}
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.sessionTerminated) {
+          this.handleSingleDeviceMismatch();
+        }
+      } else if (response.status === 403) {
+        const data = await response.json().catch(() => ({}));
+        if (data.sessionTerminated) {
+          this.handleSingleDeviceMismatch();
+        }
+      }
+    } catch (e) {
+      // Offline, ignore
     }
-
-    this.setActiveUser(target);
-    return target;
   },
 
   // Auth Modals
@@ -571,8 +791,9 @@ const ClerkAuth = {
           </form>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; margin-top:14px;">
-          <button class="btn ghost" onclick="document.getElementById('modal').close()">Dismiss</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+          <span style="font-size:11px; color:var(--text-muted);">🛡️ Encrypted AIIMS Student Security Portal</span>
+          ${this.currentUser ? '<button class="btn ghost" onclick="document.getElementById(\'modal\').close()">Dismiss</button>' : ''}
         </div>
       </div>
     `;
@@ -612,40 +833,76 @@ const ClerkAuth = {
     if (cTab) cTab.style.display = tab === 'clerk' ? 'block' : 'none';
     if (pTab) pTab.style.display = tab === 'pin' ? 'block' : 'none';
     if (rTab) rTab.style.display = tab === 'register' ? 'block' : 'none';
+
+    if (tab === 'clerk' && this.clerkInstance && typeof this.clerkInstance.mountSignIn === 'function') {
+      const mountDiv = document.getElementById('clerk-mount-target');
+      if (mountDiv && !mountDiv.querySelector('.cl-rootBox')) {
+        try {
+          mountDiv.innerHTML = '';
+          this.clerkInstance.mountSignIn(mountDiv);
+        } catch (e) {
+          console.log('Clerk mount fallback:', e);
+        }
+      }
+    }
   },
 
-  handlePinLoginSubmit(e) {
+  async handlePinLoginSubmit(e) {
     e.preventDefault();
     const errorEl = document.getElementById('authTabError');
     const idInput = document.getElementById('loginStudentId');
     const pinInput = document.getElementById('loginStudentPin');
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+
+    if (errorEl) errorEl.style.display = 'none';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '🔄 Verifying Credentials...';
+    }
 
     try {
-      this.loginWithStudentPin(idInput.value, pinInput.value);
+      await this.loginWithStudentPin(idInput.value, pinInput.value);
       document.getElementById('modal').close();
     } catch (err) {
       if (errorEl) {
         errorEl.textContent = '⚠️ ' + err.message;
         errorEl.style.display = 'block';
       }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '🔓 Verify & Unlock Study OS';
+      }
     }
   },
 
-  handleRegisterSubmit(e) {
+  async handleRegisterSubmit(e) {
     e.preventDefault();
     const errorEl = document.getElementById('authTabError');
     const name = document.getElementById('regStudentName').value;
     const emailPhone = document.getElementById('regEmailPhone').value;
     const college = document.getElementById('regTargetCollege').value;
     const pin = document.getElementById('regStudentPin').value;
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+
+    if (errorEl) errorEl.style.display = 'none';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '🔄 Registering Account...';
+    }
 
     try {
-      this.registerStudentAccount(name, emailPhone, pin, college);
+      await this.registerStudentAccount(name, emailPhone, pin, college);
       document.getElementById('modal').close();
     } catch (err) {
       if (errorEl) {
         errorEl.textContent = '⚠️ ' + err.message;
         errorEl.style.display = 'block';
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '🩺 Create Verified Profile & Unlock Portal';
       }
     }
   },

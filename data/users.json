@@ -1,0 +1,69 @@
+{
+  "vinay@neet.ai": {
+    "id": "std_1786110970247",
+    "fullName": "Dr. Vinay Kumar",
+    "firstName": "Vinay",
+    "emailOrPhone": "vinay@neet.ai",
+    "pin": "7788",
+    "targetCollege": "AIIMS New Delhi",
+    "targetYear": 2028,
+    "createdAt": "2026-08-07T13:56:10.247Z",
+    "lastLoginAt": "2026-08-07T13:56:10.307Z",
+    "activeSessionId": "sess_1786110970306_sjbeext",
+    "studyData": {
+      "progress": {
+        "ch1": true
+      },
+      "purchases": {
+        "level5": true
+      }
+    }
+  },
+  "std_1786110970247": {
+    "id": "std_1786110970247",
+    "fullName": "Dr. Vinay Kumar",
+    "firstName": "Vinay",
+    "emailOrPhone": "vinay@neet.ai",
+    "pin": "7788",
+    "targetCollege": "AIIMS New Delhi",
+    "targetYear": 2028,
+    "createdAt": "2026-08-07T13:56:10.247Z",
+    "lastLoginAt": "2026-08-07T13:56:10.249Z",
+    "activeSessionId": "sess_1786110970247_3ix8eqt",
+    "studyData": {
+      "progress": {
+        "ch1": true
+      },
+      "purchases": {
+        "level5": true
+      }
+    }
+  },
+  "std_1786111327599": {
+    "id": "std_1786111327599",
+    "fullName": "Dr. Vinay Makvana",
+    "firstName": "Vinay",
+    "emailOrPhone": "doctor.vinay@aiims.edu",
+    "pin": "6996776ba1e726c1339eb0c08e881bf8e6aef79d705f9d6b1a9f01e430149be7",
+    "targetCollege": "AIIMS New Delhi",
+    "targetYear": 2028,
+    "createdAt": "2026-08-07T14:02:07.600Z",
+    "lastLoginAt": "2026-08-07T15:02:04.012Z",
+    "activeSessionId": "sess_1786114924012_611oato",
+    "studyData": {
+      "progress": {
+        "physics_ch1": true
+      },
+      "purchases": {
+        "level5": true,
+        "level6": true,
+        "combo": true
+      },
+      "testHistory": [],
+      "mistakes": [],
+      "doctorName": "Dr. Vinay Makvana",
+      "targetCollege": "AIIMS New Delhi"
+    },
+    "lastSyncAt": "2026-08-07T14:53:44.158Z"
+  }
+}
