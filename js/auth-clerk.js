@@ -698,102 +698,276 @@ const ClerkAuth = {
     if (!modalBody || !modal) return;
 
     modalBody.innerHTML = `
-      <div style="padding:4px 0;">
-        <div style="text-align:center; margin-bottom:16px;">
-          <span class="gate-lock-pill"><span class="pulse-red-dot"></span> ACCESS VERIFICATION REQUIRED</span>
-          <h2 style="font-size:22px; margin:8px 0 4px; font-family:'Cinzel', serif; font-weight:700;">🔐 Medical OS Student Login</h2>
-          <p style="font-size:12px; color:var(--text-muted); margin:0;">
-            Sign in to unlock all 96 NCERT Chapters, High-Yield Notes, Mock Tests, and AIIMS 720/720 Engine.
-          </p>
-        </div>
+      <style>
+        /* Force the native dialog to be a transparent wrapper perfectly sized to our card */
+        #modal {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          max-width: 380px !important;
+          width: 95vw !important;
+          margin: auto !important;
+          overflow: visible !important;
+        }
+        #modal::backdrop {
+          background: rgba(0,0,0,0.7) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
+        }
+        #modalBody {
+          padding: 0 !important;
+        }
+        .modal-close-btn {
+          display: none !important;
+        }
+        .auth-master-wrapper {
+          width: 100%;
+          font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .auth-glass-card {
+          background: rgba(15, 23, 42, 0.8);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 20px;
+          padding: 24px 20px;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          position: relative;
+          overflow: hidden;
+        }
+        .auth-glass-card::before {
+          content: '';
+          position: absolute;
+          top: -50%; left: -50%;
+          width: 200%; height: 200%;
+          background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.1), transparent 50%),
+                      radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.08), transparent 50%);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .auth-content-z {
+          position: relative;
+          z-index: 1;
+        }
+        .auth-segmented-control {
+          display: flex;
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 10px;
+          padding: 3px;
+          margin-bottom: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .auth-seg-btn {
+          flex: 1;
+          padding: 8px 0;
+          text-align: center;
+          font-size: 11.5px;
+          font-weight: 700;
+          color: var(--text-muted);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          background: transparent;
+          border: none;
+        }
+        .auth-seg-btn.active {
+          background: rgba(255, 255, 255, 0.1);
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .auth-input-group {
+          margin-bottom: 12px;
+          text-align: left;
+        }
+        .auth-label {
+          display: block;
+          font-size: 10px;
+          font-weight: 700;
+          color: rgba(255, 255, 255, 0.6);
+          margin-bottom: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .auth-input {
+          width: 100%;
+          background: rgba(0, 0, 0, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          padding: 10px 14px;
+          color: #fff;
+          font-size: 13px;
+          transition: all 0.2s ease;
+          box-sizing: border-box;
+        }
+        .auth-input:focus {
+          outline: none;
+          border-color: rgba(16, 185, 129, 0.5);
+          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+          background: rgba(0, 0, 0, 0.3);
+        }
+        .auth-btn-primary {
+          width: 100%;
+          padding: 12px;
+          border-radius: 10px;
+          border: none;
+          background: linear-gradient(135deg, #10b981, #0ea5e9);
+          color: #fff;
+          font-size: 14px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+          box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+          margin-top: 4px;
+        }
+        .auth-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        .auth-btn-google {
+          width: 100%;
+          padding: 10px;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.05);
+          color: #fff;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .auth-btn-google:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .auth-footer-link {
+          font-size: 11px;
+          color: rgba(255,255,255,0.5);
+          text-decoration: none;
+          cursor: pointer;
+          transition: color 0.2s;
+        }
+        .auth-footer-link:hover {
+          color: #fff;
+        }
+      </style>
 
-        <div class="auth-tabs-nav">
-          <button class="auth-tab-btn ${initialTab === 'clerk' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('clerk')">⚡ Google / Clerk Cloud</button>
-          <button class="auth-tab-btn ${initialTab === 'pin' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('pin')">🩺 Student PIN Login</button>
-          <button class="auth-tab-btn ${initialTab === 'register' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('register')">📝 Register Student ID</button>
-        </div>
+      <div class="auth-master-wrapper">
+        <div class="auth-glass-card">
+          <!-- Custom Close Button -->
+          <button onclick="document.getElementById('modal').close()" style="position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); width:28px; height:28px; border-radius:50%; color:rgba(255,255,255,0.7); font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:20; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.color='rgba(255,255,255,0.7)';">✕</button>
+          
+          <div class="auth-content-z">
+            <!-- Header Section -->
+            <div style="text-align:center; margin-bottom:20px;">
+              <div style="width:50px; height:50px; margin:0 auto 10px; border-radius:14px; background:linear-gradient(135deg, #0f172a, #1e293b); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(0,0,0,0.4); position:relative;">
+                <div style="position:absolute; inset:0; border-radius:14px; background:linear-gradient(135deg, rgba(16,185,129,0.5), rgba(6,182,212,0.5)); filter:blur(8px); opacity:0.5; z-index:-1;"></div>
+                <span style="font-size:22px;">🩺</span>
+              </div>
+              <h3 style="font-size:18px; font-weight:800; color:#fff; margin:0 0 4px; letter-spacing:-0.5px;">NEET Aspirant Gateway</h3>
+              <p style="font-size:11px; color:rgba(255,255,255,0.5); margin:0;">Secure your rank. Sync your progress.</p>
+            </div>
 
-        <div id="authTabError" class="auth-error-badge"></div>
-
-        <!-- TAB 1: CLERK CLOUD LOGIN -->
-        <div id="authTabClerk" style="display: ${initialTab === 'clerk' ? 'block' : 'none'};">
-          <div style="padding:16px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:14px; text-align:center;">
-            <p style="font-size:13px; font-weight:600; color:var(--text-main); margin-bottom:14px;">
-              Fast Cloud Sync with Google & One-Time Password (OTP)
-            </p>
-
-            <div id="clerk-mount-target" style="min-height:120px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
-              <button class="gate-cta-primary" style="width:100%; justify-content:center; padding:12px;" onclick="
-                if (ClerkAuth.clerkInstance && typeof ClerkAuth.clerkInstance.openSignIn === 'function') {
-                  ClerkAuth.clerkInstance.openSignIn();
-                  document.getElementById('modal').close();
-                } else {
-                  ClerkAuth.switchModalTab('pin');
-                }
-              ">
-                🌐 Continue with Google / Clerk OAuth
+            <!-- Segmented Tab Selector -->
+            <div class="auth-segmented-control">
+              <button id="authTabClerk" class="auth-seg-btn ${initialTab === 'clerk' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('clerk')">
+                Cloud Login
               </button>
+              <button id="authTabPin" class="auth-seg-btn ${initialTab === 'pin' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('pin')">
+                Sign In
+              </button>
+              <button id="authTabRegister" class="auth-seg-btn ${initialTab === 'register' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('register')">
+                Create Profile
+              </button>
+            </div>
 
-              <span style="font-size:11px; color:var(--text-muted);">
-                ☁️ Automatically saves your progress across Mobile, Tablet & PC
-              </span>
+            <div id="authTabError" style="font-size:11px; color:#ef4444; font-weight:600; text-align:center; display:none; margin-bottom:12px;"></div>
+
+            <!-- TAB 1: CLERK CLOUD LOGIN -->
+            <div id="authTabClerk" style="display: ${initialTab === 'clerk' ? 'block' : 'none'}; text-align:center;">
+              <div style="margin-bottom:16px; padding:12px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
+                <p style="font-size:11.5px; color:rgba(255,255,255,0.7); margin:0; line-height:1.5;">
+                  Sync your mock scores, bookmarks, and detailed analytics securely to the cloud. Access your progress from any device.
+                </p>
+              </div>
+              <div id="clerk-mount-target" style="min-height:120px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+                <button class="auth-btn-google" onclick="
+                  if (ClerkAuth.clerkInstance && typeof ClerkAuth.clerkInstance.openSignIn === 'function') {
+                    ClerkAuth.clerkInstance.openSignIn();
+                    document.getElementById('modal').close();
+                  } else {
+                    ClerkAuth.switchModalTab('pin');
+                  }
+                ">
+                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G" style="width:16px; height:16px;">
+                  Continue with Google
+                </button>
+                <span style="font-size:10px; color:var(--text-muted);">
+                  ☁️ Automatically saves your progress
+                </span>
+              </div>
+            </div>
+
+            <!-- TAB 2: STUDENT PIN LOGIN -->
+            <div id="authTabPin" style="display: ${initialTab === 'pin' ? 'block' : 'none'};">
+              <form onsubmit="ClerkAuth.handlePinLoginSubmit(event)" style="padding:4px 0;">
+                <div class="auth-input-group">
+                  <label for="loginStudentId" class="auth-label">Student ID / Mobile</label>
+                  <input type="text" id="loginStudentId" class="auth-input" placeholder="e.g. 9876543210 or Vinay" required autocomplete="username">
+                </div>
+                <div class="auth-input-group">
+                  <label for="loginStudentPin" class="auth-label" style="color:#10b981;">4-Digit PIN</label>
+                  <input type="password" id="loginStudentPin" class="auth-input" placeholder="••••" style="font-size:20px; letter-spacing:10px; font-family:monospace;" required autocomplete="current-password" minlength="4">
+                </div>
+                <button type="submit" class="auth-btn-primary">
+                  Unlock Medical OS 🚀
+                </button>
+              </form>
+            </div>
+
+            <!-- TAB 3: REGISTER NEW STUDENT -->
+            <div id="authTabRegister" style="display: ${initialTab === 'register' ? 'block' : 'none'};">
+              <form onsubmit="ClerkAuth.handleRegisterSubmit(event)" style="padding:4px 0;">
+                <div class="auth-input-group">
+                  <label for="regStudentName" class="auth-label">Doctor / Aspirant Name</label>
+                  <input type="text" id="regStudentName" class="auth-input" placeholder="e.g. Dr. Vinay Kumar" required>
+                </div>
+                <div class="auth-input-group">
+                  <label for="regEmailPhone" class="auth-label">Email / Mobile No.</label>
+                  <input type="text" id="regEmailPhone" class="auth-input" placeholder="For account recovery" required>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                  <div class="auth-input-group">
+                    <label for="regTargetCollege" class="auth-label">Dream College</label>
+                    <select id="regTargetCollege" class="auth-input" style="cursor:pointer; appearance:none; padding:10px 8px;">
+                      <option value="AIIMS New Delhi">AIIMS Delhi</option>
+                      <option value="JIPMER Puducherry">JIPMER</option>
+                      <option value="MAMC New Delhi">MAMC</option>
+                      <option value="KGMU Lucknow">KGMU</option>
+                      <option value="State Top GMC">State Top GMC</option>
+                    </select>
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="regStudentPin" class="auth-label" style="color:#10b981;">4-Digit PIN</label>
+                    <input type="password" id="regStudentPin" class="auth-input" placeholder="••••" style="font-size:20px; letter-spacing:6px; font-family:monospace;" required minlength="4">
+                  </div>
+                </div>
+                <button type="submit" class="auth-btn-primary">
+                  Create Profile 🎯
+                </button>
+              </form>
+            </div>
+
+            <!-- Data Import/Export -->
+            <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:center; gap:20px;">
+              <span class="auth-footer-link" onclick="ClerkAuth.exportDatabaseJSON()">📥 Backup Data</span>
+              <span class="auth-footer-link" onclick="document.getElementById('jsonImportInput').click()">📤 Restore Data</span>
+              <input type="file" id="jsonImportInput" style="display:none;" onchange="ClerkAuth.importDatabaseJSON(event)">
             </div>
           </div>
-        </div>
-
-        <!-- TAB 2: STUDENT PIN LOGIN -->
-        <div id="authTabPin" style="display: ${initialTab === 'pin' ? 'block' : 'none'};">
-          <form onsubmit="ClerkAuth.handlePinLoginSubmit(event)" style="padding:10px 0;">
-            <div class="auth-form-group">
-              <label for="loginStudentId">Doctor Name, Email, or Phone</label>
-              <input type="text" id="loginStudentId" class="auth-form-input" placeholder="e.g. Dr. Vinay or student@neet.edu" required autocomplete="username">
-            </div>
-            <div class="auth-form-group">
-              <label for="loginStudentPin">Security Passcode / PIN</label>
-              <input type="password" id="loginStudentPin" class="auth-form-input" placeholder="Enter your 4+ digit PIN" required autocomplete="current-password">
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; margin-top:8px;">
-              🔓 Verify & Unlock Study OS
-            </button>
-          </form>
-        </div>
-
-        <!-- TAB 3: REGISTER NEW STUDENT -->
-        <div id="authTabRegister" style="display: ${initialTab === 'register' ? 'block' : 'none'};">
-          <form onsubmit="ClerkAuth.handleRegisterSubmit(event)" style="padding:10px 0;">
-            <div class="auth-form-group">
-              <label for="regStudentName">Full Doctor / Aspirant Name</label>
-              <input type="text" id="regStudentName" class="auth-form-input" placeholder="e.g. Dr. Vinay Kumar Makvana" required>
-            </div>
-            <div class="auth-form-group">
-              <label for="regEmailPhone">Email or Mobile Number (for account ID)</label>
-              <input type="text" id="regEmailPhone" class="auth-form-input" placeholder="e.g. vinay@gmail.com or 9876543210" required>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="auth-form-group">
-                <label for="regTargetCollege">Dream Medical College</label>
-                <select id="regTargetCollege" class="auth-form-input">
-                  <option value="AIIMS New Delhi">AIIMS New Delhi (Rank 1)</option>
-                  <option value="JIPMER Puducherry">JIPMER Puducherry</option>
-                  <option value="MAMC New Delhi">MAMC New Delhi</option>
-                  <option value="KGMU Lucknow">KGMU Lucknow</option>
-                  <option value="State Top GMC">State Top GMC</option>
-                </select>
-              </div>
-              <div class="auth-form-group">
-                <label for="regStudentPin">Create 4+ Digit Passcode</label>
-                <input type="password" id="regStudentPin" class="auth-form-input" placeholder="Set 4+ digit PIN" required minlength="4">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-emerald" style="width:100%; justify-content:center; padding:12px; margin-top:8px;">
-              🩺 Create Verified Profile & Unlock Portal
-            </button>
-          </form>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
-          <span style="font-size:11px; color:var(--text-muted);">🛡️ Encrypted AIIMS Student Security Portal</span>
-          ${this.currentUser ? '<button class="btn ghost" onclick="document.getElementById(\'modal\').close()">Dismiss</button>' : ''}
         </div>
       </div>
     `;
@@ -818,7 +992,7 @@ const ClerkAuth = {
     const errorEl = document.getElementById('authTabError');
     if (errorEl) errorEl.style.display = 'none';
 
-    document.querySelectorAll('.auth-tab-btn').forEach((btn, i) => {
+    document.querySelectorAll('.auth-seg-btn').forEach((btn, i) => {
       btn.classList.toggle('active', 
         (tab === 'clerk' && i === 0) || 
         (tab === 'pin' && i === 1) || 

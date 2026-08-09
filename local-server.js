@@ -191,13 +191,13 @@ const server = http.createServer(async (req, res) => {
   const reqPath = urlObj.pathname;
 
   if (reqPath === '/api/health') {
-    return sendJson(res, 200, { status: 'ok', app: 'NEET UG 2028 - Target 720/720 OS', time: new Date().toISOString() });
+    return sendJson(res, 200, { status: 'ok', app: 'NEET OS - Target 720/720', time: new Date().toISOString() });
   }
 
   if (reqPath === '/api/config') {
     return sendJson(res, 200, {
       upiId: process.env.UPI_ID || envVars.UPI_ID || 'vinay.neet2028@okaxis',
-      upiName: process.env.UPI_NAME || envVars.UPI_NAME || 'NEET 2028 Exam Creator'
+      upiName: process.env.UPI_NAME || envVars.UPI_NAME || 'NEET Exam Creator'
     });
   }
 
@@ -477,7 +477,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`\n======================================================`);
-  console.log(`🏥 NEET UG 2028 OS: Target 720/720 Server Running!`);
+  console.log(`🏥 NEET OS: Target 720/720 Server Running!`);
   console.log(`🔗 Local URL: http://localhost:${PORT}`);
   console.log(`🩺 Dream AIIMS Delhi | Full Syllabus & Topper Tools Loaded`);
   console.log(`======================================================\n`);

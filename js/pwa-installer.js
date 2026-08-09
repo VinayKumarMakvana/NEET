@@ -61,12 +61,12 @@ const PWAInstaller = {
         btn.innerHTML = '✓ App Installed';
         btn.classList.add('installed');
         btn.disabled = true;
-        btn.title = 'NEET 2028 OS is already installed on this device';
+        btn.title = 'NEET OS is already installed on this device';
       } else {
         btn.innerHTML = '📲 Install App';
         btn.classList.remove('installed');
         btn.disabled = false;
-        btn.title = 'Install NEET 2028 OS directly on your Desktop / Phone for 100% Offline Access';
+        btn.title = 'Install NEET OS directly on your Desktop / Phone for 100% Offline Access';
       }
     });
   },

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#030712">
-  <meta name="description" content="NEET OS: Mission MBBS 720. 100% Free Pure PCM Engineering Entrance OS. Bilingual (Hindi & English), Curated Masterclasses, NTA CBT Mock Tests, Formula Vault & Zero-Cost Coaching Alternative.">
+  <meta name="description" content="JEE OS: Mission IIT AIR 1. 100% Free Pure PCM Engineering Entrance OS. Bilingual (Hindi & English), Curated Masterclasses, NTA CBT Mock Tests, Formula Vault & Zero-Cost Coaching Alternative.">
   <script>
     // AGGRESSIVE CACHE BUSTER & SW UNREGISTER (RUNS ONCE)
     (async function() {
@@ -30,9 +30,9 @@
   <!-- Environment Variables -->
   <script src="js/env-config.js"></script>
   
-  <title>NEET OS — 100% Free Bilingual Medical Entrance OS</title>
+  <title>JEE OS — 100% Free Bilingual IIT JEE Main & Advanced Entrance OS</title>
   
-  <link rel="icon" type="image/svg+xml" href="brand-mark.svg?v=2028">
+  <link rel="icon" type="image/svg+xml" href="brand-mark.svg">
   <link rel="manifest" href="manifest.webmanifest">
   
   <!-- Engineering, Scientific & Hindi Devanagari Fonts -->
@@ -51,18 +51,18 @@
   <!-- Header Bar -->
   <header>
     <div class="header-inner">
-      <a href="#" class="brand" onclick="navigateView('home'); return false;" aria-label="NEET OS Home">
-        <img src="brand-mark.svg?v=2028" alt="NEET OS" class="brand-icon" onerror="this.outerHTML='<span class=\'brand-icon-fallback\'>⚛️</span>'">
+      <a href="#" class="brand" onclick="navigateView('home'); return false;" aria-label="JEE OS Home">
+        <img src="brand-mark.svg" alt="JEE OS" class="brand-icon" onerror="this.outerHTML='<span class=\'brand-icon-fallback\'>⚛️</span>'">
         <div class="brand-text">
-          <h1>NEET OS <span class="target-720-badge">MBBS 720</span></h1>
-          <span class="eyebrow" id="brandTagline">100% FREE PURE MEDICAL OS</span>
+          <h1>JEE OS <span class="target-720-badge">IIT AIR 1</span></h1>
+          <span class="eyebrow" id="brandTagline">100% FREE PURE ENGINEERING OS</span>
         </div>
       </a>
 
       <!-- Exam Mode Toggle (Main vs Advanced) -->
       <div class="mode-pill hide-mobile">
-        <button id="modePillMain" class="mode-pill-btn active" onclick="setExamMode('neet')">🎯 NEET Core (720)</button>
-        <button id="modePillAdv" class="mode-pill-btn" onclick="setExamMode('aiims')">⚡ AIIMS AIQ (720)</button>
+        <button id="modePillMain" class="mode-pill-btn active-main" onclick="setExamMode('main')">🎯 JEE Main (300)</button>
+        <button id="modePillAdv" class="mode-pill-btn" onclick="setExamMode('advanced')">⚡ JEE Advanced (360)</button>
       </div>
       
       <div class="header-actions">
@@ -148,7 +148,7 @@
       <div style="display:flex; align-items:center; gap:8px;">
         <span style="font-size:18px;">⚛️</span>
         <div>
-          <strong style="font-size:12px; color:var(--text-main);" id="drawerDoctorName">Future Doctor</strong>
+          <strong style="font-size:12px; color:var(--text-main);" id="drawerDoctorName">Future IITian</strong>
           <div style="font-size:10px; color:var(--brand-emerald); font-weight:700;">🟢 100% Free Access</div>
         </div>
       </div>
@@ -168,8 +168,8 @@
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('josaa');">
         <span class="drawer-icon" style="color: #f59e0b;"><i class="ph-fill ph-bank"></i></span>
-        <strong>AIIMS & Medical Cutoffs</strong>
-        <p>Top AIIMS & Govt opening & closing ranks</p>
+        <strong>JoSAA IIT Cutoffs</strong>
+        <p>23 IITs & NITs opening & closing ranks</p>
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('speedmath');">
         <span class="drawer-icon" style="color: #10b981;"><i class="ph-fill ph-calculator"></i></span>
@@ -208,13 +208,13 @@
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('scientists');">
         <span class="drawer-icon">🔬</span>
-        <strong id="drawer-sci-title">Scientists & Theorems</strong>
+        <strong id="drawer-sci-title">Physicists & Theorems</strong>
         <p id="drawer-sci-sub">Laws, discoveries, formulas & diagrams</p>
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('predictor');">
         <span class="drawer-icon">📊</span>
         <strong id="drawer-pred-title">Rank & Predictor</strong>
-        <p id="drawer-pred-sub">Marks vs Percentile & AIIMS Cutoffs</p>
+        <p id="drawer-pred-sub">Marks vs Percentile & IIT Cutoffs</p>
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('focus');">
         <span class="drawer-icon">⏱️</span>
@@ -223,10 +223,9 @@
       </button>
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('certificate');">
         <span class="drawer-icon">🏆</span>
-        <strong>Doctor Certificate</strong>
-        <p>NEET qualifier milestone wall & rank</p>
+        <strong>IITian Certificate</strong>
+        <p>IIT qualifier milestone wall & rank</p>
       </button>
-
       <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('updates');">
         <span class="drawer-icon">💾</span>
         <strong>Backup & Data</strong>
@@ -243,7 +242,7 @@
         <a href="https://www.instagram.com/vi.naytailor/" target="_blank" rel="noopener noreferrer" style="font-size:11px; font-weight:700; color:var(--brand-rose); text-decoration:none; padding:4px 10px; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); border-radius:6px;">📸 @vi.naytailor</a>
         <a href="https://www.linkedin.com/in/vinay-kumar-makvana-2371ba391/" target="_blank" rel="noopener noreferrer" style="font-size:11px; font-weight:700; color:var(--brand-cyan); text-decoration:none; padding:4px 10px; background:rgba(0,242,254,0.1); border:1px solid rgba(0,242,254,0.3); border-radius:6px;">💼 LinkedIn</a>
       </div>
-      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">© 2026 NEET OS · Free Medical Education For All</div>
+      <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">© 2026 JEE OS · Free Engineering Education For All</div>
     </div>
   </div>
 
