@@ -102,7 +102,7 @@ app.get('/api/stats', async (req, res) => {
 app.post('/api/auth/register', async (req, res) => {
   try {
     if (mongoose.connection.readyState !== 1) {
-      return res.status(500).json({ error: 'Database connection failed. Vercel environment variable MONGO_URI is missing or Atlas IP is blocked.' });
+      return res.status(500).json({ error: 'Database connection failed. Please check MONGO_URI.' });
     }
     const { name, emailOrPhone, pin } = req.body;
     const id = 'user_' + Date.now();
@@ -129,7 +129,7 @@ app.post('/api/auth/register', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
   try {
     if (mongoose.connection.readyState !== 1) {
-      return res.status(500).json({ error: 'Database connection failed. Vercel environment variable MONGO_URI is missing or Atlas IP is blocked.' });
+      return res.status(500).json({ error: 'Database connection failed. Please check MONGO_URI.' });
     }
     const { emailOrPhone, pin } = req.body;
     if (!emailOrPhone || !pin) return res.status(400).json({ error: 'Missing credentials' });
@@ -181,13 +181,23 @@ app.get('/api/config', (req, res) => {
   });
 });
 
-// Catch-all route to prevent empty responses or HTML 404s on Vercel
-app.use((req, res) => {
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../')));
+
+// Catch-all route for API mismatch
+app.use('/api/*', (req, res) => {
   res.status(404).json({ 
-    error: `API Route not found: ${req.method} ${req.url}. This usually means Vercel rewrite did not match the Express route.` 
+    error: `API Route not found: ${req.method} ${req.url}` 
   });
 });
 
-// Always export for Vercel Serverless
-module.exports = app;
+// For any other request, send index.html (SPA fallback)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+  console.log(`Using Database: MongoDB (Mongoose)`);
+});
 
