@@ -8,7 +8,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dns = require('dns');
 // Force Google DNS to bypass ISP block for MongoDB Atlas
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+// dns.setServers(['8.8.8.8', '8.8.4.4']); // REMOVED: Breaks Vercel AWS Lambda DNS resolution
 
 // Import new Mongoose models
 const { User, Question, Progress, Transaction } = require('./models');

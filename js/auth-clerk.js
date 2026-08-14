@@ -89,7 +89,7 @@ const ClerkAuth = {
   async checkActiveSession() {
     if (!this.currentUser || !this.currentUser.id || !this.currentUser.sessionId) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/auth/check-session?userId=${encodeURIComponent(this.currentUser.id)}&sessionId=${encodeURIComponent(this.currentUser.sessionId)}`);
+      const res = await fetch(`/api/auth/check-session?userId=${encodeURIComponent(this.currentUser.id)}&sessionId=${encodeURIComponent(this.currentUser.sessionId)}`);
       if (res.ok) {
         const data = await res.json();
         if (data.active === false) {

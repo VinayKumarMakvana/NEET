@@ -811,7 +811,7 @@ async function getQuestionsForHierarchicalTest(params) {
 
   try {
     const fetchSubj = async (code, n) => {
-      let apiUrl = `http://localhost:3000/api/questions?subjectCode=${code}&count=${n}`;
+      let apiUrl = `/api/questions?subjectCode=${code}&count=${n}`;
       if (chapterTitle) apiUrl += `&chapter=${encodeURIComponent(chapterTitle)}`;
       if (topicTitle) apiUrl += `&tag=${encodeURIComponent(topicTitle)}`;
       
