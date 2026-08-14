@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+// Vercel auto-injects env vars, no need for dotenv file traversal
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const cors = require('cors');
-const multer = require('multer');
-const csv = require('csv-parser');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dns = require('dns');
@@ -17,9 +18,7 @@ const app = express();
 const port = process.env.PORT || 3028;
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' })); // Support large progress JSON objects
-
-const upload = multer({ dest: 'uploads/' });
+app.use(express.json({ limit: '5mb' })); // Reduced limit to prevent Vercel payload too large crashes
 
 // Connect to MongoDB
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/neet2028';
@@ -182,8 +181,6 @@ app.get('/api/config', (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, '../')));
-
 // Catch-all route to prevent empty responses or HTML 404s on Vercel
 app.use((req, res) => {
   res.status(404).json({ 
@@ -191,10 +188,6 @@ app.use((req, res) => {
   });
 });
 
-if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-    console.log(`Using Database: MongoDB (Mongoose)`);
-  });
-}
+// Always export for Vercel Serverless
 module.exports = app;
+
