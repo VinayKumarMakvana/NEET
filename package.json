@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "start": "node server/server.js",
-    "build": "echo 'Static medical OS assets ready'",
     "test": "node --check js/main.js js/syllabus-data.js js/resources-data.js js/notes-data.js js/flashcards-data.js js/questions-data.js js/mock-engine.js js/mistake-notebook.js js/certificate.js"
   },
   "dependencies": {

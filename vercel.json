@@ -6,11 +6,10 @@
       "use": "@vercel/node"
     },
     {
-      "src": "package.json",
-      "use": "@vercel/static-build"
+      "src": "**/*.{html,css,js,json,csv,png,jpg,svg}",
+      "use": "@vercel/static"
     }
   ],
-  "outputDirectory": ".",
   "rewrites": [
     {
       "source": "/api/(.*)",
