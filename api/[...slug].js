@@ -184,6 +184,13 @@ app.get('/api/config', (req, res) => {
 
 app.use(express.static(path.join(__dirname, '../')));
 
+// Catch-all route to prevent empty responses or HTML 404s on Vercel
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: `API Route not found: ${req.method} ${req.url}. This usually means Vercel rewrite did not match the Express route.` 
+  });
+});
+
 if (require.main === module) {
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
