@@ -4,7 +4,7 @@
   "description": "All-in-One Offline-First NEET UG 2028 Preparation Platform - Target 720/720 for AIIMS & Top GMCs",
   "private": true,
   "scripts": {
-    "start": "node \"api/[...slug].js\"",
+    "start": "node server/server.js",
     "build": "echo 'Static medical OS assets ready'",
     "test": "node --check js/main.js js/syllabus-data.js js/resources-data.js js/notes-data.js js/flashcards-data.js js/questions-data.js js/mock-engine.js js/mistake-notebook.js js/certificate.js"
   },
