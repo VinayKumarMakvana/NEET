@@ -102,6 +102,9 @@ app.get('/api/stats', async (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(500).json({ error: 'Database connection failed. Vercel environment variable MONGO_URI is missing or Atlas IP is blocked.' });
+    }
     const { name, emailOrPhone, pin } = req.body;
     const id = 'user_' + Date.now();
     const isEmail = emailOrPhone.includes('@');
@@ -126,6 +129,9 @@ app.post('/api/auth/register', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(500).json({ error: 'Database connection failed. Vercel environment variable MONGO_URI is missing or Atlas IP is blocked.' });
+    }
     const { emailOrPhone, pin } = req.body;
     if (!emailOrPhone || !pin) return res.status(400).json({ error: 'Missing credentials' });
     
