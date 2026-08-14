@@ -1,0 +1,3 @@
+internal_id,subject,subjectCode,chapter,questionType,question,questionHi,optionA,optionB,optionC,optionD,optionAHi,optionBHi,optionCHi,optionDHi,correctIndex,difficulty,pyqYear,tag,explanation,explanationHi,ncertRef
+q-demo-1,Physics,phy,Mechanics,mcq,"What is the unit of force?","बल की इकाई क्या है?","Newton","Joule","Watt","Pascal","न्यूटन","जूल","वाट","पास्कल",0,Easy,2022,NTA,"Force is measured in Newtons.","बल को न्यूटन में मापा जाता है।","Class 11, Chapter 5"
+q-demo-2,Chemistry,chem,Equilibrium,mcq,"pH of pure water at 25°C is:","25°C पर शुद्ध जल का pH है:","6","7","8","9","6","7","8","9",1,Easy,2021,NTA,"pH = -log[H+]. For pure water at 25°C, [H+] = 10^-7 M.","शुद्ध जल के लिए pH 7 होता है।","Class 11, Chapter 7"

@@ -1,0 +1,2144 @@
+[
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Units and Measurements & Error Analysis",
+    "topic": "Dimensional Homogeneity"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Units and Measurements & Error Analysis",
+    "topic": "Least Count & Errors"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Units and Measurements & Error Analysis",
+    "topic": "Vernier & Screw Gauge"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Units and Measurements & Error Analysis",
+    "topic": "Significant Figures"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Straight Line (1D Kinematics)",
+    "topic": "Kinematic Equations (v=u+at, s=ut+1/2at²)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Straight Line (1D Kinematics)",
+    "topic": "v-t & s-t Graphs"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Straight Line (1D Kinematics)",
+    "topic": "Free Fall & Relative Velocity"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Plane (2D Vectors & Projectiles)",
+    "topic": "Projectile Trajectory & Range"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Plane (2D Vectors & Projectiles)",
+    "topic": "Uniform Circular Motion"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Motion in a Plane (2D Vectors & Projectiles)",
+    "topic": "Vector Resolution & Dot/Cross Product"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Laws of Motion & Friction",
+    "topic": "Free Body Diagrams (FBD)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Laws of Motion & Friction",
+    "topic": "Pulley-Mass Systems"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Laws of Motion & Friction",
+    "topic": "Static/Kinetic Friction & Angle of Repose"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Laws of Motion & Friction",
+    "topic": "Banking of Roads"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Work, Energy and Power & Collisions",
+    "topic": "Work-Energy Theorem (W_all = ΔK)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Work, Energy and Power & Collisions",
+    "topic": "Conservative Forces (F = -dU/dx)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Work, Energy and Power & Collisions",
+    "topic": "Spring Potential Energy"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Work, Energy and Power & Collisions",
+    "topic": "Elastic & Inelastic Collisions (e)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "System of Particles & Rotational Motion",
+    "topic": "Centre of Mass Calculation"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "System of Particles & Rotational Motion",
+    "topic": "Torque (τ = Iα)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "System of Particles & Rotational Motion",
+    "topic": "Moment of Inertia Theorems"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "System of Particles & Rotational Motion",
+    "topic": "Rolling Without Slipping (K_total = K_trans + K_rot)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Gravitation & Planetary Motion",
+    "topic": "g Variation (Height & Depth)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Gravitation & Planetary Motion",
+    "topic": "Gravitational Potential Energy & Escape Velocity"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Gravitation & Planetary Motion",
+    "topic": "Orbital Velocity & Kepler’s 3rd Law"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Solids (Elasticity)",
+    "topic": "Stress vs Strain Curve"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Solids (Elasticity)",
+    "topic": "Young’s / Bulk / Rigidity Modulus"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Solids (Elasticity)",
+    "topic": "Elastic Potential Energy"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Fluids (Hydrostatics & Hydrodynamics)",
+    "topic": "Bernoulli’s Theorem (P + 1/2ρv² + ρgh = const)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Fluids (Hydrostatics & Hydrodynamics)",
+    "topic": "Stokes Law & Terminal Velocity"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Mechanical Properties of Fluids (Hydrostatics & Hydrodynamics)",
+    "topic": "Surface Tension & Capillary Rise"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermal Properties of Matter & Heat Transfer",
+    "topic": "Calorimetry & Phase Change"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermal Properties of Matter & Heat Transfer",
+    "topic": "Thermal Conduction & Resistance"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermal Properties of Matter & Heat Transfer",
+    "topic": "Stefan-Boltzmann & Wien’s Law"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermodynamics & Heat Engines",
+    "topic": "First Law of Thermodynamics (dQ = dU + dW)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermodynamics & Heat Engines",
+    "topic": "Adiabatic Process (PV^γ = const)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Thermodynamics & Heat Engines",
+    "topic": "Carnot Efficiency (η = 1 - T2/T1)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Kinetic Theory of Gases (KTG)",
+    "topic": "P = 1/3 ρ v_rms²"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Kinetic Theory of Gases (KTG)",
+    "topic": "Degrees of Freedom & Equipartition"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Kinetic Theory of Gases (KTG)",
+    "topic": "Cp and Cv Relations (Mayer’s Relation)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Oscillations (Simple Harmonic Motion)",
+    "topic": "SHM Differential Equation"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Oscillations (Simple Harmonic Motion)",
+    "topic": "Simple Pendulum Time Period"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Oscillations (Simple Harmonic Motion)",
+    "topic": "Spring System Time Period (T = 2π√(m/k))"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Waves & Acoustics",
+    "topic": "Wave Equation (y = A sin(kx - ωt))"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Waves & Acoustics",
+    "topic": "Organ Pipe Harmonics (Open & Closed)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Waves & Acoustics",
+    "topic": "Beat Frequency (f_b = |f1 - f2|)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electric Charges and Fields (Electrostatics I)",
+    "topic": "Coulomb’s Law & Superposition"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electric Charges and Fields (Electrostatics I)",
+    "topic": "Gauss’s Law Applications (Wire, Sheet, Shell)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electric Charges and Fields (Electrostatics I)",
+    "topic": "Electric Dipole Torque & Field (Axial & Equat)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electrostatic Potential and Capacitance (Electrostatics II)",
+    "topic": "Equipotential Surfaces & E = -dV/dr"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electrostatic Potential and Capacitance (Electrostatics II)",
+    "topic": "Parallel Plate Capacitor with Dielectric Slab"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electrostatic Potential and Capacitance (Electrostatics II)",
+    "topic": "Capacitor Energy & Energy Density (1/2 ε0 E²)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Current Electricity & Circuit Laws",
+    "topic": "Drift Velocity & Current (I = n e A v_d)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Current Electricity & Circuit Laws",
+    "topic": "Kirchhoff’s Laws (Junction & Loop Rules)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Current Electricity & Circuit Laws",
+    "topic": "Potentiometer (EMF Comparison & Internal Resistance)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Moving Charges and Magnetism",
+    "topic": "Biot-Savart Law on Axial Loop"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Moving Charges and Magnetism",
+    "topic": "Ampere’s Law & Solenoid Field"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Moving Charges and Magnetism",
+    "topic": "Force Between Parallel Currents (F/L = μ0 I1 I2 / 2πd)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Moving Charges and Magnetism",
+    "topic": "Galvanometer Conversion (Shunt & Multiplier)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Magnetism and Matter",
+    "topic": "Earth’s Magnetic Elements (B_H = B cosθ)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Magnetism and Matter",
+    "topic": "Dia-, Para-, Ferromagnetic Material Characteristics"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Magnetism and Matter",
+    "topic": "Magnetic Susceptibility & Curie’s Law"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Induction (EMI)",
+    "topic": "Faraday’s Law & Lenz’s Law Direction"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Induction (EMI)",
+    "topic": "Motional EMF (e = BvL)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Induction (EMI)",
+    "topic": "Self & Mutual Inductance (L and M Formulas)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Alternating Current (AC Circuits)",
+    "topic": "RMS & Peak Value (I_rms = I0 / √2)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Alternating Current (AC Circuits)",
+    "topic": "LCR Series Resonance & Impedance Z = √(R² + (XL-XC)²)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Alternating Current (AC Circuits)",
+    "topic": "AC Power Factor (cos φ = R/Z) & Transformer Equation"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Waves",
+    "topic": "Displacement Current (Id = ε0 dΦE/dt)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Waves",
+    "topic": "EM Wave Speed (c = 1/√(μ0 ε0) = E0/B0)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Electromagnetic Waves",
+    "topic": "EM Spectrum Order & Uses"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Total Internal Reflection & Critical Angle (sin C = 1/μ)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Lens Maker’s Formula (1/f = (μ-1)(1/R1 - 1/R2))"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Prism Formula (μ = sin((A+δm)/2) / sin(A/2))"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Microscope & Telescope Magnifying Power"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Wave Optics & Interference/Diffraction",
+    "topic": "Huygens’ Principle & Secondary Wavelets"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Wave Optics & Interference/Diffraction",
+    "topic": "YDSE Fringe Width (β = λD/d)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Wave Optics & Interference/Diffraction",
+    "topic": "Single Slit Diffraction Central Maxima Width (2λD/a)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Dual Nature of Radiation and Matter (Photoelectric Effect)",
+    "topic": "Einstein Photoelectric Equation (hν = Φ0 + K_max)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Dual Nature of Radiation and Matter (Photoelectric Effect)",
+    "topic": "Stopping Potential vs Frequency Graphs"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Dual Nature of Radiation and Matter (Photoelectric Effect)",
+    "topic": "de Broglie Wavelength (λ = h/p = 12.27/√V Å)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Atoms & Bohr Model",
+    "topic": "Bohr Orbital Radius (r_n ∝ n²/Z) & Energy (E_n = -13.6 Z²/n² eV)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Atoms & Bohr Model",
+    "topic": "Rydberg Formula for Spectral Lines"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Atoms & Bohr Model",
+    "topic": "Bohr Angular Momentum Quantization (mvr = nh/2π)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Nuclei & Nuclear Energy",
+    "topic": "Nuclear Radius (R = R0 A^(1/3))"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Nuclei & Nuclear Energy",
+    "topic": "Mass Defect & Binding Energy (ΔE = Δm c²)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Nuclei & Nuclear Energy",
+    "topic": "Binding Energy Curve & Nuclear Stability"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Semiconductor Electronics: Materials, Devices & Simple Circuits",
+    "topic": "p-n Junction Forward & Reverse Bias V-I Curve"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Semiconductor Electronics: Materials, Devices & Simple Circuits",
+    "topic": "Half Wave vs Full Wave Rectifier Efficiency & Ripple Factor"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Semiconductor Electronics: Materials, Devices & Simple Circuits",
+    "topic": "Zener Diode Voltage Regulator Mechanism"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Semiconductor Electronics: Materials, Devices & Simple Circuits",
+    "topic": "Universal Logic Gates (NAND & NOR)"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Experimental Physics & Practical Skills",
+    "topic": "Least Count & Zero Error Calculations"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Experimental Physics & Practical Skills",
+    "topic": "Meter Bridge Resistance Measurement"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Experimental Physics & Practical Skills",
+    "topic": "Resonance Tube End Correction"
+  },
+  {
+    "subject": "Physics",
+    "subjectCode": "phy",
+    "chapter": "Experimental Physics & Practical Skills",
+    "topic": "Focal Length by u-v Method"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Some Basic Concepts of Chemistry (Mole Concept)",
+    "topic": "Mole Concept & Avogadro Number Calculations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Some Basic Concepts of Chemistry (Mole Concept)",
+    "topic": "Limiting Reagent Stoichiometry"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Some Basic Concepts of Chemistry (Mole Concept)",
+    "topic": "Empirical & Molecular Formula Determination"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Some Basic Concepts of Chemistry (Mole Concept)",
+    "topic": "Molarity vs Molality Temperature Dependence"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Structure of Atom",
+    "topic": "Bohr Model Energy & Radius Calculations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Structure of Atom",
+    "topic": "Heisenberg Uncertainty Principle (Δx · Δp ≥ h/4π)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Structure of Atom",
+    "topic": "Quantum Numbers & Radial/Angular Nodes"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Structure of Atom",
+    "topic": "Aufbau, Pauli & Hund Electronic Rules"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Classification of Elements and Periodicity in Properties",
+    "topic": "Ionization Enthalpy Trends & Exceptions (Be>B, N>O)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Classification of Elements and Periodicity in Properties",
+    "topic": "Electron Gain Enthalpy Trends (Cl > F)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Classification of Elements and Periodicity in Properties",
+    "topic": "Electronegativity Scales (Pauling)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Classification of Elements and Periodicity in Properties",
+    "topic": "Isoelectronic Species Ionic Radii Order"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Bonding and Molecular Structure",
+    "topic": "VSEPR Shapes & Lone Pair Repulsions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Bonding and Molecular Structure",
+    "topic": "Hybridization Calculations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Bonding and Molecular Structure",
+    "topic": "MOT Bond Order & Paramagnetic Nature of O2, B2"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Bonding and Molecular Structure",
+    "topic": "Fajan’s Rules for Covalent Character"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Bonding and Molecular Structure",
+    "topic": "Dipole Moments (NH3 vs NF3)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Thermodynamics & Energetics",
+    "topic": "First Law (ΔU = q + w)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Thermodynamics & Energetics",
+    "topic": "Hess’s Law Enthalpy of Reaction Calculations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Thermodynamics & Energetics",
+    "topic": "Entropy (ΔS) and Gibbs Energy (ΔG = ΔH - TΔS)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Thermodynamics & Energetics",
+    "topic": "Spontaneity Criteria (ΔG < 0)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Equilibrium (Chemical & Ionic Equilibrium)",
+    "topic": "Kp = Kc (RT)^Δn Calculations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Equilibrium (Chemical & Ionic Equilibrium)",
+    "topic": "Le Chatelier’s Principle Applications"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Equilibrium (Chemical & Ionic Equilibrium)",
+    "topic": "pH Calculations of Acids, Bases & Salts"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Equilibrium (Chemical & Ionic Equilibrium)",
+    "topic": "Buffer Solutions (Henderson-Hasselbalch Equation)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Equilibrium (Chemical & Ionic Equilibrium)",
+    "topic": "Solubility Product (Ksp) & Precipitation Conditions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Redox Reactions & Oxidation States",
+    "topic": "Oxidation Number Calculation Rules & Exceptions (CrO5, H2SO5)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Redox Reactions & Oxidation States",
+    "topic": "Balancing Redox in Acidic & Basic Media"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Redox Reactions & Oxidation States",
+    "topic": "Disproportionation Reactions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Chemistry: Some Basic Principles and Techniques (GOC)",
+    "topic": "IUPAC Naming Rules of Complex Compounds"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Chemistry: Some Basic Principles and Techniques (GOC)",
+    "topic": "Stability of Carbocations, Carbanions & Radicals"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Chemistry: Some Basic Principles and Techniques (GOC)",
+    "topic": "Aromaticity & Huckel’s (4n+2)π Rule"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Chemistry: Some Basic Principles and Techniques (GOC)",
+    "topic": "Kjeldahl & Dumas Method Formulas for % Nitrogen"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Aromatic)",
+    "topic": "Conformations of Ethane Staggered vs Eclipsed"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Aromatic)",
+    "topic": "Markovnikov vs Anti-Markovnikov Addition Mechanism"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Aromatic)",
+    "topic": "Ozonolysis Products & Identification of Alkenes"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Hydrocarbons (Alkanes, Alkenes, Alkynes & Aromatic)",
+    "topic": "Electrophilic Aromatic Substitution (EAS) Mechanism"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Environmental Chemistry",
+    "topic": "Classical vs Photochemical Smog Components"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Environmental Chemistry",
+    "topic": "Acid Rain pH & Chemistry (SO2, NOx)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Environmental Chemistry",
+    "topic": "Ozone Depletion Catalyzed by CFCs & Cl Free Radicals"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Practical Chemistry & Basic Laboratory Operations",
+    "topic": "Mohr’s Salt Redox Titration"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Practical Chemistry & Basic Laboratory Operations",
+    "topic": "Oxalic Acid Primary Standard"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Practical Chemistry & Basic Laboratory Operations",
+    "topic": "Laboratory Safety & Reagents"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Solutions & Colligative Properties",
+    "topic": "Raoult’s Law & Positive/Negative Deviations from Ideality"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Solutions & Colligative Properties",
+    "topic": "Colligative Property Formulas (ΔTb = i Kb m, ΔTf = i Kf m)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Solutions & Colligative Properties",
+    "topic": "Osmotic Pressure (π = i CRT)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Solutions & Colligative Properties",
+    "topic": "van’t Hoff Factor Relation with Degree of Dissociation (i = 1 + (n-1)α)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Electrochemistry",
+    "topic": "Nernst Equation (E_cell = E°_cell - (0.0591/n) log Q)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Electrochemistry",
+    "topic": "ΔG° = -n F E°_cell Relation"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Electrochemistry",
+    "topic": "Kohlrausch’s Law & Limiting Molar Conductivity Λ°m"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Electrochemistry",
+    "topic": "Faraday’s Laws of Electrolysis (m = ZIt)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Kinetics",
+    "topic": "Zero & 1st Order Integrated Rate Laws & t_1/2"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Kinetics",
+    "topic": "Rate Law & Order from Experimental Data"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Chemical Kinetics",
+    "topic": "Arrhenius Equation (log(k2/k1) = Ea/2.303R (1/T1 - 1/T2))"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "d- and f-Block Elements (Transition & Inner Transition)",
+    "topic": "Lanthanoid Contraction & Consequences (Zr-Hf size)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "d- and f-Block Elements (Transition & Inner Transition)",
+    "topic": "KMnO4 & K2Cr2O7 Redox Titration Reactions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "d- and f-Block Elements (Transition & Inner Transition)",
+    "topic": "Spin-Only Magnetic Moment (μ = √(n(n+2)) BM)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Coordination Compounds",
+    "topic": "IUPAC Naming of Complexes"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Coordination Compounds",
+    "topic": "Geometrical & Optical Isomerism in Ma2b2, Ma3b3, M(aa)2b2"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Coordination Compounds",
+    "topic": "CFT Splitting (Δo vs Δt, High-spin vs Low-spin, CFSE)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "p-Block Elements (Group 15, 16, 17, 18 Overview)",
+    "topic": "Inert Pair Effect Trends"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "p-Block Elements (Group 15, 16, 17, 18 Overview)",
+    "topic": "Interhalogen Compounds & Structures"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "p-Block Elements (Group 15, 16, 17, 18 Overview)",
+    "topic": "Xenon Fluorides & Oxides Geometry (VSEPR)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "SN1 vs SN2 Detailed Mechanisms & Reactivity Orders"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "Stereochemical Inversion (Walden) vs Racemization"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "Low Reactivity of Chlorobenzene towards Nu- Substitution"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Lucas Reagent Test"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Reimer-Tiemann & Kolbe Reactions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Williamson Synthesis & HI Cleavage Mechanism of Ethers"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Nucleophilic Addition Reactivity Order"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Tollens / Fehling / Iodoform Identification Tests"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Aldol vs Cannizzaro Reaction Conditions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "HVZ Reaction of Carboxylic Acids"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Compounds Containing Nitrogen (Amines & Diazonium Salts)",
+    "topic": "Hoffmann Bromamide & Gabriel Phthalimide Synthesis"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Compounds Containing Nitrogen (Amines & Diazonium Salts)",
+    "topic": "Basic Strength Order in Aqueous Solution (2° > 1° > 3° in methyl/ethyl)"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Compounds Containing Nitrogen (Amines & Diazonium Salts)",
+    "topic": "Hinsberg Test for Amine Separation"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Organic Compounds Containing Nitrogen (Amines & Diazonium Salts)",
+    "topic": "Sandmeyer & Azo Dye Coupling Reactions"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Biomolecules",
+    "topic": "Reducing vs Non-Reducing Sugars"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Biomolecules",
+    "topic": "Essential Amino Acids List & Zwitterion Structure"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Biomolecules",
+    "topic": "Protein Denaturation & Structure Levels"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Biomolecules",
+    "topic": "DNA Base Pairing & Purines/Pyrimidines"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Principles Related to Practical Chemistry (Salt Analysis)",
+    "topic": "Group Reagents in Salt Analysis"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Principles Related to Practical Chemistry (Salt Analysis)",
+    "topic": "Confirmatory Tests for Anions & Cations"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Principles Related to Practical Chemistry (Salt Analysis)",
+    "topic": "Brown Ring Test & Chromyl Chloride Test"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Surface Chemistry & Colloids (Applied Concepts)",
+    "topic": "Physisorption vs Chemisorption"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Surface Chemistry & Colloids (Applied Concepts)",
+    "topic": "Freundlich Adsorption Isotherm (x/m = k P^(1/n))"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Surface Chemistry & Colloids (Applied Concepts)",
+    "topic": "Hardy-Schulze Rule Coagulating Power"
+  },
+  {
+    "subject": "Chemistry",
+    "subjectCode": "chem",
+    "chapter": "Surface Chemistry & Colloids (Applied Concepts)",
+    "topic": "Micelle Formation & CMC (Critical Micelle Concentration)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "The Living World",
+    "topic": "Binomial Nomenclature Rules (Linnaeus)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "The Living World",
+    "topic": "Taxonomic Hierarchy (Kingdom to Species)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "The Living World",
+    "topic": "Defining vs Non-defining Properties of Life"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Monera & Protista",
+    "topic": "Whittaker 5 Kingdom Criteria"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Monera & Protista",
+    "topic": "Cyanobacteria Heterocyst & Nitrogen Fixation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Monera & Protista",
+    "topic": "Diatomaceous Earth & Chrysophytes Silica Walls"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Monera & Protista",
+    "topic": "Gonyaulax Red Tides"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Fungi, Lichens & Viruses",
+    "topic": "Fungi 4 Classes Spores & Fruiting Bodies"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Fungi, Lichens & Viruses",
+    "topic": "Viroids Structure (Free low MW RNA)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biological Classification: Fungi, Lichens & Viruses",
+    "topic": "Lichens Symbiotic Partnership & Pollution Indicator"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Algae and Bryophytes",
+    "topic": "Algae Table (Pigments, Food Storage & Flagella)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Algae and Bryophytes",
+    "topic": "Hydrocolloids (Algin & Carrageen)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Algae and Bryophytes",
+    "topic": "Gemma Cups & Marchantia Archegoniophore"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Algae and Bryophytes",
+    "topic": "Sphagnum Peat Moss Water Retention"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Pteridophytes, Gymnosperms & Alternation of Generations",
+    "topic": "Heterospory in Selaginella & Salvinia (Seed Habit Precursor)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Pteridophytes, Gymnosperms & Alternation of Generations",
+    "topic": "Pinus Mycorrhiza vs Cycas Coralloid Roots"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Kingdom: Pteridophytes, Gymnosperms & Alternation of Generations",
+    "topic": "Life Cycle Patterns & Exceptional Algae Examples"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Morphology of Flowering Plants",
+    "topic": "Placentation Types & NCERT Examples"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Morphology of Flowering Plants",
+    "topic": "Aestivation Types (Valvate, Twisted, Imbricate, Vexillary)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Morphology of Flowering Plants",
+    "topic": "Floral Formulas of Solanaceae, Fabaceae, Malvaceae"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Anatomy of Flowering Plants",
+    "topic": "Dicot vs Monocot Stem/Root Anatomy"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Anatomy of Flowering Plants",
+    "topic": "Spring Wood vs Autumn Wood & Annual Rings"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Anatomy of Flowering Plants",
+    "topic": "Heartwood vs Sapwood Properties"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Anatomy of Flowering Plants",
+    "topic": "Periderm (Phellogen, Phellem, Phelloderm)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell: The Unit of Life",
+    "topic": "Fluid Mosaic Model of Membrane"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell: The Unit of Life",
+    "topic": "Endomembrane System Components"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell: The Unit of Life",
+    "topic": "Mitochondria & Chloroplast Semi-Autonomous Organelles"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell: The Unit of Life",
+    "topic": "Chromosome Centromere Positions"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell Cycle and Cell Division",
+    "topic": "Prophase I Sub-Stages (Zygotene Synapsis, Pachytene Crossing Over)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell Cycle and Cell Division",
+    "topic": "DNA Content (2C to 4C in S phase) vs Chromosome Number"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Cell Cycle and Cell Division",
+    "topic": "Anaphase Centromere Splitting"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Photosynthesis in Higher Plants",
+    "topic": "Z-Scheme & Chemiosmotic ATP Generation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Photosynthesis in Higher Plants",
+    "topic": "Calvin Cycle ATP & NADPH Consumption"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Photosynthesis in Higher Plants",
+    "topic": "C4 Kranz Anatomy & PEPcase Carboxylation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Photosynthesis in Higher Plants",
+    "topic": "Photorespiration & RuBisCO Dual Nature"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Respiration in Plants",
+    "topic": "Glycolysis Key Enzymes & Net ATP"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Respiration in Plants",
+    "topic": "Krebs Cycle Steps & Decarboxylation Reactions"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Respiration in Plants",
+    "topic": "ETS Complex I, II, III, IV, V (ATP Synthase)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Respiration in Plants",
+    "topic": "RQ Values (Carb=1, Fat=0.7, Protein=0.9)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Growth and Development",
+    "topic": "Auxin (Apical Dominance, 2,4-D Weedicide)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Growth and Development",
+    "topic": "Gibberellin (Bolting, Malting)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Growth and Development",
+    "topic": "Cytokinin (Cell Division, Delay Senescence)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Plant Growth and Development",
+    "topic": "Ethylene (Fruit Ripening) & ABA (Stress Hormone)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "topic": "7-Celled 8-Nucleate Embryo Sac Organization"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "topic": "Outbreeding Devices (Self-Incompatibility, etc.)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "topic": "Double Fertilization & Ploidy of Structures (PEN = 3n)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "topic": "Apomixis & Seed Formation without Fertilization"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Mendelian Genetics",
+    "topic": "Mendelian Cross Ratios & Test Cross Interpretation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Mendelian Genetics",
+    "topic": "Incomplete vs Co-dominance Mechanisms"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Mendelian Genetics",
+    "topic": "ABO Blood Groups & Multiple Allele Genetics"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Mendelian Genetics",
+    "topic": "Pleiotropy vs Polygenic Inheritance"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Chromosomal Genetics & Disorders",
+    "topic": "Morgan’s Linkage Data (1.3% vs 37.2% Recombination)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Chromosomal Genetics & Disorders",
+    "topic": "Pedigree Analysis Logic & Inheritance Types"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Chromosomal Genetics & Disorders",
+    "topic": "Sickle Cell Point Mutation (GAG to GUG)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Principles of Inheritance & Variation: Chromosomal Genetics & Disorders",
+    "topic": "Down, Klinefelter & Turner Karyotypes"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: DNA Structure & Replication",
+    "topic": "Nucleosome Structure & Histone Octamer"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: DNA Structure & Replication",
+    "topic": "Hershey-Chase 32P & 35S Isotope Experiment"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: DNA Structure & Replication",
+    "topic": "Meselson-Stahl Semiconservative Centrifugation Densities"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: DNA Structure & Replication",
+    "topic": "DNA Polymerase 5' to 3' Synthesis & Okazaki Fragments"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: Transcription, Genetic Code & Translation",
+    "topic": "Transcription Post-Transcriptional Splicing/Capping/Tailing"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: Transcription, Genetic Code & Translation",
+    "topic": "Genetic Code Degeneracy & Non-Overlapping Nature"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: Transcription, Genetic Code & Translation",
+    "topic": "Lac Operon Repressor Inactivation by Inducer"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Molecular Basis of Inheritance: Transcription, Genetic Code & Translation",
+    "topic": "DNA Fingerprinting VNTR Polymorphism"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Microbes in Human Welfare",
+    "topic": "Bioactive Molecules (Cyclosporin A, Statin, Streptokinase)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Microbes in Human Welfare",
+    "topic": "Sewage Treatment & BOD Concept"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Microbes in Human Welfare",
+    "topic": "Baculoviruses Genus Nucleopolyhedrovirus Species-Specific"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Microbes in Human Welfare",
+    "topic": "Biofertilizers & Mycorrhizal Associations"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Ecology & Adaptations",
+    "topic": "Eurythermal vs Stenothermal Organisms"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Ecology & Adaptations",
+    "topic": "Allen’s Rule for Polar Animals"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Ecology & Adaptations",
+    "topic": "Altitude Sickness Physiological Responses (EPO, Breathing Rate)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Ecology & Adaptations",
+    "topic": "Kangaroo Rat Internal Fat Oxidation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Population Dynamics & Interactions",
+    "topic": "Verhulst-Pearl Logistic Growth Equation"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Population Dynamics & Interactions",
+    "topic": "Gause’s Exclusion vs MacArthur Resource Partitioning"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Population Dynamics & Interactions",
+    "topic": "Co-evolution in Fig & Wasp Mutualism"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Organisms and Populations: Population Dynamics & Interactions",
+    "topic": "Sexual Deceit in Mediterranean Orchid Ophrys"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Ecosystem Structure, Function & Succession",
+    "topic": "Decomposition Factors & 5 Sequential Steps"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Ecosystem Structure, Function & Succession",
+    "topic": "Lindeman 10% Trophic Energy Law"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Ecosystem Structure, Function & Succession",
+    "topic": "Pyramid of Biomass in Sea (Inverted) vs Terrestrial"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Ecosystem Structure, Function & Succession",
+    "topic": "Hydrarch (Phytoplankton to Forest) & Xerarch (Lichen to Forest)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biodiversity and Conservation",
+    "topic": "Species-Area Relationship Formula & Slopes (z = 0.1-0.2 vs 0.6-1.2)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biodiversity and Conservation",
+    "topic": "The Evil Quartet 4 Major Threats"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biodiversity and Conservation",
+    "topic": "In-Situ vs Ex-Situ Conservation Examples (Sacred Groves)"
+  },
+  {
+    "subject": "Botany",
+    "subjectCode": "bot",
+    "chapter": "Biodiversity and Conservation",
+    "topic": "Earth Summit vs World Summit Goals"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Non-Chordates (Porifera to Echinodermata & Hemichordata)",
+    "topic": "Phylum Key Features (Choanocytes, Cnidoblasts, Flame Cells, Malpighian Tubules, Water Vascular System)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Non-Chordates (Porifera to Echinodermata & Hemichordata)",
+    "topic": "Metagenesis in Obelia & Bioluminescence in Ctenophores"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Non-Chordates (Porifera to Echinodermata & Hemichordata)",
+    "topic": "Larval vs Adult Symmetry in Echinoderms"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Non-Chordates (Porifera to Echinodermata & Hemichordata)",
+    "topic": "Living Fossil Limulus & Vectors Anopheles/Aedes"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Chordates (Protochordata to Mammalia)",
+    "topic": "Chondrichthyes vs Osteichthyes Complete Comparison"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Chordates (Protochordata to Mammalia)",
+    "topic": "Amphibia vs Reptilia vs Aves vs Mammalia Heart & Respiration"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Chordates (Protochordata to Mammalia)",
+    "topic": "Pneumatic Bones & Air Sacs in Birds"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Animal Kingdom: Chordates (Protochordata to Mammalia)",
+    "topic": "Oviparous Mammal Ornithorhynchus (Platypus)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Animal Tissues",
+    "topic": "Epithelium Types & Precise NCERT Body Locations"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Animal Tissues",
+    "topic": "Cell Junctions Functional Differences"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Animal Tissues",
+    "topic": "Tendon (Muscle-to-Bone) vs Ligament (Bone-to-Bone)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Animal Tissues",
+    "topic": "Cardiac Intercalated Discs & Gap Junctions"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Frog Morphology & Anatomy",
+    "topic": "Male Frog Vocal Sacs & Copulatory Pads on 1st Digit"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Frog Morphology & Anatomy",
+    "topic": "Sinus Venosus & Conus Arteriosus in Frog Heart"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Frog Morphology & Anatomy",
+    "topic": "Bidder’s Canal Path for Sperm in Male Frog Kidney"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Structural Organisation in Animals: Frog Morphology & Anatomy",
+    "topic": "Cutaneous Respiration during Hibernation & Aestivation"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Breathing and Exchange of Gases (Human Respiration)",
+    "topic": "Respiratory Volumes & Capacities Numerical Values & Formulas"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Breathing and Exchange of Gases (Human Respiration)",
+    "topic": "Alveolar vs Tissue pO2 and pCO2 Table (104, 40, 45, 95 mmHg)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Breathing and Exchange of Gases (Human Respiration)",
+    "topic": "Oxygen-Haemoglobin Dissociation Curve Shifts (Bohr Effect)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Breathing and Exchange of Gases (Human Respiration)",
+    "topic": "Pneumotaxic Centre & Chemosensitive Regulation"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Body Fluids and Circulation (Human Cardiovascular System)",
+    "topic": "Nodal Tissue Auto-Excitability & SAN Pacemaker Rate"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Body Fluids and Circulation (Human Cardiovascular System)",
+    "topic": "Cardiac Cycle Volumes (Stroke Volume = EDV - ESV)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Body Fluids and Circulation (Human Cardiovascular System)",
+    "topic": "ECG Waves Precise Clinical Meanings (P, QRS, T)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Body Fluids and Circulation (Human Cardiovascular System)",
+    "topic": "Erythroblastosis Foetalis Rh- Mother & Rh+ Foetus Condition"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Excretory Products and Their Elimination (Human Excretory System)",
+    "topic": "Counter-Current Mechanism Flow Directions & Medullary Osmolarity Gradient"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Excretory Products and Their Elimination (Human Excretory System)",
+    "topic": "GFR Value & Glomerular Filtration Membrane 3 Layers"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Excretory Products and Their Elimination (Human Excretory System)",
+    "topic": "RAAS Pathway (Renin -> Angiotensin II -> Aldosterone) vs ANF"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Excretory Products and Their Elimination (Human Excretory System)",
+    "topic": "Hemodialysis Setup & Heparin / Anti-Heparin Addition"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Muscular System & Contraction",
+    "topic": "Sarcomere Band Changes during Contraction (I shortens, H disappears, A constant)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Muscular System & Contraction",
+    "topic": "Troponin-C Ca2+ Binding & Cross-Bridge Power Stroke"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Muscular System & Contraction",
+    "topic": "Myosin Head ATPase & Actin Binding Sites"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Muscular System & Contraction",
+    "topic": "Red (Aerobic) vs White (Anaerobic) Muscle Fibres"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Human Skeletal System & Joints",
+    "topic": "206 Bones Breakdown Table (Axial 80, Appendicular 126)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Human Skeletal System & Joints",
+    "topic": "Ribs Classification (True 1-7, False 8-10, Floating 11-12)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Human Skeletal System & Joints",
+    "topic": "Synovial Joint Types & NCERT Body Location Examples"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Locomotion and Movement: Human Skeletal System & Joints",
+    "topic": "Musculoskeletal Disorders Pathology (Myasthenia, Tetany, Gout, Osteoporosis)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Neural Control and Coordination: Nerve Conduction & Central Nervous System",
+    "topic": "Resting Potential (-70mV) & Na+/K+ Pump Stoichiometry (3 Na+ out / 2 K+ in)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Neural Control and Coordination: Nerve Conduction & Central Nervous System",
+    "topic": "Action Potential Ionic Basis (Na+ Influx -> Depolarisation)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Neural Control and Coordination: Nerve Conduction & Central Nervous System",
+    "topic": "Chemical Synapse Ca2+ Role & Neurotransmitter Receptors"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Neural Control and Coordination: Nerve Conduction & Central Nervous System",
+    "topic": "Brain Functions: Hypothalamus, Corpus Callosum & Medulla Oblongata"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Neural Control and Coordination: Nerve Conduction & Central Nervous System",
+    "topic": "Reflex Arc Path from Dorsal Root to Ventral Root"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Chemical Coordination and Integration: Endocrine System & Hormone Mechanisms",
+    "topic": "Antagonistic Hormone Pairs: PTH (Hypercalcemic) vs Calcitonin (Hypocalcemic), Insulin vs Glucagon"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Chemical Coordination and Integration: Endocrine System & Hormone Mechanisms",
+    "topic": "Peptide Hormone Action with Second Messengers (cAMP, IP3) vs Intracellular Steroid Receptors"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Chemical Coordination and Integration: Endocrine System & Hormone Mechanisms",
+    "topic": "Anterior vs Posterior Pituitary Hormones (Oxytocin & ADH Synthesized in Hypothalamus)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Chemical Coordination and Integration: Endocrine System & Hormone Mechanisms",
+    "topic": "Endocrine Disorders Match List: Addison, Cushing, Graves, Cretinism, Diabetes Mellitus vs Insipidus"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Male & Female Reproductive Systems",
+    "topic": "Scrotum Thermoregulation Temperature Difference"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Male & Female Reproductive Systems",
+    "topic": "Sertoli vs Leydig Cell Functions & Secretions"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Male & Female Reproductive Systems",
+    "topic": "Fallopian Tube Ampulla as Site of Fertilization"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Male & Female Reproductive Systems",
+    "topic": "Uterus 3 Layers Functions: Myometrium (Contraction) vs Endometrium (Cycle)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Gametogenesis, Menstrual Cycle & Fertilization",
+    "topic": "Spermatogenesis vs Oogenesis Timeline, Arrest Points & Polar Bodies"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Gametogenesis, Menstrual Cycle & Fertilization",
+    "topic": "Menstrual Cycle Hormone Peaks Graph (Estrogen peak day 12, LH Surge day 14, Progesterone peak day 21)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Gametogenesis, Menstrual Cycle & Fertilization",
+    "topic": "Polyspermy Block Mechanisms (Fast Electrical & Slow Cortical Zona Hardening)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Gametogenesis, Menstrual Cycle & Fertilization",
+    "topic": "Blastocyst Trophoblast (Placenta Precursor) vs Inner Cell Mass (Embryo Proper)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Pregnancy, Placenta, Parturition & Lactation",
+    "topic": "Hormones Produced Exclusively During Pregnancy (hCG, hPL, Relaxin)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Pregnancy, Placenta, Parturition & Lactation",
+    "topic": "Fetal Development Milestones Timeline (Month 1 Heart, Month 5 First Movement)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Pregnancy, Placenta, Parturition & Lactation",
+    "topic": "Fetal Ejection Reflex & Oxytocin Positive Feedback Loop"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Reproduction: Pregnancy, Placenta, Parturition & Lactation",
+    "topic": "Colostrum IgA Antibodies & Passive Immunity"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health & Population Control",
+    "topic": "IUD Complete Classification & Mechanisms (Non-medicated, Copper, Hormone)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health & Population Control",
+    "topic": "Saheli Pill Key Features & CDRI Lucknow Discovery"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health & Population Control",
+    "topic": "Emergency Contraception 72-Hour Window"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health & Population Control",
+    "topic": "Vasectomy (Vas Deferens) vs Tubectomy (Fallopian Tube)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health: MTP, STIs & Infertility (ART Technologies)",
+    "topic": "MTP Legal Amendment Act & Trimester Safety Limits"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health: MTP, STIs & Infertility (ART Technologies)",
+    "topic": "Curable vs Incurable STIs (Hepatitis-B, Genital Herpes, HIV Incurable)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health: MTP, STIs & Infertility (ART Technologies)",
+    "topic": "ART Selection Logic: ZIFT (<=8 blastomeres) vs IUT (>8 blastomeres) vs GIFT vs ICSI vs IUI"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Reproductive Health: MTP, STIs & Infertility (ART Technologies)",
+    "topic": "Amniocentesis Purpose & Female Foeticide Misuse Ban"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Origin of Life & Evidences for Evolution",
+    "topic": "Miller-Urey Experiment Apparatus, Gas Ratios (CH4:NH3:H2 = 2:1:2) & 800°C Spark"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Origin of Life & Evidences for Evolution",
+    "topic": "Homologous Organs (Divergent Evolution) vs Analogous Organs (Convergent Evolution) NCERT Examples"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Origin of Life & Evidences for Evolution",
+    "topic": "Adaptive Radiation in Darwin’s Finches & Australian Marsupials"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Origin of Life & Evidences for Evolution",
+    "topic": "Industrial Melanism in Peppered Moth & Anthropogenic Selection"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Theories of Evolution, Hardy-Weinberg & Human Evolution",
+    "topic": "Hugo de Vries Mutation (Saltation - Single Step Large Mutation) vs Darwinism"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Theories of Evolution, Hardy-Weinberg & Human Evolution",
+    "topic": "Hardy-Weinberg Equation Problem Solving (p + q = 1, p² + 2pq + q² = 1)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Theories of Evolution, Hardy-Weinberg & Human Evolution",
+    "topic": "Natural Selection Types Graphs: Stabilizing, Directional, Disruptive"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Evolution: Theories of Evolution, Hardy-Weinberg & Human Evolution",
+    "topic": "Human Evolution Complete Chronology & Cranial Capacities (Habilis 650-800 cc, Erectus 900 cc, Neanderthal 1400 cc)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Infectious Diseases & Pathogens",
+    "topic": "Typhoid Symptoms & Widal Diagnostic Test"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Infectious Diseases & Pathogens",
+    "topic": "Plasmodium Complete Life Cycle: Sporozoite -> Liver -> RBC Haemozoin -> Gametocyte -> Mosquito Gut"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Infectious Diseases & Pathogens",
+    "topic": "Pneumonia (Alveoli Fluid) vs Common Cold (Upper Respiratory Only)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Infectious Diseases & Pathogens",
+    "topic": "Filariasis Lymphatic Blockage & Culex Vector"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "Innate Immunity 4 Barrier Categories (Interferons as Cytokine Barrier)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "Cell-Mediated Immunity (T-Cells & Graft Rejection) vs Humoral (B-Cells)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "Antibody H2L2 Structure & Classes (IgA Colostrum, IgE Allergy, IgG Placental)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "HIV Replication Cycle in Macrophages & Helper T-Cells"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "Malignant Tumor Metastasis Property & Alpha-Interferon Immunotherapy"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Human Health and Disease: Immunology, Cancer, AIDS & Drug Abuse",
+    "topic": "Opioid (Papaver somniferum) vs Cannabinoid vs Cocaine (Erythroxylum coca) Mechanisms"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "Restriction Enzyme Palindromic Recognition & EcoRI Cleavage"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "pBR322 Vector Plasmid Map (Ori, ampR, tetR, rop) & Insertional Inactivation (Blue-White Screening)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "Agarose Gel Electrophoresis (Ethidium Bromide Staining & UV Orange Bands)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "PCR 3 Sequential Steps & Temperatures (Denaturation 94°C, Annealing 54°C, Extension 72°C with Taq Polymerase)"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "Bt Cotton CryIAc & CryIIAb (Bollworms) vs CryIAb (Corn Borer) Specificity"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "Humulin Eli Lilly A & B Chain Synthesis & C-Peptide Absence"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "ADA Deficiency Gene Therapy in 1990 using Retroviral Vector"
+  },
+  {
+    "subject": "Zoology",
+    "subjectCode": "zoo",
+    "chapter": "Biotechnology: Principles, Tools & Genetic Engineering Applications",
+    "topic": "Transgenic Cow Rosie (Human Alpha-Lactalbumin Milk)"
+  }
+]

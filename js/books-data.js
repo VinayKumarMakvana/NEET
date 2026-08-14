@@ -1,9 +1,9 @@
 /**
- * JEE OS: Standard Reference Books & Digital Chapter Library
+ * NEET OS: Standard Reference Books & Digital Chapter Library
  * Interactive books with full readable theory, key formulas, topper recommendations & solved examples
  */
 
-const JEE_BOOKS_LIBRARY = [
+const NEET_BOOKS_LIBRARY = [
   // =========================================================================
   // ⚛️ PHYSICS REFERENCE BOOKS
   // =========================================================================
@@ -11,15 +11,15 @@ const JEE_BOOKS_LIBRARY = [
     id: "book-hcv",
     title: "Concepts of Physics (Vol 1 & 2)",
     hindiTitle: "कॉन्सेप्ट्स ऑफ फिजिक्स (भाग 1 व 2) — डॉ. एच.सी. वर्मा",
-    author: "Dr. H.C. Verma (Ex-Professor, IIT Kanpur)",
+    author: "Dr. H.C. Verma (Ex-Professor, AIIMS Kanpur)",
     subject: "Physics",
     subjectCode: "phy",
     badge: "PHYSICS BIBLE",
     color: "#00f2fe",
-    rating: "4.9 / 5.0 (Essential for IIT AIR 1)",
+    rating: "4.9 / 5.0 (Essential for AIIMS AIR 1)",
     coverIcon: "⚛️",
     readOnlineUrl: "https://ncert.nic.in/textbook.php?keph1=1-8",
-    description: "The universally revered gold standard for developing profound physical intuition and mastering JEE Main & Advanced mechanics, electrodynamics, optics, and modern physics.",
+    description: "The universally revered gold standard for developing profound physical intuition and mastering NEET Core & Advanced mechanics, electrodynamics, optics, and modern physics.",
     strategy: "Read the theory line-by-line, solve all 'Questions for Short Answer' orally to test concepts, complete Objective I & II (crucial for multi-correct), and solve exercises up to problem 40+ in high-yield chapters.",
     chapters: [
       {
@@ -53,7 +53,7 @@ const JEE_BOOKS_LIBRARY = [
         }
       },
       {
-        title: "Chapter 10: Rotational Mechanics (The JEE Adv Pillar)",
+        title: "Chapter 10: Rotational Mechanics (The NEET Adv Pillar)",
         hindi: "घूर्णन यांत्रिकी (Rotational Dynamics)",
         keyTakeaway: "Torque about an axis (τ = I·α), Parallel Axis (I = I_cm + Md²) and Perpendicular Axis theorems, conservation of angular momentum (L = I·ω), pure rolling condition (v_cm = R·ω).",
         formulas: [
@@ -97,8 +97,8 @@ const JEE_BOOKS_LIBRARY = [
     rating: "5.0 / 5.0 (Top 500 AIR Ranker)",
     coverIcon: "🚀",
     readOnlineUrl: "https://archive.org/details/IrodovProblemsInGeneralPhysics",
-    description: "The ultimate weapon for IIT JEE Advanced Top 500 aspirants. Tests mathematical modeling, differential formulations, and non-standard problem-solving agility.",
-    strategy: "Do not attempt the whole book! Focus strictly on the JEE-relevant Top 150 selected problems in Mechanics (Part 1), Electrodynamics (Part 3), and Oscillations & Waves.",
+    description: "The ultimate weapon for AIIMS AIIMS AIQ Top 500 aspirants. Tests mathematical modeling, differential formulations, and non-standard problem-solving agility.",
+    strategy: "Do not attempt the whole book! Focus strictly on the NEET-relevant Top 150 selected problems in Mechanics (Part 1), Electrodynamics (Part 3), and Oscillations & Waves.",
     chapters: [
       {
         title: "Part 1: Physical Fundamentals of Mechanics",
@@ -186,7 +186,7 @@ const JEE_BOOKS_LIBRARY = [
 
   {
     id: "book-jd-lee",
-    title: "Concise Inorganic Chemistry — J.D. Lee (Adapted for JEE)",
+    title: "Concise Inorganic Chemistry — J.D. Lee (Adapted for NEET)",
     hindiTitle: "कंंसाइज इनऑर्गेनिक केमिस्ट्री — जे.डी. ली",
     author: "J.D. Lee / Adapted by Sudarshan Guha",
     subject: "Chemistry",
@@ -197,7 +197,7 @@ const JEE_BOOKS_LIBRARY = [
     coverIcon: "🔬",
     readOnlineUrl: "https://ncert.nic.in/textbook.php?lech1=1-6",
     description: "Eliminates mindless memorization of Inorganic Chemistry by providing elegant crystal field theory, molecular orbital theory, and periodic trend justifications.",
-    strategy: "Read Chemical Bonding and Coordination Compounds chapters with maximum focus. Combine with NCERT line-by-line notes for 100% marks in JEE Main Inorganic.",
+    strategy: "Read Chemical Bonding and Coordination Compounds chapters with maximum focus. Combine with NCERT line-by-line notes for 100% marks in NEET Core Inorganic.",
     chapters: [
       {
         title: "Chapter: Chemical Bonding & Molecular Orbital Theory (MOT)",
@@ -208,7 +208,7 @@ const JEE_BOOKS_LIBRARY = [
           "MOT Trick: 14e⁻ (N₂) = 3.0 | ±1 e⁻ = subtract 0.5 (15e⁻=2.5, 16e⁻=2.0)",
           "Dipole Moment: μ = q · d (Debye)"
         ],
-        mustSolve: "All In-Text Review Questions & JEE Practice Exercises",
+        mustSolve: "All In-Text Review Questions & NEET Practice Exercises",
         solvedExample: {
           q: "Why is the bond order of CO⁺ (3.5) higher than CO (3.0)?",
           sol: "In CO, the HOMO electron is removed from a slightly antibonding orbital (σ*2s with hybrid non-bonding character), increasing net bonding strength."
@@ -232,71 +232,22 @@ const JEE_BOOKS_LIBRARY = [
     ]
   },
 
-  // =========================================================================
-  // 📐 MATHEMATICS REFERENCE BOOKS
-  // =========================================================================
-  {
-    id: "book-blackbook",
-    title: "Advanced Problems in Mathematics (Black Book)",
-    hindiTitle: "एडवांस्ड प्रॉब्लम्स इन मैथमेटिक्स (ब्लैक बुक) — विकास गुप्ता",
-    author: "Vikas Gupta & Pankaj Joshi (Directors, Vibrant Academy Kota)",
-    subject: "Mathematics",
-    subjectCode: "math",
-    badge: "MATHS BLACK BOOK",
-    color: "#f59e0b",
-    rating: "5.0 / 5.0 (IIT AIR 1 Cult Favorite)",
-    coverIcon: "📐",
-    readOnlineUrl: "https://ncert.nic.in/textbook.php?lemh1=1-6",
-    description: "The most legendary and challenging problem book in India for JEE Advanced Mathematics. Sharpens analytical thinking and eliminates fear of multi-concept questions.",
-    strategy: "Solve each question on pen and paper without looking at solutions for at least 15 minutes. Attempt Single Correct, Multi-Correct, and Matrix Matching systematically.",
-    chapters: [
-      {
-        title: "Calculus: Definite Integrals & Properties",
-        hindi: "निश्चित समाकलन एवं महत्वपूर्ण गुणधर्म",
-        keyTakeaway: "King's property (x → a+b-x), differentiation under integral sign (Leibnitz rule), periodicity reduction, Walli's formula, fractional part integrals.",
-        formulas: [
-          "King's Rule: ∫[a to b] f(x) dx = ∫[a to b] f(a + b - x) dx",
-          "Leibnitz: d/dx [∫[u(x) to v(x)] f(t) dt] = f(v(x))·v'(x) - f(u(x))·u'(x)",
-          "Even/Odd: ∫[-a to a] f(x) dx = 2∫[0 to a] f(x) dx (even) | 0 (odd)"
-        ],
-        mustSolve: "Definite Integration Exercise 1 (Q1 - Q30), Multi-Correct (Q1 - Q15)",
-        solvedExample: {
-          q: "Evaluate ∫[0 to π/2] [sin³x / (sin³x + cos³x)] dx.",
-          sol: "Let I = ∫[0 to π/2] [sin³x / (sin³x + cos³x)] dx. Using King's property, I = ∫[0 to π/2] [cos³x / (sin³x + cos³x)] dx. Adding both: 2I = ∫[0 to π/2] 1 dx = π/2 ⇒ I = π/4."
-        }
-      },
-      {
-        title: "Vectors & 3D Geometry",
-        hindi: "सदिश एवं 3D त्रिविमीय ज्यामिति",
-        keyTakeaway: "Scalar Triple Product [a b c] volume, Vector Triple Product 'BAC-CAB' identity, shortest distance between skew lines, symmetric equations of lines.",
-        formulas: [
-          "Shortest Distance: d = | [(a₂ - a₁) · (b₁ × b₂)] | / |b₁ × b₂|",
-          "Vector Triple: a × (b × c) = (a · c)b - (a · b)c",
-          "Volume of Parallelepiped: V = | [a  b  c] |"
-        ],
-        mustSolve: "Vectors & 3D Single Correct (Q1 - Q35), Multi-Correct (Q1 - Q15)",
-        solvedExample: {
-          q: "Find the shortest distance between skew lines r = a₁ + λ b₁ and r = a₂ + μ b₂.",
-          sol: "Shortest distance is the projection of (a₂ - a₁) along the unit common perpendicular (b₁ × b₂) / |b₁ × b₂|."
-        }
-      }
-    ]
-  },
+
 
   {
-    id: "book-ncert-pcm",
-    title: "NCERT Official PCM Class 11 & 12 Digital Master Guide",
-    hindiTitle: "NCERT आधिकारिक PCM क्लास 11 व 12 मास्टर गाइड",
+    id: "book-ncert-pcb",
+    title: "NCERT Official PCB Class 11 & 12 Digital Master Guide",
+    hindiTitle: "NCERT आधिकारिक PCB क्लास 11 व 12 मास्टर गाइड",
     author: "NCERT (National Council of Educational Research & Training)",
     subject: "All Subjects",
     subjectCode: "all",
     badge: "100% FREE OFFICIAL",
     color: "#10b981",
-    rating: "5.0 / 5.0 (Official JEE Base)",
+    rating: "5.0 / 5.0 (Official NEET Base)",
     coverIcon: "📘",
     readOnlineUrl: "https://ncert.nic.in/textbook.php",
-    description: "Every single JEE Main session pulls direct conceptual questions and statements from NCERT PCM textbooks. 100% free and essential for 99+ percentile.",
-    strategy: "Read Chemistry NCERT line-by-line (Inorganic + Organic reactions). Solve all NCERT Exemplar problems in Physics and Mathematics.",
+    description: "Every single NEET Core session pulls direct conceptual questions and statements from NCERT PCB textbooks. 100% free and essential for 99+ percentile.",
+    strategy: "Read Biology (Botany/Zoology) NCERT line-by-line multiple times. Read Chemistry NCERT for Inorganic & Organic. Solve Physics Exemplar.",
     chapters: [
       {
         title: "Chemistry: Complete In-Text Reactions & Summary",
@@ -314,18 +265,18 @@ const JEE_BOOKS_LIBRARY = [
         }
       },
       {
-        title: "Physics & Mathematics: Exemplar Highlights",
-        hindi: "भौतिकी एवं गणित: एक्सेम्पलर महत्वपूर्ण प्रश्न",
-        keyTakeaway: "Semiconductors & Logic gates (NAND/NOR universal gates), Modern Physics photoelectric equations, Matrices & Determinants properties.",
+        title: "Biology: Botany & Zoology Line-by-Line",
+        hindi: "जीव विज्ञान: बॉटनी एवं जूलॉजी लाइन-बाय-लाइन",
+        keyTakeaway: "Genetics, Human Physiology, Plant Physiology, and Biotechnology. Must remember all scientist names, dates, and diagram labels.",
         formulas: [
-          "Einstein Photoelectric: hν = Φ + K_max",
-          "de Broglie: λ = h / p = h / √(2m·q·V)",
-          "|adj(A)| = |A|^(n-1)"
+          "Hardy-Weinberg Equation: p² + 2pq + q² = 1",
+          "Cardiac Output = Stroke Volume × Heart Rate",
+          "Gross Primary Productivity - Respiration = Net Primary Productivity"
         ],
-        mustSolve: "Exemplar Objective I & II Questions",
+        mustSolve: "All NCERT Back Exercises & Summary Points",
         solvedExample: {
-          q: "If threshold wavelength of a metal is λ₀, what is maximum kinetic energy of ejected photoelectron when irradiated with wavelength λ (λ < λ₀)?",
-          sol: "K_max = h·c·[(1/λ) - (1/λ₀)] = h·c·(λ₀ - λ) / (λ·λ₀)."
+          q: "What is the role of restriction endonuclease?",
+          sol: "It cuts DNA at specific recognition nucleotide sequences known as restriction sites."
         }
       }
     ]
@@ -334,14 +285,14 @@ const JEE_BOOKS_LIBRARY = [
 
 // Open rich interactive book modal
 function openBookModal(bookId) {
-  const book = JEE_BOOKS_LIBRARY.find(b => b.id === bookId) || JEE_BOOKS_LIBRARY[0];
+  const book = NEET_BOOKS_LIBRARY.find(b => b.id === bookId) || NEET_BOOKS_LIBRARY[0];
   if (!book) return;
 
   let modal = document.getElementById('bookDetailModal');
   if (!modal) {
     modal = document.createElement('dialog');
     modal.id = 'bookDetailModal';
-    modal.className = 'jee-dialog';
+    modal.className = 'neet-dialog';
     modal.style.cssText = `
       background: var(--bg-surface, #0f172a);
       color: var(--text-main, #f8fafc);
@@ -389,7 +340,7 @@ function openBookModal(bookId) {
 
       <!-- Book Strategy & Topper Method -->
       <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-left:3px solid var(--brand-sky); border-radius:12px; padding:14px; margin-bottom:18px;">
-        <h4 style="font-size:13px; font-weight:800; color:var(--brand-sky); margin:0 0 6px;">💡 How Toppers Solve This Book for JEE:</h4>
+        <h4 style="font-size:13px; font-weight:800; color:var(--brand-sky); margin:0 0 6px;">💡 How Toppers Solve This Book for NEET:</h4>
         <p style="font-size:12.5px; color:var(--text-main); line-height:1.5; margin:0;">${book.strategy}</p>
       </div>
 
@@ -443,6 +394,6 @@ function openBookModal(bookId) {
   modal.showModal();
 }
 
-window.JEE_BOOKS_LIBRARY = JEE_BOOKS_LIBRARY;
+window.NEET_BOOKS_LIBRARY = NEET_BOOKS_LIBRARY;
 window.openBookModal = openBookModal;
 

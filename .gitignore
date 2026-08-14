@@ -3,3 +3,8 @@ node_modules/
 *.log
 .vscode/
 .idea/
+.vercel
+.env
+database.sqlite
+server/database.sqlite
+server/.env

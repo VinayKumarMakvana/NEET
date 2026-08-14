@@ -8,13 +8,44 @@ const MockTestEngine = {
   timerInterval: null,
   isOmrMode: false,
 
+  startPracticeTest(chapterId) {
+    if (typeof getAllChapters !== 'function') return;
+    const allCh = getAllChapters();
+    const ch = allCh.find(c => c.id === chapterId);
+    if (!ch) return;
+    
+    this.initHierarchicalTest({
+      level: 2,
+      testId: 'chap_' + chapterId,
+      title: ch.title + ' Exam',
+      chapterId: chapterId,
+      chapterTitle: ch.title,
+      subjectCode: ch.subjectCode,
+      count: 15,
+      durationMinutes: 15
+    });
+  },
+
   // Universal Entrypoint for Hierarchical 6-Level Tests
-  initHierarchicalTest(params) {
+  async initHierarchicalTest(params) {
     if (typeof ClerkAuth !== 'undefined' && typeof ClerkAuth.isAuthenticated === 'function' && !ClerkAuth.isAuthenticated()) {
       if (typeof ClerkAuth.openSignIn === 'function') {
         ClerkAuth.openSignIn();
       }
       return;
+    }
+
+    if (params.level >= 4) {
+      const currentUser = ClerkAuth.getCurrentUser();
+      const isPremium = currentUser && new Date(currentUser.subscriptionExpiry) > new Date();
+      if (!isPremium) {
+        if (typeof PaymentEngine !== 'undefined' && typeof PaymentEngine.openCheckoutModal === 'function') {
+          PaymentEngine.openCheckoutModal();
+        } else {
+          alert('This test requires NEET OS Premium (Rs. 99/Year). Please upgrade.');
+        }
+        return;
+      }
     }
 
     const {
@@ -34,9 +65,19 @@ const MockTestEngine = {
       mockNum = null
     } = params;
 
-    const questions = typeof getQuestionsForHierarchicalTest === 'function' 
-      ? getQuestionsForHierarchicalTest(params)
-      : (typeof NEET_QUESTIONS !== 'undefined' ? NEET_QUESTIONS.slice(0, count) : []);
+    if (window.showToast) window.showToast('Generating AI Test Questions...', 2000);
+
+    let questions = [];
+    if (typeof getQuestionsForHierarchicalTest === 'function') {
+      const res = getQuestionsForHierarchicalTest(params);
+      if (res instanceof Promise) {
+        questions = await res;
+      } else {
+        questions = res;
+      }
+    } else {
+      questions = typeof NEET_QUESTIONS !== 'undefined' ? NEET_QUESTIONS.slice(0, count) : [];
+    }
 
     const finalCount = questions.length || count;
     const maxScore = totalMarks || (finalCount * 4);
@@ -129,14 +170,15 @@ const MockTestEngine = {
     const test = this.currentTest;
     if (!test) return;
 
+    const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
-    if (!modalBody) return;
+    if (!modal || !modalBody) return;
+    if (!modal.open) modal.showModal();
 
     const q = test.questions[test.currentIndex];
     const qNum = test.currentIndex + 1;
     const selectedAns = test.userAnswers[test.currentIndex];
     const isMarked = !!test.markedForReview[test.currentIndex];
-
     // Header badge
     let drillBadge = `LEVEL ${test.level} · EXAM`;
     if (test.level === 1) drillBadge = 'LEVEL 1 · TOPIC MICRO-TEST';
@@ -146,10 +188,30 @@ const MockTestEngine = {
     else if (test.level === 5) drillBadge = 'LEVEL 5 · 3-SUBJECT PCB COMBINATION';
     else if (test.level === 6) drillBadge = `LEVEL 6 · PRE-NEET GRAND MOCK 0${test.mockNum || 1}`;
 
+    let ntaSectionBadge = '';
+    let currentActiveTab = 'phy';
+    if (test.level === 6 && test.totalQuestions === 200) {
+      const qIdx = test.currentIndex;
+      let subjName = '';
+      let isSecB = false;
+      if (qIdx <= 49) { subjName = 'Physics'; isSecB = qIdx >= 35; currentActiveTab = 'phy'; }
+      else if (qIdx <= 99) { subjName = 'Chemistry'; isSecB = qIdx >= 85; currentActiveTab = 'chem'; }
+      else if (qIdx <= 149) { subjName = 'Botany'; isSecB = qIdx >= 135; currentActiveTab = 'bot'; }
+      else { subjName = 'Zoology'; isSecB = qIdx >= 185; currentActiveTab = 'zoo'; }
+      
+      ntaSectionBadge = `<span class="tag-badge ${isSecB ? 'tag-high' : 'tag-adv'}" style="margin-left:8px; font-size:12px; background: ${isSecB ? '#ef4444' : '#10b981'}; color: #fff;">${subjName} - Section ${isSecB ? 'B (Attempt Any 10)' : 'A (Compulsory)'}</span>`;
+    }
+
+
     modalBody.innerHTML = `
       <div class="test-arena-header" style="border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
         <div>
-          <span class="eyebrow" style="color:var(--brand-gold);">${drillBadge}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; width: 100%;">
+          <div>
+            <span class="eyebrow" style="color:var(--brand-gold);">${drillBadge}</span> ${ntaSectionBadge}
+          </div>
+          <button class="btn ghost btn-sm" style="color:var(--brand-rose); border:1px solid rgba(244,63,94,0.3); font-size:11px;" onclick="if(confirm('Are you sure you want to exit? Your progress will be saved.')){ document.getElementById('modal').close(); MockTestEngine.submitTest(); }">Exit Test ✖</button>
+        </div>
           <h3 style="font-size:17px; margin:4px 0 0; word-break:break-word;">${escapeHtml(test.title)}</h3>
         </div>
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -228,7 +290,40 @@ const MockTestEngine = {
           <div class="card omr-side-container" id="mock-omr-target" style="padding:12px; max-height:480px; overflow-y:auto;"></div>
         ` : `
           <div class="card" style="padding:12px; max-height:480px; overflow-y:auto;">
-            <h4 style="font-size:12px; margin-bottom:10px; color:var(--text-muted); letter-spacing:0.5px;"><i class="fas fa-th"></i> QUESTION PALETTE (${test.totalQuestions})</h4>
+            
+            <h4 style="font-size:12px; margin-bottom:10px; color:var(--text-muted); letter-spacing:0.5px;"><i class="fas fa-th"></i> QUESTION PALETTE</h4>
+            ${test.level === 6 && test.totalQuestions === 200 ? `
+              <div style="display:flex; gap:4px; margin-bottom:8px; border-bottom:1px solid var(--border-color); padding-bottom:8px;">
+                <button onclick="MockTestEngine.jumpTo(0)" style="flex:1; font-size:9px; padding:4px; border-radius:4px; cursor:pointer; background:${currentActiveTab==='phy'?'var(--brand-teal)':'var(--bg-surface)'}; color:${currentActiveTab==='phy'?'#fff':'var(--text-muted)'}; border:1px solid var(--border-color);">PHY</button>
+                <button onclick="MockTestEngine.jumpTo(50)" style="flex:1; font-size:9px; padding:4px; border-radius:4px; cursor:pointer; background:${currentActiveTab==='chem'?'var(--brand-teal)':'var(--bg-surface)'}; color:${currentActiveTab==='chem'?'#fff':'var(--text-muted)'}; border:1px solid var(--border-color);">CHEM</button>
+                <button onclick="MockTestEngine.jumpTo(100)" style="flex:1; font-size:9px; padding:4px; border-radius:4px; cursor:pointer; background:${currentActiveTab==='bot'?'var(--brand-teal)':'var(--bg-surface)'}; color:${currentActiveTab==='bot'?'#fff':'var(--text-muted)'}; border:1px solid var(--border-color);">BOT</button>
+                <button onclick="MockTestEngine.jumpTo(150)" style="flex:1; font-size:9px; padding:4px; border-radius:4px; cursor:pointer; background:${currentActiveTab==='zoo'?'var(--brand-teal)':'var(--bg-surface)'}; color:${currentActiveTab==='zoo'?'#fff':'var(--text-muted)'}; border:1px solid var(--border-color);">ZOO</button>
+              </div>
+              <div class="question-palette" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px;">
+                ${(() => {
+                   let start = currentActiveTab === 'phy' ? 0 : currentActiveTab === 'chem' ? 50 : currentActiveTab === 'bot' ? 100 : 150;
+                   let html = '<div style="grid-column: span 5; font-size:10px; color:var(--text-muted); text-align:center; padding:4px 0;">Section A</div>';
+                   for(let i=0; i<35; i++) {
+                     const idx = start + i;
+                     let bg = 'var(--bg-secondary)'; let border = 'var(--border-color)'; let color = 'var(--text-muted)';
+                     if (idx === test.currentIndex) { border = 'var(--brand-teal)'; color = 'var(--brand-teal)'; }
+                     if (test.userAnswers[idx] !== undefined) { bg = 'var(--brand-emerald)'; border = 'var(--brand-emerald)'; color = '#ffffff'; }
+                     else if (test.markedForReview[idx]) { bg = 'var(--brand-purple)'; border = 'var(--brand-purple)'; color = '#ffffff'; }
+                     html += `<button class="palette-btn" style="padding:4px 0; font-size:10px; font-weight:700; border-radius:4px; background:${bg}; border:1px solid ${border}; color:${color}; cursor:pointer;" onclick="MockTestEngine.jumpTo(${idx})">${idx + 1}</button>`;
+                   }
+                   html += '<div style="grid-column: span 5; font-size:10px; color:#ef4444; text-align:center; padding:4px 0; margin-top:4px;">Section B (Attempt Any 10)</div>';
+                   for(let i=35; i<50; i++) {
+                     const idx = start + i;
+                     let bg = 'var(--bg-secondary)'; let border = 'var(--border-color)'; let color = 'var(--text-muted)';
+                     if (idx === test.currentIndex) { border = 'var(--brand-teal)'; color = 'var(--brand-teal)'; }
+                     if (test.userAnswers[idx] !== undefined) { bg = 'var(--brand-emerald)'; border = 'var(--brand-emerald)'; color = '#ffffff'; }
+                     else if (test.markedForReview[idx]) { bg = 'var(--brand-purple)'; border = 'var(--brand-purple)'; color = '#ffffff'; }
+                     html += `<button class="palette-btn" style="padding:4px 0; font-size:10px; font-weight:700; border-radius:4px; background:${bg}; border:1px solid ${border}; color:${color}; cursor:pointer;" onclick="MockTestEngine.jumpTo(${idx})">${idx + 1}</button>`;
+                   }
+                   return html;
+                })()}
+              </div>
+            ` : `
             <div class="question-palette" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px;">
               ${test.questions.map((_, idx) => {
                 let bg = 'var(--bg-secondary)';
@@ -258,8 +353,9 @@ const MockTestEngine = {
                 `;
               }).join('')}
             </div>
+            `}
 
-            <div style="margin-top:14px; font-size:11px; display:flex; flex-direction:column; gap:4px; color:var(--text-muted);">
+<div style="margin-top:14px; font-size:11px; display:flex; flex-direction:column; gap:4px; color:var(--text-muted);">
               <div style="display:flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; background:var(--brand-emerald); border-radius:2px;"></span> Answered</div>
               <div style="display:flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; background:var(--brand-purple); border-radius:2px;"></span> Marked for Review</div>
               <div style="display:flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:2px;"></span> Unanswered</div>
@@ -275,18 +371,46 @@ const MockTestEngine = {
       window.omrEngine.renderOMR('mock-omr-target');
     }
 
-    const modal = document.getElementById('modal');
-    if (modal && !modal.open) modal.showModal();
-  },
-
+    },
   selectAnswer(index) {
     if (!this.currentTest) return;
+    
+    // NTA Section B Rule Logic
+    if (this.currentTest.level === 6 && this.currentTest.totalQuestions === 200) {
+      const qIdx = this.currentTest.currentIndex;
+      const isSectionB = (qIdx >= 35 && qIdx <= 49) || 
+                         (qIdx >= 85 && qIdx <= 99) || 
+                         (qIdx >= 135 && qIdx <= 149) || 
+                         (qIdx >= 185 && qIdx <= 199);
+      
+      if (isSectionB) {
+        let startIdx = 0;
+        if (qIdx <= 49) startIdx = 35;
+        else if (qIdx <= 99) startIdx = 85;
+        else if (qIdx <= 149) startIdx = 135;
+        else startIdx = 185;
+        
+        let answeredCount = 0;
+        for (let i = startIdx; i < startIdx + 15; i++) {
+          if (this.currentTest.userAnswers[i] !== undefined && i !== qIdx) {
+            answeredCount++;
+          }
+        }
+        
+        if (answeredCount >= 10 && this.currentTest.userAnswers[qIdx] === undefined) {
+          alert('⚠️ NTA Rule: You can only attempt 10 questions in Section B. Please clear an earlier answer to attempt this one.');
+          return;
+        }
+      }
+    }
+    
     this.currentTest.userAnswers[this.currentTest.currentIndex] = index;
     if (window.omrEngine) {
       window.omrEngine.bubbles[this.currentTest.currentIndex] = index;
     }
     this.renderExamInterface();
   },
+
 
   clearAnswer() {
     if (!this.currentTest) return;
@@ -333,8 +457,10 @@ const MockTestEngine = {
     const markedCount = Object.values(test.markedForReview).filter(Boolean).length;
     const leftCount = test.totalQuestions - answeredCount;
 
+    const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
-    if (!modalBody) return;
+    if (!modal || !modalBody) return;
+    if (!modal.open) modal.showModal();
 
     modalBody.innerHTML = `
       <div style="text-align:center; padding:10px 0;">
@@ -419,10 +545,10 @@ const MockTestEngine = {
     test.accuracy = accuracy;
     test.isCompleted = true;
 
-    // Save test result to NEET2028State
-    if (window.NEET2028State) {
-      if (!window.NEET2028State.testHistory) window.NEET2028State.testHistory = [];
-      window.NEET2028State.testHistory.unshift({
+    // Save test result to appState
+    if (window.appState) {
+      if (!window.appState.testHistory) window.appState.testHistory = [];
+      window.appState.testHistory.unshift({
         id: test.id,
         title: test.title,
         level: test.level,
@@ -434,16 +560,35 @@ const MockTestEngine = {
         unattemptedCount,
         date: new Date().toLocaleDateString()
       });
+      
+      // Track attempt counts for intelligent repetition filtering (max 3 attempts)
+      if (!window.appState.questionStats) window.appState.questionStats = {};
+      test.questions.forEach(q => {
+        const id = q.internal_id || q.id;
+        if (id) {
+          window.appState.questionStats[id] = (window.appState.questionStats[id] || 0) + 1;
+        }
+      });
 
       // Save mistakes to Mistake Notebook
       if (mistakes.length) {
-        if (!window.NEET2028State.mistakes) window.NEET2028State.mistakes = [];
-        window.NEET2028State.mistakes = [...mistakes, ...window.NEET2028State.mistakes].slice(0, 100);
+        if (!window.appState.mistakes) window.appState.mistakes = [];
+        window.appState.mistakes = [...mistakes, ...window.appState.mistakes].slice(0, 100);
       }
 
-      // Check level unlocking
-      if (window.HierarchicalTestTree && typeof window.HierarchicalTestTree.checkAndUnlockLevels === 'function') {
-        window.HierarchicalTestTree.checkAndUnlockLevels(test.level, accuracy, score, maxScore);
+      // Record result into TestTreeEngine hierarchy
+      if (window.TestTreeEngine && typeof window.TestTreeEngine.recordResult === 'function') {
+        window.TestTreeEngine.recordResult({
+          level: test.level,
+          testId: test.id,
+          score: score,
+          maxScore: maxScore,
+          percentage: accuracy,
+          passed: accuracy >= 65,
+          correct: correctCount,
+          wrong: wrongCount,
+          unattempted: unattemptedCount
+        });
       }
 
       if (typeof window.saveState === 'function') window.saveState();
@@ -456,8 +601,10 @@ const MockTestEngine = {
     const test = this.currentTest;
     if (!test) return;
 
+    const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modalBody');
-    if (!modalBody) return;
+    if (!modal || !modalBody) return;
+    if (!modal.open) modal.showModal();
 
     const isPassed = test.accuracy >= 65;
 
@@ -542,3 +689,5 @@ const MockTestEngine = {
 };
 
 window.MockTestEngine = MockTestEngine;
+
+window.MockEngine = MockTestEngine;

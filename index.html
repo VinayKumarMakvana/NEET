@@ -28,11 +28,11 @@
   </script>
   
   <!-- Environment Variables -->
-  <script src="js/env-config.js"></script>
+  <script src="js/env-config.js?v=1.2.1"></script>
   
   <title>NEET OS — 100% Free Bilingual Medical Entrance OS</title>
   
-  <link rel="icon" type="image/svg+xml" href="brand-mark.svg?v=2028">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.webmanifest">
   
   <!-- Engineering, Scientific & Hindi Devanagari Fonts -->
@@ -44,7 +44,7 @@
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=1.3.0">
+  <link rel="stylesheet" href="styles.css?v=1.4.0">
   <link rel="stylesheet" href="brand.css?v=1.3.0">
 </head>
 <body>
@@ -52,18 +52,13 @@
   <header>
     <div class="header-inner">
       <a href="#" class="brand" onclick="navigateView('home'); return false;" aria-label="NEET OS Home">
-        <img src="brand-mark.svg?v=2028" alt="NEET OS" class="brand-icon" onerror="this.outerHTML='<span class=\'brand-icon-fallback\'>⚛️</span>'">
+        <img src="favicon.svg" alt="NEET OS" class="brand-icon" onerror="this.outerHTML='<span class=\'brand-icon-fallback\'>⚛️</span>'" style="border-radius: 50%;">
         <div class="brand-text">
           <h1>NEET OS <span class="target-720-badge">MBBS 720</span></h1>
           <span class="eyebrow" id="brandTagline">100% FREE PURE MEDICAL OS</span>
         </div>
       </a>
 
-      <!-- Exam Mode Toggle (Main vs Advanced) -->
-      <div class="mode-pill hide-mobile">
-        <button id="modePillMain" class="mode-pill-btn active" onclick="setExamMode('neet')">🎯 NEET Core (720)</button>
-        <button id="modePillAdv" class="mode-pill-btn" onclick="setExamMode('aiims')">⚡ AIIMS AIQ (720)</button>
-      </div>
       
       <div class="header-actions">
         <!-- Global Language Selector -->
@@ -166,7 +161,7 @@
         <strong>1-Page Cheat Sheets</strong>
         <p>Topper formula cards & reactions</p>
       </button>
-      <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('josaa');">
+      <button class="drawer-card" onclick="closeMoreToolsDrawer(); navigateView('aiims');">
         <span class="drawer-icon" style="color: #f59e0b;"><i class="ph-fill ph-bank"></i></span>
         <strong>AIIMS & Medical Cutoffs</strong>
         <p>Top AIIMS & Govt opening & closing ranks</p>
@@ -256,30 +251,31 @@
   </dialog>
 
   <!-- Application Logic Scripts -->
-  <script src="js/syllabus-data.js?v=1.2.0"></script>
-  <script src="js/books-data.js?v=1.2.0"></script>
-  <script src="js/resources-data.js?v=1.2.0"></script>
-  <script src="js/notes-data.js?v=1.2.0"></script>
-  <script src="js/flashcards-data.js?v=1.2.0"></script>
-  <script src="js/questions-data.js?v=1.2.0"></script>
-  <script src="js/scientist-data.js?v=1.2.0"></script>
-  <script src="js/formula-rapid-fire.js?v=1.2.0"></script>
-  <script src="js/pyq-heatmap.js?v=1.2.0"></script>
-  <script src="js/cheat-sheets.js?v=1.2.0"></script>
-  <script src="js/josaa-explorer.js?v=1.2.0"></script>
-  <script src="js/speed-math.js?v=1.2.0"></script>
-  <script src="js/gamification.js?v=1.2.0"></script>
-  <script src="js/audio-podcast.js?v=1.2.0"></script>
-  <script src="js/problem-solver.js?v=1.2.0"></script>
-  <script src="js/omr-engine.js?v=1.2.0"></script>
-  <script src="js/test-tree-engine.js?v=1.2.0"></script>
-  <script src="js/payment-engine.js?v=1.2.0"></script>
-  <script src="js/mock-engine.js?v=1.2.0"></script>
-  <script src="js/rank-predictor.js?v=1.2.0"></script>
-  <script src="js/mistake-notebook.js?v=1.2.0"></script>
-  <script src="js/certificate.js?v=1.2.0"></script>
-  <script src="js/pwa-installer.js?v=1.2.0"></script>
+  <script src="js/syllabus-data.js?v=1.2.1"></script>
+  <script src="js/books-data.js?v=1.2.1"></script>
+  <script src="js/resources-data.js?v=1.2.1"></script>
+  <script src="js/notes-data.js?v=1.2.1"></script>
+  <script src="js/flashcards-data.js?v=1.2.1"></script>
+  <script src="js/questions-data.js?v=1.2.1"></script>
+  <script src="js/scientist-data.js?v=1.2.1"></script>
+  <script src="js/formula-rapid-fire.js?v=1.2.1"></script>
+  <script src="js/pyq-heatmap.js?v=1.2.1"></script>
+  <script src="js/cheat-sheets.js?v=1.2.1"></script>
+  <script src="js/aiims-explorer.js?v=1.2.1"></script>
+  <script src="js/speed-math.js?v=1.2.1"></script>
+  <script src="js/gamification.js?v=1.2.1"></script>
+  <script src="js/audio-podcast.js?v=1.2.1"></script>
+  <script src="js/problem-solver.js?v=1.2.1"></script>
+  <script src="js/omr-engine.js?v=1.2.1"></script>
+  <script src="js/test-tree-engine.js?v=1.2.1"></script>
+  <script src="js/payment-engine.js?v=1.2.1"></script>
+  <script src="js/mock-engine.js?v=1.2.1"></script>
+  <script src="js/rank-predictor.js?v=1.2.1"></script>
+  <script src="js/mistake-notebook.js?v=1.2.1"></script>
+  <script src="js/certificate.js?v=1.2.1"></script>
+  <script src="js/pwa-installer.js?v=1.2.1"></script>
   <script src="js/auth-clerk.js?v=1.3.2"></script>
-  <script src="js/main.js?v=1.2.0"></script>
+  <script src="js/main.js?v=1.2.1"></script>
 </body>
 </html>
+

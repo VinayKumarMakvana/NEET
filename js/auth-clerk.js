@@ -42,363 +42,30 @@ const ClerkAuth = {
     this.restoreActiveSession();
 
     // 2. Initialize Clerk SDK in background
-    try {
-      await this.loadClerkSDK(this.publishableKey);
+    // Clerk SDK disabled
 
-      if (window.Clerk) {
-        if (typeof window.Clerk === 'function') {
-          this.clerkInstance = new window.Clerk(this.publishableKey);
-        } else {
-          this.clerkInstance = window.Clerk;
-        }
-
-        const loadOptions = {
-          appearance: {
-            variables: {
-              colorPrimary: '#0d9488',
-              colorText: '#f8fafc',
-              colorBackground: '#0a0f1d',
-              colorInputBackground: '#131e36',
-              colorInputText: '#f8fafc',
-              borderRadius: '10px'
-            }
-          }
-        };
-
-        if (window.__internal_ClerkUICtor) {
-          loadOptions.ui = { ClerkUI: window.__internal_ClerkUICtor };
-        }
-
-        await this.clerkInstance.load(loadOptions);
-        this.isInitialized = true;
-        console.log('✅ Clerk Loaded. isSignedIn:', !!this.clerkInstance.user || !!this.clerkInstance.isSignedIn);
-
-        if (this.clerkInstance.user) {
-          this.handleClerkUserLogin(this.clerkInstance.user);
-        }
-
-        if (typeof this.clerkInstance.addListener === 'function') {
-          this.clerkInstance.addListener((emission) => {
-            if (emission.user) {
-              this.handleClerkUserLogin(emission.user);
-            } else if (this.currentUser && this.currentUser.provider === 'clerk') {
-              this.handleUserLogout();
-            }
-          });
-        }
-      }
-    } catch (err) {
-      console.warn('ℹ️ Clerk SDK offline/deferred mode:', err);
+    if (!this.isAuthenticated()) {
+      localStorage.removeItem(AUTH_ACTIVE_SESSION_KEY);
+      this.currentUser = null;
     }
-
     this.renderAuthUI();
     this.broadcastAuthChange();
-  },
 
-  async loadClerkSDK(key) {
-    if (window.Clerk && (typeof window.Clerk === 'object' || typeof window.Clerk === 'function')) {
-      return;
+    if (typeof renderApp === 'function') {
+      renderApp();
     }
-
-    let clerkDomain = 'possible-trout-59.clerk.accounts.dev';
-    try {
-      if (key && key.includes('_')) {
-        const parts = key.split('_');
-        if (parts[2]) {
-          clerkDomain = atob(parts[2]).slice(0, -1);
-        }
-      }
-    } catch {
-      // Use fallback domain
-    }
-
-    try {
-      await new Promise((resolve) => {
-        const uiScript = document.createElement('script');
-        uiScript.src = `https://${clerkDomain}/npm/@clerk/ui@1/dist/ui.browser.js`;
-        uiScript.async = true;
-        uiScript.crossOrigin = 'anonymous';
-        uiScript.onload = resolve;
-        uiScript.onerror = () => resolve();
-        document.head.appendChild(uiScript);
-      });
-    } catch {
-      // Proceed
-    }
-
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.setAttribute('data-clerk-publishable-key', key);
-      script.async = true;
-      script.crossOrigin = 'anonymous';
-      script.src = `https://${clerkDomain}/npm/@clerk/clerk-js@latest/dist/clerk.browser.js`;
-      
-      script.onload = () => resolve();
-      script.onerror = () => {
-        const fallbackScript = document.createElement('script');
-        fallbackScript.setAttribute('data-clerk-publishable-key', key);
-        fallbackScript.async = true;
-        fallbackScript.crossOrigin = 'anonymous';
-        fallbackScript.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-        fallbackScript.onload = () => resolve();
-        fallbackScript.onerror = (e) => reject(e);
-        document.head.appendChild(fallbackScript);
-      };
-
-      document.head.appendChild(script);
-    });
   },
 
   restoreActiveSession() {
-    const sessionRaw = localStorage.getItem(AUTH_ACTIVE_SESSION_KEY);
-    if (sessionRaw) {
-      try {
-        const session = JSON.parse(sessionRaw);
-        if (session && session.id && session.fullName) {
-          this.currentUser = session;
-          this.syncUserState(session.id);
-        }
-      } catch (e) {
-        console.error('Session restore error:', e);
-        localStorage.removeItem(AUTH_ACTIVE_SESSION_KEY);
-      }
-    }
-  },
-
-  handleClerkUserLogin(clerkUser) {
-    if (!clerkUser) return;
-
-    const userProfile = {
-      id: 'clerk_' + clerkUser.id,
-      clerkId: clerkUser.id,
-      fullName: clerkUser.fullName || `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'Dr. Aspirant',
-      firstName: clerkUser.firstName || 'Doctor',
-      email: clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : '',
-      imageUrl: clerkUser.imageUrl || '',
-      provider: 'clerk',
-      targetCollege: 'AIIMS New Delhi',
-      targetYear: 2028,
-      loginAt: new Date().toISOString()
-    };
-
-    // 1. Check if Clerk Cloud Database already has saved study data for this user
-    const cloudDb = clerkUser.unsafeMetadata && clerkUser.unsafeMetadata.neetStudyDatabase;
-    if (cloudDb && typeof cloudDb === 'object' && Object.keys(cloudDb).length > 0) {
-      console.log('☁️ [Clerk Database] Connected! Restoring student database directly from Clerk Cloud...');
-      if (typeof window !== 'undefined') {
-        const baseState = typeof seedState !== 'undefined' ? seedState : {};
-        window.appState = {
-          ...baseState,
-          ...cloudDb,
-          progress: { ...(cloudDb.progress || {}) },
-          revisions: { ...(cloudDb.revisions || {}) },
-          testHistory: [ ...(cloudDb.testHistory || []) ],
-          mistakes: [ ...(cloudDb.mistakes || []) ],
-          studySessions: [ ...(cloudDb.studySessions || []) ],
-          flashcardReviews: { ...(cloudDb.flashcardReviews || {}) }
-        };
-        const userStorageKey = `${typeof STORAGE_KEY !== 'undefined' ? STORAGE_KEY : 'neet_study_state_2028'}_clerk_${clerkUser.id}`;
-        localStorage.setItem(userStorageKey, JSON.stringify(window.appState));
-        if (typeof STORAGE_KEY !== 'undefined') {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appState));
-        }
-      }
-      this.cloudSyncStatus = 'synced';
-      this.lastSyncTimestamp = clerkUser.unsafeMetadata.lastSyncTimestamp || Date.now();
-    } else {
-      // First-time Clerk login or empty cloud DB: immediately push existing local state to Clerk Cloud!
-      console.log('☁️ [Clerk Database] New Clerk student account. Uploading initial local database to Clerk Cloud...');
-      this.cloudSyncStatus = 'synced';
-      setTimeout(() => {
-        this.syncDatabaseToClerkCloud(true);
-      }, 500);
-    }
-
-    this.setActiveUser(userProfile);
-  },
-
-  setActiveUser(user) {
-    this.currentUser = user;
-    localStorage.setItem(AUTH_ACTIVE_SESSION_KEY, JSON.stringify(user));
-    this.syncUserState(user.id);
-    this.renderAuthUI();
-    this.broadcastAuthChange();
-    if (typeof renderApp === 'function') {
-      renderApp();
-    }
-  },
-
-  syncUserState(userId) {
-    if (typeof STORAGE_KEY === 'undefined') return;
-
-    const userStorageKey = `${STORAGE_KEY}_${userId}`;
-    const savedUserState = localStorage.getItem(userStorageKey);
-    
-    if (savedUserState) {
-      try {
-        window.appState = JSON.parse(savedUserState);
-      } catch (e) {
-        console.error('Failed to parse user isolated state:', e);
-      }
-    }
-
-    if (window.appState) {
-      window.appState.doctorName = this.currentUser.fullName || window.appState.doctorName || 'Aspirant Doctor';
-      if (this.currentUser.targetCollege) {
-        window.appState.targetCollege = this.currentUser.targetCollege;
-      }
-      if (typeof saveState === 'function') {
-        saveState();
-      }
-    }
-  },
-
-  // Real-Time Clerk Cloud Database Synchronizer
-  syncDatabaseToClerkCloud(force = false) {
-    if (!this.currentUser) return;
-
-    // If local PIN user, mark as local synced
-    if (this.currentUser.provider !== 'clerk') {
-      this.cloudSyncStatus = 'local';
-      this.updateSyncUI();
-      return;
-    }
-
-    if (!this.clerkInstance || !this.clerkInstance.user) {
-      this.cloudSyncStatus = 'offline';
-      this.updateSyncUI();
-      return;
-    }
-
-    if (this._syncDebounceTimer) {
-      clearTimeout(this._syncDebounceTimer);
-    }
-
-    this._syncDebounceTimer = setTimeout(async () => {
-      try {
-        this.cloudSyncStatus = 'syncing';
-        this.updateSyncUI();
-
-        const payload = {
-          neetStudyDatabase: window.appState || {},
-          lastSyncTimestamp: Date.now(),
-          lastSyncIso: new Date().toISOString(),
-          appVersion: '2028.1.0'
-        };
-
-        if (this.clerkInstance && this.clerkInstance.user && typeof this.clerkInstance.user.update === 'function') {
-          await this.clerkInstance.user.update({
-            unsafeMetadata: {
-              ...(this.clerkInstance.user.unsafeMetadata || {}),
-              ...payload
-            }
-          });
-          this.lastSyncTimestamp = Date.now();
-          this.cloudSyncStatus = 'synced';
-          console.log('☁️ [Clerk Database] Sync complete. All chapters, tests & notebook saved to Clerk Cloud Database.');
-        }
-      } catch (err) {
-        console.warn('⚠️ [Clerk Database] Cloud metadata sync deferred:', err);
-        this.cloudSyncStatus = 'offline';
-      } finally {
-        this.updateSyncUI();
-      }
-    }, force ? 0 : 800);
-  },
-
-  async forceClerkSync() {
-    if (!this.currentUser || this.currentUser.provider !== 'clerk') {
-      alert('You are currently logged in with an offline student PIN. To sync with Clerk Cloud Database, please log in with your Clerk/Google Account.');
-      return;
-    }
-    const statusMsg = document.getElementById('clerkSyncNotice');
-    if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--brand-gold);">🔄 Connecting to Clerk Cloud Database...</span>';
-    
-    await this.syncDatabaseToClerkCloud(true);
-    
-    if (statusMsg) {
-      statusMsg.innerHTML = '<span style="color:var(--brand-emerald);">✅ 100% Synced with Clerk Cloud Database! (' + new Date().toLocaleTimeString() + ')</span>';
-    }
-  },
-
-  exportDatabaseJSON() {
     try {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.appState || {}, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `NEET_2028_Database_${(this.currentUser ? this.currentUser.firstName : 'Doctor')}_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const savedSession = localStorage.getItem(AUTH_ACTIVE_SESSION_KEY);
+      if (savedSession) {
+        this.currentUser = JSON.parse(savedSession);
+        // Do not broadcast yet, init() will do it
+      }
     } catch (e) {
-      alert('Export failed: ' + e.message);
-    }
-  },
-
-  importDatabaseJSON(event) {
-    const file = event.target.files && event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const imported = JSON.parse(e.target.result);
-        if (imported && typeof imported === 'object') {
-          window.appState = { ...window.appState, ...imported };
-          if (typeof saveState === 'function') saveState();
-          this.syncDatabaseToClerkCloud(true);
-          alert('✅ Database successfully imported and synced to Clerk Cloud!');
-          if (typeof renderApp === 'function') renderApp();
-          const modal = document.getElementById('modal');
-          if (modal) modal.close();
-        }
-      } catch (err) {
-        alert('Invalid JSON database file: ' + err.message);
-      }
-    };
-    reader.readAsText(file);
-  },
-
-  updateSyncUI() {
-    const badge = document.getElementById('clerkCloudSyncBadge');
-    if (badge) {
-      if (this.cloudSyncStatus === 'syncing') {
-        badge.innerHTML = '🔄 <span style="color:var(--brand-gold);">Syncing to Clerk...</span>';
-      } else if (this.cloudSyncStatus === 'synced') {
-        badge.innerHTML = '☁️ <span style="color:var(--brand-emerald);">Clerk Cloud Connected</span>';
-      } else if (this.cloudSyncStatus === 'offline') {
-        badge.innerHTML = '⚠️ <span style="color:var(--brand-amber);">Local Cached</span>';
-      } else {
-        badge.innerHTML = '💾 <span style="color:var(--brand-teal);">Local Passcode Mode</span>';
-      }
-    }
-  },
-
-  broadcastAuthChange() {
-    window.dispatchEvent(new CustomEvent('neet-auth-state-changed', {
-      detail: {
-        isAuthenticated: this.isAuthenticated(),
-        user: this.currentUser
-      }
-    }));
-  },
-
-  async signOut() {
-    if (this.currentUser && this.currentUser.provider === 'clerk' && this.clerkInstance && typeof this.clerkInstance.signOut === 'function') {
-      try {
-        await this.clerkInstance.signOut();
-      } catch (e) {
-        console.warn('Clerk signOut warning:', e);
-      }
-    }
-
-    localStorage.removeItem(AUTH_ACTIVE_SESSION_KEY);
-    this.currentUser = null;
-    this.renderAuthUI();
-    this.broadcastAuthChange();
-
-    if (typeof renderApp === 'function') {
-      renderApp();
+      console.error('Failed to restore session:', e);
+      localStorage.removeItem(AUTH_ACTIVE_SESSION_KEY);
     }
   },
 
@@ -422,16 +89,21 @@ const ClerkAuth = {
   async checkActiveSession() {
     if (!this.currentUser || !this.currentUser.id || !this.currentUser.sessionId) return;
     try {
-      const res = await fetch(`/api/auth/check-session?userId=${encodeURIComponent(this.currentUser.id)}&sessionId=${encodeURIComponent(this.currentUser.sessionId)}`);
+      const res = await fetch(`http://localhost:3000/api/auth/check-session?userId=${encodeURIComponent(this.currentUser.id)}&sessionId=${encodeURIComponent(this.currentUser.sessionId)}`);
       if (res.ok) {
         const data = await res.json();
         if (data.active === false) {
           console.warn('🚨 Single Device Policy Triggered: Logged in on another device.');
           this.handleSingleDeviceMismatch();
+        } else {
+          // Sync premium status
+          this.currentUser.subscriptionExpiry = data.subscriptionExpiry;
+          this.currentUser.isPremium = data.isPremium;
+          localStorage.setItem(AUTH_ACTIVE_SESSION_KEY, JSON.stringify(this.currentUser));
         }
       }
     } catch (e) {
-      // Server unreachable, ignore silent check
+      console.log('Heartbeat sync failed (offline)', e);
     }
   },
 
@@ -488,62 +160,24 @@ const ClerkAuth = {
 
     const cleanName = name.trim().startsWith('Dr.') ? name.trim() : 'Dr. ' + name.trim();
     const cleanEmail = (emailOrPhone || '').trim();
-
-    // 1. Send to server for permanent cross-device persistence
+    const cleanId = 'std_' + Date.now();
+    
     try {
-      const response = await fetch('/api/auth/register', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: cleanName,
           emailOrPhone: cleanEmail,
           pin: pin,
-          targetCollege: targetCollege,
-          initialData: window.appState || {}
+          targetCollege: targetCollege
         })
       });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Server registration failed.');
-      }
-
-      const userProfile = {
-        ...data.user,
-        sessionId: data.sessionId,
-        lastLoginAt: new Date().toISOString()
-      };
-
-      // Also save locally as offline fallback
-      const students = this.getRegisteredStudents();
-      students.push({
-        id: userProfile.id,
-        fullName: userProfile.fullName,
-        firstName: userProfile.firstName,
-        emailOrPhone: userProfile.emailOrPhone,
-        pin: btoa(pin),
-        targetCollege: userProfile.targetCollege,
-        provider: 'local_pin',
-        sessionId: data.sessionId
-      });
-      localStorage.setItem(AUTH_STUDENTS_STORAGE_KEY, JSON.stringify(students));
-
-      this.setActiveUser(userProfile);
-      this.startSessionHeartbeat();
-      return userProfile;
-    } catch (serverErr) {
-      if (serverErr.message && serverErr.message.includes('already exists')) {
-        throw serverErr;
-      }
-      console.warn('⚠️ Server offline, falling back to local storage registration:', serverErr);
-
-      // Local fallback
-      const students = this.getRegisteredStudents();
-      const cleanId = 'std_' + Date.now();
-      const existing = students.find(s => s.emailOrPhone.toLowerCase() === cleanEmail.toLowerCase());
       
-      if (existing && cleanEmail) {
-        throw new Error('An account with this Email/Phone already exists. Please Log In.');
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Registration failed on server');
       }
 
       const newStudent = {
@@ -551,19 +185,26 @@ const ClerkAuth = {
         fullName: cleanName,
         firstName: cleanName.replace(/^Dr\.\s*/i, '').split(' ')[0],
         emailOrPhone: cleanEmail,
-        pin: btoa(pin),
         targetCollege: targetCollege || 'AIIMS New Delhi',
         targetYear: 2028,
-        provider: 'local_pin',
-        sessionId: 'sess_local_' + Date.now(),
-        createdAt: new Date().toISOString()
+        provider: 'server_pin',
+        sessionId: data.sessionId,
+        createdAt: new Date().toISOString(),
+        subscriptionExpiry: new Date(0).toISOString(),
+        isPremium: false
       };
 
-      students.push(newStudent);
-      localStorage.setItem(AUTH_STUDENTS_STORAGE_KEY, JSON.stringify(students));
+      // Reset app state for the new user
+      window.appState = { progress: {}, testHistory: [], mistakes: [], lang: 'bilingual' };
+      if (typeof saveState === 'function') saveState();
 
       this.setActiveUser(newStudent);
+      this.startSessionHeartbeat();
       return newStudent;
+      
+    } catch (err) {
+      console.error(err);
+      throw new Error(err.message || 'Network error during registration');
     }
   },
 
@@ -572,80 +213,51 @@ const ClerkAuth = {
       throw new Error('Please enter your Student ID / Email and Security PIN.');
     }
 
-    const cleanInput = emailOrPhone.trim();
-
-    // 1. Attempt Server Login (Cross-device + single device session generation)
+    const cleanEmail = emailOrPhone.trim();
+    
     try {
-      const response = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          emailOrPhone: cleanInput,
+          emailOrPhone: cleanEmail,
           pin: pin
         })
       });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed.');
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Invalid credentials');
       }
-
-      const userProfile = {
-        ...data.user,
-        sessionId: data.sessionId,
-        lastLoginAt: new Date().toISOString()
+      
+      const student = data.user;
+      
+      const sessionUser = {
+        id: student.id,
+        fullName: student.name,
+        firstName: student.name.replace(/^Dr\.\s*/i, '').split(' ')[0],
+        emailOrPhone: student.email,
+        provider: 'server_pin',
+        sessionId: student.sessionId,
+        subscriptionExpiry: student.subscriptionExpiry,
+        isPremium: student.isPremium
       };
 
-      // 2. Restore all user study data and purchases permanently (ZERO DATA LOSS!)
-      if (data.studyData && typeof data.studyData === 'object' && Object.keys(data.studyData).length > 0) {
-        console.log('📦 Restoring student database & purchases from server...', data.studyData);
-        window.appState = {
-          ...(window.appState || {}),
-          ...data.studyData,
-          progress: { ...((window.appState && window.appState.progress) || {}), ...(data.studyData.progress || {}) },
-          testHistory: [ ...(data.studyData.testHistory || (window.appState && window.appState.testHistory) || []) ],
-          mistakes: [ ...(data.studyData.mistakes || (window.appState && window.appState.mistakes) || []) ],
-          purchases: {
-            ...((window.appState && window.appState.purchases) || {}),
-            ...(data.studyData.purchases || {})
-          }
-        };
-
-        if (typeof STORAGE_KEY !== 'undefined') {
-          localStorage.setItem(`${STORAGE_KEY}_${userProfile.id}`, JSON.stringify(window.appState));
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appState));
+      if (typeof loadState === 'function') {
+        const loaded = loadState(sessionUser.id);
+        if (!loaded) {
+           window.appState = { progress: {}, testHistory: [], mistakes: [], lang: 'bilingual' };
         }
       }
 
-      this.setActiveUser(userProfile);
+      this.setActiveUser(sessionUser);
       this.startSessionHeartbeat();
-      return userProfile;
-    } catch (serverErr) {
-      if (serverErr.message && (serverErr.message.includes('not found') || serverErr.message.includes('Incorrect'))) {
-        throw serverErr;
-      }
-
-      console.warn('⚠️ Server login offline, checking local storage:', serverErr);
-
-      // Local offline fallback
-      const students = this.getRegisteredStudents();
-      const target = students.find(s => 
-        s.emailOrPhone.toLowerCase() === cleanInput.toLowerCase() ||
-        s.fullName.toLowerCase().includes(cleanInput.toLowerCase()) ||
-        s.id === cleanInput
-      );
-
-      if (!target) {
-        throw new Error('Student account not found. Please check your credentials or Register.');
-      }
-
-      if (target.pin !== btoa(pin) && target.pin !== pin) {
-        throw new Error('Incorrect Security PIN. Please try again.');
-      }
-
-      target.sessionId = 'sess_local_' + Date.now();
-      this.setActiveUser(target);
-      return target;
+      return sessionUser;
+      
+    } catch (err) {
+      console.error(err);
+      throw new Error(err.message || 'Network error during login');
     }
   },
 
@@ -705,7 +317,7 @@ const ClerkAuth = {
           border: none !important;
           box-shadow: none !important;
           padding: 0 !important;
-          max-width: 380px !important;
+          max-width: 480px !important;
           width: 95vw !important;
           margin: auto !important;
           overflow: visible !important;
@@ -873,13 +485,13 @@ const ClerkAuth = {
 
             <!-- Segmented Tab Selector -->
             <div class="auth-segmented-control">
-              <button id="authTabClerk" class="auth-seg-btn ${initialTab === 'clerk' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('clerk')">
+              <button id="authBtnClerk" class="auth-seg-btn ${initialTab === 'clerk' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('clerk')">
                 Cloud Login
               </button>
-              <button id="authTabPin" class="auth-seg-btn ${initialTab === 'pin' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('pin')">
+              <button id="authBtnPin" class="auth-seg-btn ${initialTab === 'pin' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('pin')">
                 Sign In
               </button>
-              <button id="authTabRegister" class="auth-seg-btn ${initialTab === 'register' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('register')">
+              <button id="authBtnRegister" class="auth-seg-btn ${initialTab === 'register' ? 'active' : ''}" onclick="ClerkAuth.switchModalTab('register')">
                 Create Profile
               </button>
             </div>
@@ -1181,6 +793,56 @@ const ClerkAuth = {
 
     modal.showModal();
   },
+
+  signOut(silent = false) {
+    this.currentUser = null;
+    localStorage.removeItem(AUTH_ACTIVE_SESSION_KEY);
+    this.stopSessionHeartbeat();
+    this.renderAuthUI();
+    this.broadcastAuthChange();
+    if (typeof renderApp === 'function') {
+      renderApp();
+    }
+  },
+
+  broadcastAuthChange() {
+    window.dispatchEvent(new CustomEvent('neet-auth-state-changed', {
+      detail: {
+        isAuthenticated: this.isAuthenticated(),
+        user: this.currentUser
+      }
+    }));
+  },
+
+  setActiveUser(user) {
+    this.currentUser = user;
+    localStorage.setItem(AUTH_ACTIVE_SESSION_KEY, JSON.stringify(user));
+    this.syncUserState(user.id);
+    this.renderAuthUI();
+    this.broadcastAuthChange();
+    if (typeof renderApp === 'function') {
+      renderApp();
+    }
+  },
+
+  syncUserState(userId) {
+    if (typeof STORAGE_KEY === 'undefined') return;
+    const userStorageKey = `${STORAGE_KEY}_${userId}`;
+    const savedUserState = localStorage.getItem(userStorageKey);
+    if (savedUserState) {
+      try {
+        window.appState = JSON.parse(savedUserState);
+      } catch (e) {
+        console.error('Failed to parse user state:', e);
+      }
+    }
+    if (window.appState) {
+      window.appState.doctorName = this.currentUser.fullName || window.appState.doctorName || 'Aspirant Doctor';
+      if (typeof saveState === 'function') saveState();
+    }
+  },
+
+
 
   renderAuthUI() {
     const authContainer = document.getElementById('headerAuthContainer');

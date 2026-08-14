@@ -1,26 +1,36 @@
-const CACHE_NAME = 'neet-2028-v2.7.0';
+const CACHE_NAME = 'neet-2028-v2.8.0';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './brand.css',
   './manifest.webmanifest',
-  './icon.svg',
-  './brand-mark.svg',
-  './js/main.js',
+  './favicon.svg',
   './js/syllabus-data.js',
+  './js/books-data.js',
   './js/resources-data.js',
   './js/notes-data.js',
   './js/flashcards-data.js',
   './js/questions-data.js',
   './js/scientist-data.js',
   './js/formula-rapid-fire.js',
+  './js/pyq-heatmap.js',
+  './js/cheat-sheets.js',
+  './js/aiims-explorer.js',
+  './js/speed-math.js',
+  './js/gamification.js',
+  './js/audio-podcast.js',
+  './js/problem-solver.js',
   './js/omr-engine.js',
+  './js/test-tree-engine.js',
+  './js/payment-engine.js',
   './js/mock-engine.js',
+  './js/rank-predictor.js',
   './js/mistake-notebook.js',
   './js/certificate.js',
   './js/pwa-installer.js',
-  './js/auth-clerk.js'
+  './js/auth-clerk.js',
+  './js/main.js'
 ];
 
 self.addEventListener('install', event => {

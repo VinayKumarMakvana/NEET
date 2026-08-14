@@ -1,6 +1,6 @@
 /* ==========================================================================
-   JEE OS — Quantum Engineering Design Tokens & Brand System
-   Target IIT JEE Main & Advanced | 100% Free Pure Preparation OS
+   NEET OS — Quantum Medical Design Tokens & Brand System
+   Target NEET 720 | 100% Free Pure Preparation OS
    ========================================================================== */
 
 :root {
@@ -31,18 +31,18 @@
 }
 
 /* Brand Mark & Typography Styles */
-.brand-jee-logo {
+.brand-neet-logo {
   width: 38px;
   height: 38px;
   filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.brand-jee-logo:hover {
+.brand-neet-logo:hover {
   transform: rotate(20deg) scale(1.1);
 }
 
-.badge-jee-main {
+.badge-neet-core {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -56,7 +56,7 @@
   letter-spacing: 0.5px;
 }
 
-.badge-jee-adv {
+.badge-aiims {
   display: inline-flex;
   align-items: center;
   gap: 5px;

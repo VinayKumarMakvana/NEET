@@ -11,7 +11,6 @@ const seedState = {
     targetCollege: 'AIIMS New Delhi',
     dailyTargetHours: 8,
     theme: 'dark',
-    examMode: 'main' // 'main' (720 Marks) or 'advanced' (720 Marks)
   },
   aspirantName: 'Future Doctor',
   targetPercentile: 700,
@@ -29,7 +28,7 @@ const seedState = {
 
 // Automatic cleanup of useless old cache/data to prevent UI breakage
 function cleanOldCache() {
-  const essentialKeys = ['neet_os_state', 'premium_until', 'neet_intent_sign_in', 'clerk-db-jwt', 'clerk-telemetry', window.NEET_STORAGE_KEY];
+  const essentialKeys = ['neet_os_state', 'premium_until', 'neet_intent_sign_in', 'clerk-db-jwt', 'clerk-telemetry', window.NEET_STORAGE_KEY, 'neet_active_student_session', 'neet_registered_students_v1'];
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -45,7 +44,13 @@ function cleanOldCache() {
 cleanOldCache();
 
 // Load State from LocalStorage
-window.appState = window.appState || JSON.parse(localStorage.getItem(window.NEET_STORAGE_KEY) || 'null') || seedState;
+let loadedState = null;
+try {
+  loadedState = JSON.parse(localStorage.getItem(window.NEET_STORAGE_KEY));
+} catch (e) {
+  console.error("Failed to parse appState from localStorage", e);
+}
+window.appState = window.appState || loadedState || seedState;
 var appState = window.appState;
 appState.progress = appState.progress || {};
 appState.revisions = appState.revisions || {};
@@ -58,14 +63,21 @@ appState.profile = appState.profile || seedState.profile;
 appState.lang = appState.lang || 'bilingual';
 
 function saveState() {
-  const currentUid = (typeof ClerkAuth !== 'undefined' && ClerkAuth.currentUser && ClerkAuth.currentUser.id) 
-    ? ClerkAuth.currentUser.id 
-    : null;
-  
-  if (currentUid) {
-    localStorage.setItem(`${window.NEET_STORAGE_KEY}_${currentUid}`, JSON.stringify(appState));
-  }
-  localStorage.setItem(window.NEET_STORAGE_KEY, JSON.stringify(appState));
+    const currentUid = (typeof ClerkAuth !== 'undefined' && ClerkAuth.currentUser && ClerkAuth.currentUser.id) 
+      ? ClerkAuth.currentUser.id 
+      : (window.appState && window.appState.profile && window.appState.profile.id) || 'guest';
+    
+    if (currentUid && currentUid !== 'guest') {
+      localStorage.setItem(`${window.NEET_STORAGE_KEY}_${currentUid}`, JSON.stringify(appState));
+      
+      // SYNC WITH MONGODB BACKEND
+      fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: currentUid, appState: window.appState })
+      }).catch(err => console.warn('Cloud Sync Failed:', err));
+    }
+    localStorage.setItem(window.NEET_STORAGE_KEY, JSON.stringify(appState));
 
   if (typeof ClerkAuth !== 'undefined') {
     if (typeof ClerkAuth.syncDatabaseToClerkCloud === 'function') {
@@ -102,19 +114,6 @@ function setGlobalLanguage(lang) {
 }
 window.setGlobalLanguage = setGlobalLanguage;
 
-function setExamMode(mode) {
-  appState.profile.examMode = mode;
-  saveState();
-  const btnMain = document.getElementById('modePillMain');
-  const btnAdv = document.getElementById('modePillAdv');
-  if (btnMain && btnAdv) {
-    btnMain.className = mode === 'main' ? 'mode-pill-btn active-main' : 'mode-pill-btn';
-    btnAdv.className = mode === 'advanced' ? 'mode-pill-btn active-adv' : 'mode-pill-btn';
-  }
-  showToast(mode === 'main' ? '<i class="ph-fill ph-target"></i> Switched to NEET (720 Marks Mode)' : '<i class="ph-fill ph-lightning"></i> Switched to AIIMS (720 Marks Mode)');
-  renderApp();
-}
-window.setExamMode = setExamMode;
 
 function toggleAppTheme() {
   document.body.classList.toggle('light');
@@ -269,6 +268,23 @@ function formatStudySeconds(sec) {
 
 function toggleStudySession() {
   const session = window.activeStudySession;
+
+    let totalTests = 0;
+    let totalAttempted = 0;
+    let totalCorrect = 0;
+    let avgAccuracy = 0;
+
+    if (window.appState && window.appState.testHistory && window.appState.testHistory.length > 0) {
+      totalTests = window.appState.testHistory.length;
+      window.appState.testHistory.forEach(t => {
+        totalAttempted += (t.correctCount || 0) + (t.wrongCount || 0);
+        totalCorrect += (t.correctCount || 0);
+      });
+      if (totalTests > 0) {
+        avgAccuracy = Math.round(window.appState.testHistory.reduce((acc, t) => acc + (t.accuracy || 0), 0) / totalTests);
+      }
+    }
+  
   if (session.isRunning) {
     clearInterval(session.timerId);
     session.isRunning = false;
@@ -337,7 +353,7 @@ function openChapterModal(chapterId) {
           </span>
         </div>
         <span style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--brand-gold); font-weight:700;">
-          <i class="ph-fill ph-timer"></i> ${ch.hours}h · Main: ${ch.jeeMainWeight || '5%'} · Adv: ${ch.jeeAdvWeight || '6%'}
+          <i class="ph-fill ph-timer"></i> ${ch.hours}h · NEET Core: ${ch.neetWeight || '5%'} · AIIMS AIQ: ${ch.aiimsWeight || '6%'}
         </span>
       </div>
 
@@ -346,7 +362,7 @@ function openChapterModal(chapterId) {
       </h2>
       <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
         ${isHindi && ch.name !== ch.hindiName ? `<span style="color:var(--brand-sky); font-weight:600;">${ch.name}</span> · ` : ''}
-        ${ch.phase || 'JEE Core Curriculum'}
+        ${ch.phase || 'NEET Core Curriculum'}
       </div>
 
       <!-- <i class="ph-fill ph-books"></i> KAHA SE PADHE (WHERE TO STUDY FROM) & DIRECT BOOK/PDF/VIDEO LINKS -->
@@ -452,9 +468,26 @@ function renderHomeView() {
   const totalChapters = allCh.length || 34;
   const progressPct = Math.round((completedCount / totalChapters) * 100);
   const isHindi = appState.lang === 'hindi';
-  const isAdv = appState.profile && appState.profile.examMode === 'advanced';
+  const isAdv = false;
   const studyStats = getStudyStats();
   const session = window.activeStudySession;
+
+    let totalTests = 0;
+    let totalAttempted = 0;
+    let totalCorrect = 0;
+    let avgAccuracy = 0;
+
+    if (window.appState && window.appState.testHistory && window.appState.testHistory.length > 0) {
+      totalTests = window.appState.testHistory.length;
+      window.appState.testHistory.forEach(t => {
+        totalAttempted += (t.correctCount || 0) + (t.wrongCount || 0);
+        totalCorrect += (t.correctCount || 0);
+      });
+      if (totalTests > 0) {
+        avgAccuracy = Math.round(window.appState.testHistory.reduce((acc, t) => acc + (t.accuracy || 0), 0) / totalTests);
+      }
+    }
+  
 
   return `
     <!-- Hero HUD -->
@@ -462,7 +495,7 @@ function renderHomeView() {
       <div class="hud-grid">
         <div class="hud-headline">
           <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
-            <span class="tag-badge ${isAdv ? 'tag-adv' : 'tag-high'}">${isAdv ? '<i class="ph-fill ph-lightning"></i> NEET UG ADVANCED MODE' : '<i class="ph-fill ph-target"></i> NEET 300M MODE'}</span>
+            <span class="tag-badge ${isAdv ? 'tag-adv' : 'tag-high'}">${isAdv ? '<i class="ph-fill ph-lightning"></i> NEET UG ADVANCED MODE' : '<i class="ph-fill ph-target"></i> NEET 720M MODE'}</span>
             <span class="tag-badge ${isAdv ? 'tag-high' : 'tag-adv'}">${isAdv ? 'TARGET AIR < 50 · AIIMS BOMBAY CSE' : 'TARGET 700%ile · TOP NITS & IAIIMSS'}</span>
           </div>
           <h2>${isAdv 
@@ -531,6 +564,32 @@ function renderHomeView() {
       </div>
     </div>
 
+    
+    <!-- User Progress Analytics -->
+    <div style="background:var(--bg-card); border:1px solid var(--brand-indigo); border-radius:14px; padding:16px 20px; margin-bottom:24px;">
+      <h3 style="font-size:16px; font-weight:800; color:var(--brand-indigo); margin-top:0; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <i class="ph-fill ph-chart-line-up"></i> My Progress Analytics Report
+      </h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:12px;">
+        <div class="stat-tile" style="background:rgba(99,102,241,0.1); border-left:3px solid var(--brand-indigo); padding:10px;">
+          <strong style="font-size:22px; color:var(--brand-indigo);">${totalTests}</strong>
+          <span style="font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Tests Taken</span>
+        </div>
+        <div class="stat-tile" style="background:rgba(56,189,248,0.1); border-left:3px solid var(--brand-sky); padding:10px;">
+          <strong style="font-size:22px; color:var(--brand-sky);">${totalAttempted}</strong>
+          <span style="font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Qs Attempted</span>
+        </div>
+        <div class="stat-tile" style="background:rgba(16,185,129,0.1); border-left:3px solid var(--brand-emerald); padding:10px;">
+          <strong style="font-size:22px; color:var(--brand-emerald);">${totalCorrect}</strong>
+          <span style="font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Right Answers</span>
+        </div>
+        <div class="stat-tile" style="background:rgba(245,158,11,0.1); border-left:3px solid var(--brand-gold); padding:10px;">
+          <strong style="font-size:22px; color:var(--brand-gold);">${avgAccuracy}%</strong>
+          <span style="font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">Avg Accuracy</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Core Medical Modules Grid -->
     <h3 style="font-size:18px; font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
       <i class="ph-fill ph-lightning"></i> ${isHindi ? 'मुख्य मेडिकल मॉड्यूल्स' : 'Core Medical Modules'}
@@ -568,7 +627,7 @@ function renderHomeView() {
         <div style="font-size:12px; font-weight:700; color:var(--brand-sky); margin-top:12px;">View Cheat Sheets →</div>
       </div>
 
-      <div class="action-card" onclick="navigateView('josaa')">
+      <div class="action-card" onclick="navigateView('aiims')">
         <div>
           <div class="action-card-header">
             <div class="action-card-icon"><i class="ph-fill ph-bank"></i></div>
@@ -654,7 +713,7 @@ function renderHomeView() {
             <div class="action-card-icon"><i class="ph-fill ph-target"></i></div>
             <div>
               <strong style="font-size:15px;">NTA & NEET NTA CBT Simulator</strong>
-              <div style="font-size:11px; color:var(--brand-gold); font-weight:700;">Dual Main / Advanced Engine</div>
+              <div style="font-size:11px; color:var(--brand-gold); font-weight:700;">Unified NEET Engine</div>
             </div>
           </div>
           <p style="font-size:12.5px; color:var(--text-muted); margin-top:6px;">
@@ -672,12 +731,13 @@ function renderBooksView() {
   const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
   const phyCount = allCh.filter(c => c.subjectCode === 'phy').length;
   const chemCount = allCh.filter(c => c.subjectCode === 'chem').length;
-  const mathCount = allCh.filter(c => c.subjectCode === 'math').length;
+  const botCount = allCh.filter(c => c.subjectCode === 'bot').length;
+  const zooCount = allCh.filter(c => c.subjectCode === 'zoo').length;
   
   const filter = window.currentSubjectFilter || 'all';
   const filteredCh = filter === 'all' ? allCh : allCh.filter(c => c.subjectCode === filter);
   const isHindi = appState.lang === 'hindi';
-  const isAdv = appState.profile && appState.profile.examMode === 'advanced';
+  const isAdv = false;
   const books = typeof neet_BOOKS_LIBRARY !== 'undefined' ? neet_BOOKS_LIBRARY : [];
   let filteredBooks = filter === 'all' ? books : books.filter(b => b.subjectCode === filter || b.subjectCode === 'all');
 
@@ -698,10 +758,10 @@ function renderBooksView() {
             <span style="font-size:11.5px; color:${isAdv ? 'var(--brand-gold)' : 'var(--brand-sky)'}; font-weight:700;">${isAdv ? 'Irodov, MS Chouhan, Black Book & Top AIIMS Decks Prioritized' : 'NCERT Line-by-Line & HCV Foundation Prioritized'}</span>
           </div>
           <h2 style="font-size:22px; font-weight:800; margin-bottom:4px;">
-            <i class="ph-fill ph-books"></i> ${isHindi ? 'PCM मानक किताबें, नोट्स व 67 अध्याय पाठ्यक्रम' : 'PCM Standard Reference Books, Notes & 67-Chapter Syllabus'}
+            <i class="ph-fill ph-books"></i> ${isHindi ? 'PCB मानक किताबें, नोट्स व 96 अध्याय पाठ्यक्रम' : 'PCB Standard Reference Books, Notes & 96-Chapter Syllabus'}
           </h2>
           <p style="font-size:13px; color:var(--text-muted); margin:0;">
-            ${isHindi ? 'कक्षा 11 व 12 की प्रामाणिक किताबें, टॉपर्स फॉर्मूला शीट्स, हल सहित उदाहरण और विस्तृत पाठ्यक्रम।' : 'Official NCERT, HC Verma, MS Chouhan, Black Book guides, key derivations & complete NTA syllabus.'}
+            ${isHindi ? 'कक्षा 11 व 12 की प्रामाणिक किताबें, टॉपर्स फॉर्मूला शीट्स, हल सहित उदाहरण और विस्तृत पाठ्यक्रम।' : 'Official NCERT Biology, HC Verma, Trueman, key derivations & complete NTA syllabus.'}
           </p>
         </div>
         <button class="btn ghost btn-sm" onclick="navigateView('cheatsheets')"><i class="ph-fill ph-lightning"></i> Topper Cheat-Sheets →</button>
@@ -719,8 +779,11 @@ function renderBooksView() {
       <button class="filter-btn ${filter === 'chem' ? 'active' : ''}" onclick="window.currentSubjectFilter='chem'; renderApp();">
         🧪 Chemistry (${chemCount})
       </button>
-      <button class="filter-btn ${filter === 'math' ? 'active' : ''}" onclick="window.currentSubjectFilter='math'; renderApp();">
-        📐 Mathematics (${mathCount})
+      <button class="filter-btn ${filter === 'bot' ? 'active' : ''}" onclick="window.currentSubjectFilter='bot'; renderApp();">
+        🌿 Botany (${botCount})
+      </button>
+      <button class="filter-btn ${filter === 'zoo' ? 'active' : ''}" onclick="window.currentSubjectFilter='zoo'; renderApp();">
+        🦁 Zoology (${zooCount})
       </button>
     </div>
 
@@ -781,7 +844,7 @@ function renderBooksView() {
                   <span style="cursor:pointer; font-weight:700; color:var(--text-heading);" onclick="openChapterModal('${ch.id}')">${isHindi ? (ch.hindiName || ch.name) : ch.name}</span>
                 </div>
                 <div style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">
-                  <span style="color:var(--brand-sky); font-weight:600;">${ch.subject.toUpperCase()}</span> · ${ch.classNum} · <i class="ph-fill ph-timer"></i> ${ch.hours}h · Main: <strong style="color:var(--brand-gold);">${ch.jeeMainWeight}</strong> · Adv: <strong style="color:var(--brand-rose);">${ch.jeeAdvWeight}</strong>
+                  <span style="color:var(--brand-sky); font-weight:600;">${ch.subject.toUpperCase()}</span> · ${ch.classNum} · <i class="ph-fill ph-timer"></i> ${ch.hours}h · Main: <strong style="color:var(--brand-gold);">${ch.neetWeight}</strong> · Adv: <strong style="color:var(--brand-rose);">${ch.aiimsWeight}</strong>
                 </div>
                 <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">
                   <i class="ph-fill ph-book-open"></i> <strong style="color:var(--brand-gold);">${ch.primaryBook || 'Standard Textbook'}</strong>
@@ -825,7 +888,7 @@ function renderVideosView() {
           <div class="action-card-icon"><i class="ph-fill ph-atom"></i></div>
           <div>
             <strong>Physics Galaxy (Ashish Arora Sir)</strong>
-            <div style="font-size:11px; color:var(--brand-sky); font-weight:700;">Complete Advanced Concept Videos</div>
+            <div style="font-size:11px; color:var(--brand-sky); font-weight:700;">Complete NEET Concept Videos</div>
           </div>
         </div>
         <p style="font-size:12.5px; color:var(--text-muted);">700+ Illustration problem videos for Rotational Motion, EMI, and Modern Physics.</p>
@@ -839,7 +902,7 @@ function renderVideosView() {
           <div class="action-card-icon">🧪</div>
           <div>
             <strong>Mohit Tyagi / Competishun</strong>
-            <div style="font-size:11px; color:var(--brand-emerald); font-weight:700;">Zero-to-Advanced Complete Course</div>
+            <div style="font-size:11px; color:var(--brand-emerald); font-weight:700;">Zero-to-NEET Complete Course</div>
           </div>
         </div>
         <p style="font-size:12.5px; color:var(--text-muted);">Full whiteboard classroom lectures for Physical, Organic, and Inorganic Chemistry.</p>
@@ -852,12 +915,12 @@ function renderVideosView() {
         <div class="action-card-header">
           <div class="action-card-icon">📐</div>
           <div>
-            <strong>Unacademy JEE / Namo Kaul</strong>
+            <strong>Unacademy NEET / Namo Kaul</strong>
             <div style="font-size:11px; color:var(--brand-gold); font-weight:700;">Calculus & Coordinate Geometry</div>
           </div>
         </div>
         <p style="font-size:12.5px; color:var(--text-muted);">High-speed problem solving shortcuts, PYQ analysis, and live marathon sessions.</p>
-        <a href="https://www.youtube.com/@UnacademyJEE" target="_blank" rel="noopener noreferrer" class="btn primary btn-sm" style="margin-top:12px; width:100%;">
+        <a href="https://www.youtube.com/@UnacademyNEET" target="_blank" rel="noopener noreferrer" class="btn primary btn-sm" style="margin-top:12px; width:100%;">
           Watch on YouTube ↗
         </a>
       </div>
@@ -882,22 +945,22 @@ function renderVideosView() {
 // 4. TESTS & PRACTICE VIEW (WITH TEST TREE & NTA SIMULATOR)
 function renderTestsView() {
   const isHindi = appState.lang === 'hindi';
-  const isAdv = appState.profile && appState.profile.examMode === 'advanced';
+  const isAdv = false;
 
   return `
     <div style="margin-bottom:16px;">
       <div style="display:inline-flex; align-items:center; gap:6px; margin-bottom:6px;">
-        <span class="tag-badge ${isAdv ? 'tag-adv' : 'tag-high'}">${isAdv ? '<i class="ph-fill ph-lightning"></i> NEET UG ADVANCED MODE' : '<i class="ph-fill ph-target"></i> NEET 300M MODE'}</span>
+        <span class="tag-badge ${isAdv ? 'tag-adv' : 'tag-high'}">${isAdv ? '<i class="ph-fill ph-lightning"></i> NEET UG ADVANCED MODE' : '<i class="ph-fill ph-target"></i> NEET 720M MODE'}</span>
         <span style="font-size:11.5px; color:${isAdv ? 'var(--brand-gold)' : 'var(--brand-sky)'}; font-weight:700;">${isAdv ? '720 Marks Scale · Multi-Correct Partial & Numerical Keypad' : '720 Marks Scale · NTA Single & Integer Questions'}</span>
       </div>
       <h2 style="font-size:22px; font-weight:800; margin-bottom:4px;">
         ${isAdv 
           ? (isHindi ? '<i class="ph-fill ph-lightning"></i> NEET UG एडवांस्ड परीक्षा हब व टेस्ट ट्री (360 अंक)' : '<i class="ph-fill ph-lightning"></i> AIIMS CBT Simulator & Topic Mastery Tree (360M)')
-          : (isHindi ? '<i class="ph-fill ph-target"></i> JEE मेन परीक्षा हब व 6-स्तरीय टेस्ट ट्री (300 अंक)' : '<i class="ph-fill ph-target"></i> Tests, CBT Simulator & Topic Mastery Tree (300M)')}
+          : (isHindi ? '<i class="ph-fill ph-target"></i> NEET मेन परीक्षा हब व 6-स्तरीय टेस्ट ट्री (300 अंक)' : '<i class="ph-fill ph-target"></i> Tests, CBT Simulator & Topic Mastery Tree (300M)')}
       </h2>
       <p style="font-size:13px; color:var(--text-muted);">
         ${isAdv 
-          ? (isHindi ? 'प्रत्येक टॉपिक का AIIMS स्तर का माइक्रो ड्रिल, 18 प्रश्नों का चैप्टर माइलस्टोन और 10 फुल JEE एडवांस 360M ग्रांड सिमुलेशन (पेपर 1 व 2)।' : 'Granular AIIMS micro drills for every subtopic, full 18-Q chapter milestone exams, and 10 full-length AIIMS 360M Grand Simulations.')
+          ? (isHindi ? 'प्रत्येक टॉपिक का AIIMS स्तर का माइक्रो ड्रिल, 18 प्रश्नों का चैप्टर माइलस्टोन और 10 फुल NEET एडवांस 360M ग्रांड सिमुलेशन (पेपर 1 व 2)।' : 'Granular AIIMS micro drills for every subtopic, full 18-Q chapter milestone exams, and 10 full-length AIIMS 360M Grand Simulations.')
           : (isHindi ? 'प्रत्येक टॉपिक का 5 प्रश्नों का माइक्रो टेस्ट, संपूर्ण चैप्टर माइलस्टोन टेस्ट और 10 फुल NTA CBT ग्रांड मॉक।' : 'Granular 5-Q topic tests for every subtopic, full 20-Q chapter milestone exams, and 10 full-length NTA CBT Grand Mocks.')}
       </p>
     </div>
@@ -925,7 +988,7 @@ function renderTestsView() {
           </div>
         </div>
         <p style="font-size:12.5px; color:var(--text-muted);">Interactive bubble filling with instant answer key checking and negative mark penalty.</p>
-        <button class="btn ghost btn-sm" style="margin-top:10px;">Open Digital OMR →</button>
+        <button class="btn ghost btn-sm" style="margin-top:10px;" onclick="TestTreeEngine.launchPreNeetMock(1)">Start Test in OMR Mode →</button>
       </div>
     </div>
 
@@ -953,18 +1016,6 @@ function renderMoreView() {
     </div>
     <div class="card-grid" style="margin-bottom:24px;">
       
-      <!-- Exam Mode Selector -->
-      <div class="setting-card">
-        <div>
-          <strong style="display:block; font-size:14px;"><i class="ph-fill ph-target"></i> ${isHindi ? 'परीक्षा मोड' : 'Exam Mode'}</strong>
-          <span style="font-size:11px; color:var(--text-muted);">${isHindi ? 'मेन या एडवांस्ड चुनें' : 'Select target exam level'}</span>
-        </div>
-        <div class="segmented-control">
-          <button class="${(!appState.profile || appState.profile.examMode === 'main') ? 'active' : ''}" onclick="setExamMode('neet'); renderApp();">🎯 NEET</button>
-          <button class="${(appState.profile && appState.profile.examMode === 'advanced') ? 'active' : ''}" onclick="setExamMode('aiims'); renderApp();">⚡ Advanced</button>
-        </div>
-      </div>
-
       <!-- App Language -->
       <div class="setting-card">
         <div>
@@ -995,7 +1046,10 @@ function renderMoreView() {
           <span style="font-size:11px; color:var(--text-muted);">${isHindi ? 'प्रोग्रेस को क्लाउड पर सेव करें' : 'Cloud save your progress'}</span>
         </div>
         <div class="segmented-control">
-          <button class="active" onclick="if(window.ClerkAuth) window.ClerkAuth.openSignIn()" style="background:var(--brand-sky); color:#fff; border-color:var(--brand-sky);">Login Profile</button>
+          ${(window.ClerkAuth && window.ClerkAuth.isAuthenticated()) 
+            ? `<button class="active" onclick="if(window.ClerkAuth) window.ClerkAuth.openUserProfile()" style="background:var(--brand-emerald); color:#fff; border-color:var(--brand-emerald);">View Profile</button>`
+            : `<button class="active" onclick="if(window.ClerkAuth) window.ClerkAuth.openSignIn()" style="background:var(--brand-sky); color:#fff; border-color:var(--brand-sky);">Login Profile</button>`
+          }
         </div>
       </div>
 
@@ -1107,7 +1161,7 @@ function renderMoreView() {
 
 // Support & Voluntary Contribution Engine with Dynamic QR Scanner & Bank-Grade Security
 window.currentContributionAmount = 59;
-const UPI_BENEFICIARY_ID = (window.APP_CONFIG && window.APP_CONFIG.VITE_UPI_ID) || 'vinay.jeeos@okaxis';
+const UPI_BENEFICIARY_ID = (window.APP_CONFIG && window.APP_CONFIG.VITE_UPI_ID) || 'vinay.neetos@okaxis';
 const UPI_BENEFICIARY_NAME = (window.APP_CONFIG && window.APP_CONFIG.VITE_UPI_NAME) || 'Vinay Kumar Makvana';
 
 function buildUPIUrl(amount) {
@@ -1290,24 +1344,11 @@ function openContributionModal() {
         </div>
       </div>
 
-      <!-- Transaction UTR Reference Submission (Optional Badge) -->
-      <div style="background:var(--bg-surface); border:1px dashed var(--border-color); border-radius:12px; padding:12px; margin-bottom:16px; text-align:left;">
-        <div style="font-size:11.5px; font-weight:700; color:var(--text-main); margin-bottom:6px;">
-          ${isHindi ? 'भुगतान के बाद 12-अंकों का UTR / Transaction No. दर्ज करें:' : 'After Payment, enter 12-Digit UPI Ref / UTR No. for Supporter Badge:'}
-        </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <input type="text" id="contribUtrInput" placeholder="e.g. 412982736192" style="min-width:0; flex:1 1 140px; padding:8px 12px; border-radius:8px; background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); font-family:'JetBrains Mono', monospace; font-size:12.5px; outline:none;">
-          <button class="btn gold btn-sm" onclick="confirmContributionTxn()" style="flex:1 1 auto; white-space:nowrap; font-weight:700;">
-            Claim Badge ⭐
-          </button>
-        </div>
-        <div id="contribSuccessFeedback" style="display:none;"></div>
-      </div>
 
       <!-- Dismiss Button -->
       <div>
         <button class="btn ghost btn-sm" style="padding:8px 20px; font-weight:700; color:var(--text-muted);" onclick="document.getElementById('modal').close()">
-          ${isHindi ? 'बंद करें (Back to JEE Prep)' : 'Close (Back to Learning)'}
+          ${isHindi ? 'बंद करें (Back to NEET Prep)' : 'Close (Back to Learning)'}
         </button>
       </div>
     </div>
@@ -1328,7 +1369,7 @@ function renderScientistsView() {
         🔬 ${isHindi ? 'महान वैज्ञानिक, गणितज्ञ, प्रमेय व नियम' : 'Great Physicists, Chemists, Mathematicians & Theorems'}
       </h2>
       <p style="font-size:13px; color:var(--text-muted);">
-        ${isHindi ? 'NEET & Advanced के लिए महत्वपूर्ण नियम, समीकरण और उनकी प्रायोगिक प्रासंगिकता।' : 'Fundamental laws, theorems, equations, and diagrams tested in JEE.'}
+        ${isHindi ? 'NEET & Advanced के लिए महत्वपूर्ण नियम, समीकरण और उनकी प्रायोगिक प्रासंगिकता।' : 'Fundamental laws, theorems, equations, and diagrams tested in NEET.'}
       </p>
     </div>
 
@@ -1352,7 +1393,7 @@ function renderScientistsView() {
             </div>
           </div>
           <div style="font-size:11px; color:var(--text-dim);">
-            <strong>JEE Significance:</strong> ${s.jeeSignificance}
+            <strong>NEET Significance:</strong> ${s.neetSignificance}
           </div>
         </div>
       `).join('')}
@@ -1440,6 +1481,23 @@ function renderFlashcardsView() {
 function renderFocusView() {
   const studyStats = getStudyStats();
   const session = window.activeStudySession;
+
+    let totalTests = 0;
+    let totalAttempted = 0;
+    let totalCorrect = 0;
+    let avgAccuracy = 0;
+
+    if (window.appState && window.appState.testHistory && window.appState.testHistory.length > 0) {
+      totalTests = window.appState.testHistory.length;
+      window.appState.testHistory.forEach(t => {
+        totalAttempted += (t.correctCount || 0) + (t.wrongCount || 0);
+        totalCorrect += (t.correctCount || 0);
+      });
+      if (totalTests > 0) {
+        avgAccuracy = Math.round(window.appState.testHistory.reduce((acc, t) => acc + (t.accuracy || 0), 0) / totalTests);
+      }
+    }
+  
   return `
     <div style="max-width:540px; margin:0 auto; text-align:center; padding:20px 0;">
       <div style="font-size:44px; margin-bottom:8px;"><i class="ph-fill ph-headphones"></i></div>
@@ -1498,11 +1556,10 @@ function renderUpdatesView() {
   `;
 }
 
-// ================= NEW ADVANCED JEE STUDY POWERHOUSES =================
+// ================= NEW ADVANCED NEET STUDY POWERHOUSES =================
 
-// 1. PYQ Weightage Heatmap View
 function renderPYQHeatmapView() {
-  const data = window.PYQHeatmapData || { physics: [], chemistry: [], mathematics: [] };
+  const data = window.PYQHeatmapData || { physics: [], chemistry: [], botany: [], zoology: [] };
   const isHindi = appState.lang === 'hindi';
 
   const renderSubjectSection = (subjName, icon, chapters, color) => `
@@ -1553,7 +1610,8 @@ function renderPYQHeatmapView() {
 
       ${renderSubjectSection('Physics 10-Yr Weightage', '<i class="ph-fill ph-atom"></i>', data.physics, 'var(--brand-cyan)')}
       ${renderSubjectSection('Chemistry 10-Yr Weightage', '🧪', data.chemistry, 'var(--brand-rose)')}
-      ${renderSubjectSection('Mathematics 10-Yr Weightage', '📐', data.mathematics, 'var(--brand-gold)')}
+      ${renderSubjectSection('Botany 10-Yr Weightage', '🌿', data.botany || [], 'var(--brand-emerald)')}
+      ${renderSubjectSection('Zoology 10-Yr Weightage', '🦁', data.zoology || [], 'var(--brand-gold)')}
     </div>
   `;
 }
@@ -1606,27 +1664,27 @@ function renderCheatSheetsView() {
   `;
 }
 
-// 3. JoSAA AIIMS / NIT Cutoff Explorer View
-function renderJoSAAView() {
-  const explorer = window.JoSAAExplorer;
+// 3. AIIMS AIIMS / NIT Cutoff Explorer View
+function renderAiimsView() {
+  const explorer = window.AIIMSExplorer;
   const colleges = (explorer && explorer.colleges) || [];
 
   return `
     <div style="max-width:960px; margin:0 auto; padding:10px 0;">
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
         <button class="btn ghost btn-sm" onclick="navigateView('home')">← Back to Home</button>
-        <h2 style="font-size:22px; font-weight:800; margin:0;"><i class="ph-fill ph-bank"></i> JoSAA AIIMS & NIT Cutoff Matrix</h2>
+        <h2 style="font-size:22px; font-weight:800; margin:0;"><i class="ph-fill ph-bank"></i> AIIMS AIIMS & NIT Cutoff Matrix</h2>
       </div>
 
       <!-- Rank / Score Live Filter Bar -->
       <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:16px; margin-bottom:20px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
         <div style="flex:1; min-width:200px;">
           <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Enter Your Expected AIIMS / Main Rank:</label>
-          <input type="number" id="josaaUserRank" placeholder="e.g. 1250" class="num-display" style="font-size:14px; padding:8px 12px; width:100%;" oninput="renderApp()">
+          <input type="number" id="aiimsUserRank" placeholder="e.g. 1250" class="num-display" style="font-size:14px; padding:8px 12px; width:100%;" oninput="renderApp()">
         </div>
         <div style="min-width:160px;">
           <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Category Quota:</label>
-          <select id="josaaCategory" class="lang-select" style="width:100%; padding:9px;" onchange="renderApp()">
+          <select id="aiimsCategory" class="lang-select" style="width:100%; padding:9px;" onchange="renderApp()">
             <option value="open">General / OPEN</option>
             <option value="obc">OBC-NCL</option>
             <option value="ews">GEN-EWS</option>
@@ -1639,8 +1697,8 @@ function renderJoSAAView() {
       <!-- College List -->
       <div style="display:flex; flex-direction:column; gap:16px;">
         ${colleges.map(col => {
-          const rankVal = parseInt(document.getElementById('josaaUserRank')?.value || '0', 10);
-          const cat = document.getElementById('josaaCategory')?.value || 'open';
+          const rankVal = parseInt(document.getElementById('aiimsUserRank')?.value || '0', 10);
+          const cat = document.getElementById('aiimsCategory')?.value || 'open';
 
           return `
             <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:18px;">
@@ -1670,7 +1728,7 @@ function renderJoSAAView() {
                       if (cat === 'sc') closeR = b.scClose || Math.round(b.closeRank * 0.25);
                       if (cat === 'st') closeR = b.stClose || Math.round(b.closeRank * 0.12);
 
-                      const chance = JoSAAExplorer.getChanceLabel(rankVal, closeR);
+                      const chance = AIIMSExplorer.getChanceLabel(rankVal, closeR);
 
                       return `
                         <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
@@ -1880,8 +1938,8 @@ function renderApp() {
     case 'cheatsheets':
       app.innerHTML = renderCheatSheetsView();
       break;
-    case 'josaa':
-      app.innerHTML = renderJoSAAView();
+    case 'aiims':
+      app.innerHTML = renderAiimsView();
       break;
     case 'speedmath':
       app.innerHTML = renderSpeedMathView();
@@ -1927,7 +1985,7 @@ window.renderApp = renderApp;
 window.renderHomeView = renderHomeView;
 
 // Initial Boot
-function initJEEApp() {
+function initNEETApp() {
   // Setup theme
   if (appState.profile && appState.profile.theme === 'light') {
     document.body.classList.add('light');
@@ -1963,7 +2021,7 @@ function initJEEApp() {
   }
 
   // Listen for auth state change
-  window.addEventListener('jee-auth-state-changed', () => {
+  window.addEventListener('neet-auth-state-changed', () => {
     renderApp();
   });
 
@@ -1971,8 +2029,37 @@ function initJEEApp() {
 }
 
 if (document.readyState === 'loading') {
-  window.addEventListener('DOMContentLoaded', initJEEApp);
+  window.addEventListener('DOMContentLoaded', initNEETApp);
 } else {
-  initJEEApp();
+  initNEETApp();
 }
 
+
+
+// ==========================================
+// MONGODB CLOUD SYNC
+// ==========================================
+window.syncWithCloud = async function() {
+  const currentUid = (typeof ClerkAuth !== 'undefined' && ClerkAuth.currentUser && ClerkAuth.currentUser.id) 
+    ? ClerkAuth.currentUser.id 
+    : (window.appState && window.appState.profile && window.appState.profile.id) || null;
+    
+  if (currentUid && currentUid !== 'guest') {
+    try {
+      const res = await fetch(`/api/progress/${currentUid}`);
+      const data = await res.json();
+      if (data.success && data.appState) {
+        // Merge cloud state into local state
+        window.appState = { ...window.appState, ...data.appState };
+        localStorage.setItem(window.NEET_STORAGE_KEY, JSON.stringify(window.appState));
+        if (typeof renderApp === 'function') renderApp();
+        console.log('Cloud Sync Complete: State Restored from MongoDB');
+      }
+    } catch (err) {
+      console.warn('Failed to fetch state from MongoDB', err);
+    }
+  }
+};
+
+// Call sync immediately after init
+setTimeout(() => window.syncWithCloud(), 1000);

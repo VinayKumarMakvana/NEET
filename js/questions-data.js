@@ -806,38 +806,76 @@ const NEET_QUESTIONS = [
  * Intelligent Dynamic Question Dispatcher
  * Selects or generates questions for all 6 test levels without unexpected blanks.
  */
-function getQuestionsForHierarchicalTest(params) {
+async function getQuestionsForHierarchicalTest(params) {
   const { level, subjectCode, subjectsList, count = 10, drillType, topicTitle, chapterTitle, chapterId } = params;
 
-  let pool = [];
+  try {
+    const fetchSubj = async (code, n) => {
+      let apiUrl = `http://localhost:3000/api/questions?subjectCode=${code}&count=${n}`;
+      if (chapterTitle) apiUrl += `&chapter=${encodeURIComponent(chapterTitle)}`;
+      if (topicTitle) apiUrl += `&tag=${encodeURIComponent(topicTitle)}`;
+      
+      const stats = (window.appState && window.appState.questionStats) || 
+                    (window.NEET2028State && window.NEET2028State.questionStats) || {};
+      
+      const excludeIds = [];
+      for (const [id, attempts] of Object.entries(stats)) {
+        if (attempts >= 3) {
+          excludeIds.push(id);
+        }
+      }
+                         
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ excludeIds })
+      });
+      if (!res.ok) throw new Error('API Error');
+      return await res.json();
+    };
 
-  // Filter by subject if specified
-  if (subjectsList && subjectsList.length) {
-    pool = NEET_QUESTIONS.filter(q => subjectsList.includes(q.subjectCode));
-  } else if (subjectCode && subjectCode !== 'all') {
-    pool = NEET_QUESTIONS.filter(q => q.subjectCode === subjectCode);
-  } else {
-    pool = NEET_QUESTIONS;
-  }
-
-  // If topic test or chapter test, prefer chapter questions or match key
-  if (level === 1 || level === 2) {
-    if (chapterTitle) {
-      const chMatch = pool.filter(q => q.chapter && q.chapter.toLowerCase().includes(chapterTitle.toLowerCase().slice(0, 8)));
-      if (chMatch.length) pool = chMatch;
+    if (level === 6) {
+      // Level 6: Full Syllabus Mock (All 4 subjects, 50 Qs each = 200)
+      const phy = await fetchSubj('phy', 50);
+      const chem = await fetchSubj('chem', 50);
+      const bot = await fetchSubj('bot', 50);
+      const zoo = await fetchSubj('zoo', 50);
+      return [...phy, ...chem, ...bot, ...zoo];
+    } else if (level >= 4 && level <= 5) {
+      // Levels 4 & 5: Combo subjects (2 or 3 subjects)
+      if (!subjectsList || subjectsList.length === 0) return [];
+      const qPerSubj = Math.floor(count / subjectsList.length);
+      let allQs = [];
+      for (const code of subjectsList) {
+        const subjQs = await fetchSubj(code, qPerSubj);
+        allQs = allQs.concat(subjQs);
+      }
+      return allQs;
+    } else {
+      // Levels 1, 2, 3: Single topic, chapter, or subject
+      const codeParam = subjectCode || 'all';
+      return await fetchSubj(codeParam, count);
     }
+  } catch (err) {
+    console.warn("Backend not running or error, falling back to dummy data...", err);
+    // FALLBACK LOGIC if backend isn't started
+    return getFallbackQuestions(params);
   }
+}
 
-  // If pool is smaller than needed count, supplement with procedural high-yield questions
-  let selected = [...pool].sort(() => 0.5 - Math.random());
-
-  // Procedural generator to ensure exact target question counts (5, 15, 45, 90, 135, 200)
-  if (selected.length < count) {
-    const proceduralQs = generateProceduralTestQuestions(params, count - selected.length, selected.length + 1);
-    selected = selected.concat(proceduralQs);
+function getFallbackQuestions(params) {
+  const { level, count = 10 } = params;
+  if (level === 6 && count === 200) {
+    const getSubj = (code, n) => {
+      let pool = NEET_QUESTIONS.filter(q => q.subjectCode === code).sort(() => 0.5 - Math.random());
+      if (pool.length < n) pool = pool.concat(generateProceduralTestQuestions({ ...params, subjectCode: code }, n - pool.length, pool.length + 1));
+      return pool.slice(0, n);
+    };
+    return [...getSubj('phy', 50), ...getSubj('chem', 50), ...getSubj('bot', 50), ...getSubj('zoo', 50)];
   }
-
-  return selected.slice(0, count);
+  let pool = [...NEET_QUESTIONS].sort(() => 0.5 - Math.random());
+  if (pool.length < count) pool = pool.concat(generateProceduralTestQuestions(params, count - pool.length, pool.length + 1));
+  return pool.slice(0, count);
 }
 
 /**

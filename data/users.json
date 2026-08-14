@@ -65,5 +65,71 @@
       "targetCollege": "AIIMS New Delhi"
     },
     "lastSyncAt": "2026-08-07T14:53:44.158Z"
+  },
+  "std_1786626719933": {
+    "id": "std_1786626719933",
+    "fullName": "Dr. vinay",
+    "firstName": "vinay",
+    "emailOrPhone": "vinay@gmail.com",
+    "pin": "be487f83e6d9fb437df1ac226d933794f03ef6affb99f931463543dc9c6600d6",
+    "targetCollege": "AIIMS New Delhi",
+    "targetYear": 2028,
+    "createdAt": "2026-08-13T13:11:59.934Z",
+    "lastLoginAt": "2026-08-14T03:28:17.549Z",
+    "activeSessionId": "sess_1786678097549_pdtmfxn",
+    "studyData": {
+      "profile": {
+        "targetCollege": "AIIMS New Delhi",
+        "dailyTargetHours": 8,
+        "theme": "dark",
+        "examMode": "aiims"
+      },
+      "aspirantName": "Future Doctor",
+      "targetPercentile": 700,
+      "progress": {},
+      "revisions": {},
+      "flashcardReviews": {},
+      "studySessions": [],
+      "customResources": [],
+      "testHistory": [],
+      "mistakes": [],
+      "notes": {},
+      "lang": "bilingual",
+      "startedAt": "2026-08-09T09:59:03.842Z",
+      "streak": {
+        "count": 1,
+        "lastDate": "2026-08-13"
+      },
+      "studyStats": {
+        "todayDate": "2026-08-13",
+        "todaySeconds": 0,
+        "dailyGoalSeconds": 28800,
+        "history": {
+          "2026-08-03": 19800,
+          "2026-08-04": 22320,
+          "2026-08-05": 25200,
+          "2026-08-06": 24480,
+          "2026-08-07": 27000,
+          "2026-08-08": 30600,
+          "2026-08-09": 10800,
+          "2026-08-13": 0
+        },
+        "activeStreak": 7,
+        "lastActiveDate": "2026-08-09"
+      }
+    }
+  },
+  "std_1786679020701": {
+    "id": "std_1786679020701",
+    "fullName": "Dr. Test User",
+    "firstName": "Test",
+    "emailOrPhone": "test1786679020623@example.com",
+    "pin": "be487f83e6d9fb437df1ac226d933794f03ef6affb99f931463543dc9c6600d6",
+    "targetCollege": "AIIMS New Delhi",
+    "targetYear": 2028,
+    "createdAt": "2026-08-14T03:43:40.702Z",
+    "lastLoginAt": "2026-08-14T03:43:40.722Z",
+    "activeSessionId": "sess_1786679020722_er6vogq",
+    "studyData": {}
   }
 }

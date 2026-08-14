@@ -7,19 +7,62 @@ const NEET_RESOURCES = [
   // 🏛️ FREE GOVERNMENT & OFFICIAL ACADEMIC PORTALS (NON-YOUTUBE)
   // =========================================================================
   {
-    id: 'portal-swayam-prabha',
-    title: 'Swayam Prabha (MHRD / Govt. of India) — 24/7 DTH Channels for NEET',
-    url: 'https://www.swayamprabha.gov.in/',
+    id: 'yt-pw-ummeed',
+    title: 'Physics Wallah (PW) — Ummeed Series (Complete NEET Syllabus)',
+    url: 'https://www.youtube.com/c/PhysicsWallah',
     subject: 'All Subjects',
-    type: 'Govt Portal',
-    category: 'Official Govt Portals',
-    provider: 'Govt of India / MHRD',
-    hours: 150,
-    priority: '24x7 High-Quality Lectures by IIT & AIIMS Professors (Free DTH/Web)',
-    description: 'Government of India initiative broadcasting 34 high quality educational channels. Channel 19-22 dedicated to Class 11-12 Physics, Chemistry & Biology.',
+    type: 'YouTube Masterclass',
+    category: 'Top Free Coaching',
+    provider: 'Alakh Pandey (PW)',
+    hours: 450,
+    priority: 'Legendary Free Batch for Droppers & 12th — Beats Most Paid Courses',
+    description: 'The most recommended free series for NEET aspirants in India. Covers Physics, Chemistry, Botany, and Zoology from zero to top medical college level in simple Hindi/English mix.',
     isExternalPortal: true,
-    tags: ['Govt of India', 'Swayam Prabha', 'Free', 'All Subjects']
+    tags: ['Physics Wallah', 'Ummeed', 'Free Coaching', 'All Subjects']
   },
+  {
+    id: 'yt-seep-pahuja',
+    title: 'Seep Pahuja Biology — NCERT Line-by-Line Series',
+    url: 'https://www.youtube.com/',
+    subject: 'Biology',
+    type: 'YouTube Masterclass',
+    category: 'Top Free Coaching',
+    provider: 'Dr. Seep Pahuja',
+    hours: 120,
+    priority: 'Best for 360/360 in NEET Biology (Botany & Zoology)',
+    description: 'Master Genetics, Human Physiology, and Plant Diversity. Every single line of NCERT is decoded with memory tricks and direct NEET PYQs.',
+    isExternalPortal: true,
+    tags: ['Biology', 'Seep Pahuja', 'NCERT Decoding', 'Free']
+  },
+  {
+    id: 'yt-ashish-arora',
+    title: 'Physics Galaxy — NEET Physics Revision Checklist',
+    url: 'https://www.youtube.com/c/physicsgalaxy74',
+    subject: 'Physics',
+    type: 'YouTube Masterclass',
+    category: 'Top Free Coaching',
+    provider: 'Ashish Arora Sir',
+    hours: 80,
+    priority: "Topper's Secret: Quickest Revision of Entire Physics",
+    description: 'Fast-track revision checklists and advanced conceptual traps. If you want 170+ in Physics, watch these checklists before every mock test.',
+    isExternalPortal: true,
+    tags: ['Physics Galaxy', 'Ashish Arora', 'Revision Checklist', 'Physics']
+  },
+  {
+    id: 'yt-garima-goel',
+    title: 'Garima Goel Biology — G-Square Notes & Crash Course',
+    url: 'https://www.youtube.com/',
+    subject: 'Biology',
+    type: 'YouTube Masterclass',
+    category: 'Top Free Coaching',
+    provider: 'Garima Goel',
+    hours: 100,
+    priority: 'Extremely High-Yield Hand-written Notes Series',
+    description: 'Short crisp lectures focusing exactly on what NTA asks in exams. Highly recommended for quick coverage of Biology.',
+    isExternalPortal: true,
+    tags: ['Garima Goel', 'Biology', 'Crash Course', 'Free']
+  },
+
   {
     id: 'portal-diksha-ncert',
     title: 'DIKSHA & ePathshala — NCERT Official Audiovisual & Interactive Portal',
@@ -75,20 +118,6 @@ const NEET_RESOURCES = [
     description: 'Free interactive 3D model of the human body. Rotate, dissect, and visualize heart chambers, nephron filtration, neural synapses, and muscle contractions in real 3D.',
     isExternalPortal: true,
     tags: ['3D Anatomy', 'Zoology', 'Human Physiology', 'Interactive']
-  },
-  {
-    id: 'portal-ndli-iit',
-    title: 'National Digital Library of India (NDLI — IIT Kharagpur)',
-    url: 'https://ndl.iitkgp.ac.in/',
-    subject: 'All Subjects',
-    type: 'Digital Archive',
-    category: 'Official Govt Portals',
-    provider: 'IIT Kharagpur / MoE',
-    hours: 60,
-    priority: 'Free Access to Thousands of Indian Medical & Science E-Books',
-    description: 'A virtual repository of learning resources containing textbook solutions, video lectures, and question archives funded by Ministry of Education, Govt. of India.',
-    isExternalPortal: true,
-    tags: ['NDLI', 'IIT Kharagpur', 'Govt Archive', 'Free']
   },
 
   // =========================================================================

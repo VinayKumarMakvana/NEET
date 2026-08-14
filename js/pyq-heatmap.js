@@ -263,12 +263,12 @@ const PYQHeatmapData = {
     const container = document.getElementById(containerId);
     if(!container) return;
 
-    let html = \`
+    let html = `
       <div class="heatmap-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
         <h2 style="font-size:22px; color:var(--text-heading); display:flex; align-items:center; gap:10px;">
           <i class="ph-fill ph-fire" style="color:#ef4444;"></i> NEET 10-Year PYQ Heatmap & Yield Matrix
         </h2>
-        <p style="color:var(--text-muted); font-size:14px; margin-top:8px;">Data-driven analysis of \${this.totalShiftsAnalyzed} NEET papers (2015-2024). Focus on Golden Yield chapters first to secure 650+ marks with minimum effort.</p>
+        <p style="color:var(--text-muted); font-size:14px; margin-top:8px;">Data-driven analysis of ${this.totalShiftsAnalyzed} NEET papers (2015-2024). Focus on Golden Yield chapters first to secure 650+ marks with minimum effort.</p>
         
         <div style="display:flex; gap:10px; margin-top:16px;">
           <span style="font-size:12px; font-weight:700; background:rgba(245, 158, 11, 0.15); color:#f59e0b; padding:6px 12px; border-radius:6px; border:1px solid rgba(245, 158, 11, 0.3);">
@@ -282,7 +282,7 @@ const PYQHeatmapData = {
           </span>
         </div>
       </div>
-    \`;
+    `;
 
     const subjects = [
       { key: 'physics', title: 'Physics', color: 'var(--sub-phy)' },
@@ -292,8 +292,8 @@ const PYQHeatmapData = {
     ];
 
     subjects.forEach(sub => {
-      html += \`<h3 style="color:\${sub.color}; font-size:18px; margin:24px 0 12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;">\${sub.title} Analysis</h3>\`;
-      html += \`<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:16px;">\`;
+      html += `<h3 style="color:${sub.color}; font-size:18px; margin:24px 0 12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;">${sub.title} Analysis</h3>`;
+      html += `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:16px;">`;
       
       this[sub.key].sort((a,b) => b.avgMarks - a.avgMarks).forEach(ch => {
         let tagColor, tagIcon;
@@ -301,45 +301,45 @@ const PYQHeatmapData = {
         else if(ch.yieldCategory === 'anchor') { tagColor = '#10b981'; tagIcon = '⚓'; }
         else { tagColor = '#6366f1'; tagIcon = '🏗️'; }
 
-        html += \`
+        html += `
           <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px; position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:\${tagColor};"></div>
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:${tagColor};"></div>
             
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
               <div style="flex:1;">
-                <div style="font-size:10px; font-weight:800; color:\${tagColor}; letter-spacing:0.5px; margin-bottom:4px; text-transform:uppercase;">
-                  \${tagIcon} \${ch.yieldCategory} YIELD
+                <div style="font-size:10px; font-weight:800; color:${tagColor}; letter-spacing:0.5px; margin-bottom:4px; text-transform:uppercase;">
+                  ${tagIcon} ${ch.yieldCategory} YIELD
                 </div>
-                <h4 style="font-size:15px; font-weight:700; color:var(--text-heading); margin-bottom:2px; line-height:1.3;">\${ch.chapter}</h4>
-                <div style="font-size:11px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">\${ch.hindi}</div>
+                <h4 style="font-size:15px; font-weight:700; color:var(--text-heading); margin-bottom:2px; line-height:1.3;">${ch.chapter}</h4>
+                <div style="font-size:11px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">${ch.hindi}</div>
               </div>
               <div style="text-align:right; margin-left:10px; background:rgba(255,255,255,0.05); padding:8px; border-radius:8px;">
                 <div style="font-size:10px; color:var(--text-dim); font-weight:700;">MARKS</div>
-                <div style="font-size:18px; font-weight:800; color:var(--text-main); font-family:'JetBrains Mono';">~\${ch.avgMarks}</div>
+                <div style="font-size:18px; font-weight:800; color:var(--text-main); font-family:'JetBrains Mono';">~${ch.avgMarks}</div>
               </div>
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; font-size:12px;">
               <div style="background:var(--bg-primary); padding:8px; border-radius:6px; border:1px solid var(--border-subtle);">
                 <div style="color:var(--text-dim); font-size:10px; font-weight:700; margin-bottom:2px;">AVG QUESTIONS</div>
-                <div style="color:var(--text-main); font-weight:600;">\${ch.avgQuestionsPerPaper} Qs / paper</div>
+                <div style="color:var(--text-main); font-weight:600;">${ch.avgQuestionsPerPaper} Qs / paper</div>
               </div>
               <div style="background:var(--bg-primary); padding:8px; border-radius:6px; border:1px solid var(--border-subtle);">
                 <div style="color:var(--text-dim); font-size:10px; font-weight:700; margin-bottom:2px;">DIFFICULTY</div>
-                <div style="color:var(--text-main); font-weight:600;">\${ch.difficulty}</div>
+                <div style="color:var(--text-main); font-weight:600;">${ch.difficulty}</div>
               </div>
             </div>
 
             <div style="font-size:12px;">
               <div style="color:var(--text-dim); font-size:10px; font-weight:700; margin-bottom:4px;">10-YEAR HIGH FREQUENCY TOPICS (NTA FAVORITES)</div>
               <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                \${ch.highFrequencyTopics.map(t => \`<span style="background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px; font-size:11px; color:var(--text-main);">\${t}</span>\`).join('')}
+                ${ch.highFrequencyTopics.map(t => `<span style="background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:4px; font-size:11px; color:var(--text-main);">${t}</span>`).join('')}
               </div>
             </div>
           </div>
-        \`;
+        `;
       });
-      html += \`</div>\`;
+      html += `</div>`;
     });
 
     container.innerHTML = html;

@@ -1,6 +1,6 @@
 /**
- * JEE OS: Advanced Marks vs Percentile, AIR Predictor & College Cutoff Engine
- * Realistic calibration based on NTA JEE Main and IIT JEE Advanced cutoff metrics
+ * NEET OS: Advanced Marks vs Percentile, AIR Predictor & College Cutoff Engine
+ * Realistic calibration based on NTA NEET Core and AIIMS AIIMS AIQ cutoff metrics
  */
 
 const RankPredictor = {
@@ -30,7 +30,7 @@ const RankPredictor = {
     };
   },
 
-  predictAdvanced(marks) {
+  predictAIIMS(marks) {
     const m = Math.max(0, Math.min(360, Number(marks) || 0));
     let predictedRank = 0;
 
@@ -47,37 +47,37 @@ const RankPredictor = {
     return {
       marks: m,
       predictedRank,
-      qualifyForIIT: m >= 85,
+      qualifyForAIIMS: m >= 85,
       colleges: this.getEligibleColleges(predictedRank, 'advanced')
     };
   },
 
   getEligibleColleges(rank, tier) {
     if (tier === 'advanced') {
-      const iits = [
-        { name: 'IIT Bombay — Computer Science & Engg', minRank: 65, tag: 'Dream Elite' },
-        { name: 'IIT Delhi — Electrical Engineering', minRank: 450, tag: 'Top Tier' },
-        { name: 'IIT Madras — Mechanical Engineering', minRank: 1800, tag: 'Premier IIT' },
-        { name: 'IIT Kanpur — Aerospace Engineering', minRank: 3200, tag: 'Premier IIT' },
-        { name: 'IIT Kharagpur — Electronics & Comm', minRank: 1200, tag: 'Premier IIT' },
-        { name: 'IIT Roorkee — Data Science & AI', minRank: 2200, tag: 'High Chance' },
-        { name: 'IIT Guwahati — Civil Engineering', minRank: 7500, tag: 'Safe Seat' },
-        { name: 'IIT Hyderabad — Artificial Intelligence', minRank: 950, tag: 'Top Tier' },
-        { name: 'IIT BHU Varanasi — Chemical Engineering', minRank: 9200, tag: 'Safe Seat' }
+      const aiims = [
+        { name: 'AIIMS New Delhi — MBBS', minRank: 55, tag: 'Dream Elite' },
+        { name: 'JIPMER Puducherry — MBBS', minRank: 277, tag: 'Top Tier' },
+        { name: 'CMC Vellore — MBBS', minRank: 400, tag: 'Premier Medical' },
+        { name: 'MAMC New Delhi — MBBS', minRank: 90, tag: 'Premier Medical' },
+        { name: 'VMMC & Safdarjung Hospital — MBBS', minRank: 130, tag: 'Top Tier' },
+        { name: 'AIIMS Bhubaneswar — MBBS', minRank: 560, tag: 'High Chance' },
+        { name: 'AIIMS Jodhpur — MBBS', minRank: 600, tag: 'Safe Seat' },
+        { name: 'KGMU Lucknow — MBBS', minRank: 1200, tag: 'Top Tier' },
+        { name: 'AFMC Pune — MBBS', minRank: 1800, tag: 'Safe Seat' }
       ];
-      return iits.filter(c => rank <= c.minRank * 1.35);
+      return aiims.filter(c => rank <= c.minRank * 1.35);
     } else {
-      const nits = [
-        { name: 'IIIT Hyderabad — Computer Science (CSE)', minRank: 1200, tag: 'Elite Coding Hub' },
-        { name: 'NIT Trichy — Computer Science & Engg', minRank: 2500, tag: 'Top NIT' },
-        { name: 'NIT Surathkal (Karnataka) — Information Tech', minRank: 4200, tag: 'Top NIT' },
-        { name: 'NIT Warangal — Electronics & Comm', minRank: 6500, tag: 'Premier NIT' },
-        { name: 'MNNIT Allahabad — CSE / Software', minRank: 8500, tag: 'High Placement' },
-        { name: 'NIT Rourkela — Mechanical Engineering', minRank: 18000, tag: 'Safe NIT' },
-        { name: 'NIT Calicut — Electrical & Electronics', minRank: 16000, tag: 'High Chance' },
-        { name: 'IIIT Allahabad — IT / Business Informatics', minRank: 5500, tag: 'Top Tier' }
+      const gmcs = [
+        { name: 'State Top Govt Medical College (GMC) — MBBS', minRank: 5000, tag: 'Elite State Hub' },
+        { name: 'Seth GS Medical College Mumbai — MBBS', minRank: 900, tag: 'Top GMC' },
+        { name: 'AIIMS Patna — MBBS', minRank: 1900, tag: 'Top GMC' },
+        { name: 'BJ Medical College Ahmedabad — MBBS', minRank: 1200, tag: 'Premier GMC' },
+        { name: 'Madras Medical College — MBBS', minRank: 1500, tag: 'High Placement' },
+        { name: 'Stanley Medical College — MBBS', minRank: 3500, tag: 'Safe GMC' },
+        { name: 'Bangalore Medical College — MBBS', minRank: 2200, tag: 'High Chance' },
+        { name: 'SMS Medical College Jaipur — MBBS', minRank: 1800, tag: 'Top Tier' }
       ];
-      return nits.filter(c => rank <= c.minRank * 1.35);
+      return gmcs.filter(c => rank <= c.minRank * 1.35);
     }
   }
 };

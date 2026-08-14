@@ -187,49 +187,94 @@ const CheatSheetEngine = {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    let html = \`
+    let html = `
       <div class="cheatsheet-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; text-align:center;">
         <h2 style="font-size:24px; color:var(--text-heading); margin-bottom:8px;">
           <i class="ph-fill ph-file-text" style="color:var(--brand-blue);"></i> 1-Page NEET Cheat Sheets
         </h2>
         <p style="color:var(--text-muted); font-size:14px;">Master Biology Roadmaps, Organic Name Reactions, and Physics Formulas in one glance. Designed for rapid revision.</p>
       </div>
-    \`;
+    `;
 
     html += '<div style="display:flex; flex-direction:column; gap:30px;">';
 
     this.sheets.forEach(sheet => {
-      html += \`
+      html += `
         <div>
-          <div style="margin-bottom:16px; border-left:4px solid \${sheet.color}; padding-left:12px;">
-            <h3 style="font-size:18px; font-weight:800; color:var(--text-heading); margin-bottom:4px;">\${sheet.title}</h3>
-            <div style="font-size:13px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">\${sheet.hindiTitle}</div>
+          <div style="margin-bottom:16px; border-left:4px solid ${sheet.color}; padding-left:12px;">
+            <h3 style="font-size:18px; font-weight:800; color:var(--text-heading); margin-bottom:4px;">${sheet.title}</h3>
+            <div style="font-size:13px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">${sheet.hindiTitle}</div>
           </div>
           <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
-      \`;
+      `;
 
       sheet.cards.forEach(card => {
-        html += \`
-          <div onclick="CheatSheetEngine.openFormulaModal('\${sheet.id}', '\${card.id}')" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; position:relative; overflow:hidden;" class="hover-scale">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:\${sheet.color};"></div>
+        html += `
+          <div onclick="CheatSheetEngine.openFormulaModal('${sheet.id}', '${card.id}')" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; position:relative; overflow:hidden;" class="hover-scale">
+            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:${sheet.color};"></div>
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-              <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:4px; background:rgba(255,255,255,0.08); color:\${sheet.color};">\${sheet.badge}</span>
+              <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:4px; background:rgba(255,255,255,0.08); color:${sheet.color};">${sheet.badge}</span>
               <span style="color:var(--text-dim);"><i class="ph-bold ph-arrow-right"></i></span>
             </div>
-            <h4 style="font-size:16px; font-weight:700; color:var(--text-main); line-height:1.4; margin-bottom:12px;">\${card.heading}</h4>
+            <h4 style="font-size:16px; font-weight:700; color:var(--text-main); line-height:1.4; margin-bottom:12px;">${card.heading}</h4>
             <div style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-              <i class="ph-fill ph-list-dashes" style="color:\${sheet.color};"></i> \${card.formulaList.length} High-Yield Concepts
+              <i class="ph-fill ph-list-dashes" style="color:${sheet.color};"></i> ${card.formulaList.length} High-Yield Concepts
             </div>
           </div>
-        \`;
+        `;
       });
 
-      html += \`</div></div>\`;
+      html += `</div></div>`;
     });
 
     html += '</div>';
     container.innerHTML = html;
+  },
+
+  getHtml: function() {
+    let html = `
+      <div class="cheatsheet-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; text-align:center;">
+        <h2 style="font-size:24px; color:var(--text-heading); margin-bottom:8px;">
+          <i class="ph-fill ph-file-text" style="color:var(--brand-blue);"></i> 1-Page NEET Cheat Sheets
+        </h2>
+        <p style="color:var(--text-muted); font-size:14px;">Master Biology Roadmaps, Organic Name Reactions, and Physics Formulas in one glance. Designed for rapid revision.</p>
+      </div>
+    `;
+    html += '<div style="display:flex; flex-direction:column; gap:30px;">';
+    this.sheets.forEach(sheet => {
+      html += `
+        <div>
+          <div style="margin-bottom:16px; border-left:4px solid ${sheet.color}; padding-left:12px;">
+            <h3 style="font-size:18px; font-weight:800; color:var(--text-heading); margin-bottom:4px;">${sheet.title}</h3>
+            <div style="font-size:13px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">${sheet.hindiTitle}</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
+      `;
+      sheet.cards.forEach(card => {
+        html += `
+          <div onclick="CheatSheetEngine.openFormulaModal('${sheet.id}', '${card.id}')" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; position:relative; overflow:hidden;" class="hover-scale">
+            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:${sheet.color};"></div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:4px; background:rgba(255,255,255,0.08); color:${sheet.color};">${sheet.badge}</span>
+              <span style="color:var(--text-dim);"><i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+            <h4 style="font-size:16px; font-weight:700; color:var(--text-main); line-height:1.4; margin-bottom:12px;">${card.heading}</h4>
+            <div style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+              <i class="ph-fill ph-list-dashes" style="color:${sheet.color};"></i> ${card.formulaList.length} High-Yield Concepts
+            </div>
+          </div>
+        `;
+      });
+      html += `</div></div>`;
+    });
+    html += '</div>';
+    return html;
   }
 };
 
 window.CheatSheetEngine = CheatSheetEngine;
+
+function renderCheatSheetsView() {
+  return CheatSheetEngine.getHtml();
+}
+window.renderCheatSheetsView = renderCheatSheetsView;

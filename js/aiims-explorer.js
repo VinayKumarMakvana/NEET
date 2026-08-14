@@ -139,7 +139,7 @@ const AIIMSExplorer = {
     if(!container) return;
 
     let html = `
-      <div class="josaa-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
+      <div class="aiims-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
         <h2 style="font-size:22px; color:var(--text-heading); display:flex; align-items:center; gap:10px;">
           <i class="ph-fill ph-bank" style="color:var(--brand-emerald);"></i> AIIMS & State Govt Medical Cutoff Explorer
         </h2>
@@ -234,65 +234,65 @@ const AIIMSExplorer = {
     
     const resCont = document.getElementById('cutoffResultsContainer');
     
-    let resHtml = \`
+    let resHtml = `
       <div style="padding:16px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <div style="font-size:12px; font-weight:700; color:var(--brand-teal);">YOUR PREDICTED NEET RANK</div>
-          <div style="font-size:24px; font-family:'JetBrains Mono'; font-weight:800; color:var(--text-heading);">AIR \${approxRank}</div>
+          <div style="font-size:24px; font-family:'JetBrains Mono'; font-weight:800; color:var(--text-heading);">AIR ${approxRank}</div>
         </div>
         <div style="text-align:right;">
           <div style="font-size:12px; font-weight:700; color:var(--text-muted);">ELIGIBLE ALLOTMENTS</div>
-          <div style="font-size:20px; font-weight:800; color:var(--brand-emerald);">\${filtered.length} Options</div>
+          <div style="font-size:20px; font-weight:800; color:var(--brand-emerald);">${filtered.length} Options</div>
         </div>
       </div>
-    \`;
+    `;
     
     if(filtered.length === 0) {
-      resHtml += \`
+      resHtml += `
         <div class="empty-state" style="text-align:center; padding:40px; background:var(--bg-card); border-radius:12px; border:1px solid var(--border-color);">
           <div style="font-size:40px; opacity:0.5; margin-bottom:10px;">📉</div>
           <h3 style="color:var(--text-main);">No Safe Allotments Found</h3>
-          <p style="color:var(--text-muted); font-size:14px; margin-top:8px;">Your predicted rank (\${approxRank}) is higher than the closing ranks for the selected criteria. Try aiming for a higher NEET score!</p>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:8px;">Your predicted rank (${approxRank}) is higher than the closing ranks for the selected criteria. Try aiming for a higher NEET score!</p>
         </div>
-      \`;
+      `;
     } else {
-      resHtml += \`<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px;">\`;
+      resHtml += `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px;">`;
       
       filtered.forEach(item => {
         let tagColor = item.type === 'AIIMS' ? '#ef4444' : '#3b82f6';
         
-        resHtml += \`
+        resHtml += `
           <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:18px; position:relative; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;" class="hover-scale">
-            <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:\${item.chanceColor};"></div>
+            <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:${item.chanceColor};"></div>
             
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
               <div>
-                <span style="display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(255,255,255,0.1); color:\${tagColor}; margin-bottom:8px;">\${item.type.toUpperCase()}</span>
-                <h4 style="font-size:16px; font-weight:800; color:var(--text-heading); margin-bottom:4px; line-height:1.3;">\${item.college}</h4>
-                <div style="font-size:12px; color:var(--text-muted);"><i class="ph-fill ph-map-pin"></i> \${item.city}</div>
+                <span style="display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:4px; background:rgba(255,255,255,0.1); color:${tagColor}; margin-bottom:8px;">${item.type.toUpperCase()}</span>
+                <h4 style="font-size:16px; font-weight:800; color:var(--text-heading); margin-bottom:4px; line-height:1.3;">${item.college}</h4>
+                <div style="font-size:12px; color:var(--text-muted);"><i class="ph-fill ph-map-pin"></i> ${item.city}</div>
               </div>
               <div style="text-align:right;">
                 <div style="font-size:10px; font-weight:700; color:var(--text-dim);">CLOSING RANK</div>
-                <div style="font-size:16px; font-family:'JetBrains Mono'; font-weight:800; color:var(--text-main);">#\${item.cutoff}</div>
+                <div style="font-size:16px; font-family:'JetBrains Mono'; font-weight:800; color:var(--text-main);">#${item.cutoff}</div>
               </div>
             </div>
             
             <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
-              <div style="font-size:13px; font-weight:600; color:var(--text-main); margin-bottom:8px;">🩺 \${item.branch}</div>
+              <div style="font-size:13px; font-weight:600; color:var(--text-main); margin-bottom:8px;">🩺 ${item.branch}</div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-size:12px; font-weight:700; color:\${item.chanceColor}; background:\${item.chanceColor}22; padding:4px 10px; border-radius:6px;">\${item.chanceText}</span>
-                <span style="font-size:11px; color:var(--text-dim); font-weight:600;">Margin: \${item.diff} ranks</span>
+                <span style="font-size:12px; font-weight:700; color:${item.chanceColor}; background:${item.chanceColor}22; padding:4px 10px; border-radius:6px;">${item.chanceText}</span>
+                <span style="font-size:11px; color:var(--text-dim); font-weight:600;">Margin: ${item.diff} ranks</span>
               </div>
             </div>
           </div>
-        \`;
+        `;
       });
       
-      resHtml += \`</div>\`;
+      resHtml += `</div>`;
     }
     
     resCont.innerHTML = resHtml;
   }
 };
 
-window.JosaaExplorer = AIIMSExplorer;
+window.AIIMSExplorer = AIIMSExplorer;

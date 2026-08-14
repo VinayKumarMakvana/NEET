@@ -1,5 +1,5 @@
 /**
- * JEE OS: Speed Math & Calculation Drill Engine (60-Second Rapid Fire)
+ * NEET OS: Speed Math & Calculation Drill Engine (60-Second Rapid Fire)
  * Trains aspirants on High-Speed Mental Math, Physics Constants & Trigonometric Recall
  */
 

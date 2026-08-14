@@ -260,7 +260,7 @@ const NEET_NOTES = [
     subject: 'Biology',
     category: 'NMC Pure NCERT Guide',
     title: '🛡️ NMC 2024-2028 Pure NCERT Protocol: What to OMIT & AVOID (Zero-Waste Guide)',
-    summary: 'Strict list of deleted topics, out-of-syllabus BSc modules, and JEE-Advanced physics derivations to NEVER waste time on.',
+    summary: 'Strict list of deleted topics, out-of-syllabus BSc modules, and AIIMS-Level physics derivations to NEVER waste time on.',
     content: `
 ### 🚫 1. DELETED & OUT-OF-SYLLABUS BIOLOGY (DO NOT TOUCH!)
 Many old coaching modules contain 100+ pages of out-of-syllabus BSc material. The NMC and NTA have strictly rationalized the NEET syllabus:
@@ -280,10 +280,10 @@ Many old coaching modules contain 100+ pages of out-of-syllabus BSc material. Th
 
 ---
 
-### 🚫 2. ZERO JEE-ADVANCED OVERKILL IN PHYSICS
+### 🚫 2. ZERO NEET-ADVANCED OVERKILL IN PHYSICS
 NEET Physics tests **concept clarity + calculation speed**, not 5-page mathematical proofs:
 - ❌ **Avoid Multivariable Calculus / Double Integrals**: NEET never asks derivations using differential equations or triple integration.
-- ❌ **Avoid Complex JEE Advanced Mechanics**: Wedge-constraint 4-pulley systems, variable mass rocket trajectory calculus, or Lagrangian mechanics have 0% relevance for NEET 720/720.
+- ❌ **Avoid Complex AIIMS AIQ Mechanics**: Wedge-constraint 4-pulley systems, variable mass rocket trajectory calculus, or Lagrangian mechanics have 0% relevance for NEET 720/720.
 - ✅ **Stick to High-Yield NEET Formula Recall**: Direct application of $v=u+at$, Work-Energy Theorem, Biot-Savart, Snell's Law, Photoelectric Effect $E=h\\nu-\\phi$, and Bohr's orbits.
 
 ---

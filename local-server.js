@@ -196,8 +196,9 @@ const server = http.createServer(async (req, res) => {
 
   if (reqPath === '/api/config') {
     return sendJson(res, 200, {
-      upiId: process.env.UPI_ID || envVars.UPI_ID || 'vinay.neet2028@okaxis',
-      upiName: process.env.UPI_NAME || envVars.UPI_NAME || 'NEET Exam Creator'
+      upiId: process.env.UPI_ID || envVars.UPI_ID || 'vinay.makvana@ptyes',
+      upiName: process.env.UPI_NAME || envVars.UPI_NAME || 'Vinay Kumar Makvana',
+      razorpayKeyId: process.env.RAZORPAY_KEY_ID || envVars.RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE'
     });
   }
 
@@ -363,61 +364,90 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // --- API: Payment Transaction Logging & Verification ---
-  if (reqPath === '/api/payment/log-transaction' && req.method === 'POST') {
+  // --- API: Razorpay Create Order ---
+  if (reqPath === '/api/payment/create-order' && req.method === 'POST') {
     try {
       const body = await readJsonBody(req);
-      const { userId, utr, packId, amount, studentName } = body;
+      const { amount } = body;
+      const keyId = process.env.RAZORPAY_KEY_ID || envVars.RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
+      const keySecret = process.env.RAZORPAY_KEY_SECRET || envVars.RAZORPAY_KEY_SECRET || 'YOUR_SECRET_HERE';
 
-      if (!utr || !packId) {
-        return sendJson(res, 400, { error: 'Missing UTR or Package details.' });
+      if (keyId === 'rzp_test_YOUR_KEY_HERE') {
+        // MOCK MODE FOR TESTING
+        return sendJson(res, 200, {
+          id: 'order_mock_' + Date.now(),
+          amount: amount * 100,
+          currency: 'INR'
+        });
       }
 
-      const txs = getTransactions();
-      const cleanUtr = String(utr).trim();
+      // REAL RAZORPAY API CALL
+      const Razorpay = require('razorpay');
+      const instance = new Razorpay({ key_id: keyId, key_secret: keySecret });
+      
+      const order = await instance.orders.create({
+        amount: amount * 100, // amount in paisa
+        currency: 'INR',
+        receipt: 'rcpt_' + Date.now()
+      });
 
-      // Duplicate check
-      const duplicate = txs.find(t => t.utr === cleanUtr);
-      if (duplicate) {
-        return sendJson(res, 409, { error: 'This UTR has already been recorded.' });
-      }
-
-      const tx = {
-        id: 'TXN_' + Date.now(),
-        utr: cleanUtr,
-        userId: userId || 'guest',
-        studentName: studentName || 'Dr. Aspirant',
-        packId: packId,
-        amount: Number(amount) || 0,
-        createdAt: new Date().toISOString(),
-        verified: true
-      };
-
-      txs.push(tx);
-      saveTransactions(txs);
-
-      // If user exists, unlock directly in their server profile
-      if (userId) {
-        const user = findUser(userId);
-        if (user) {
-          user.studyData = user.studyData || {};
-          user.studyData.purchases = user.studyData.purchases || {};
-          if (packId === 'level5') user.studyData.purchases.level5 = true;
-          if (packId === 'level6') user.studyData.purchases.level6 = true;
-          if (packId === 'combo') {
-            user.studyData.purchases.level5 = true;
-            user.studyData.purchases.level6 = true;
-            user.studyData.purchases.combo = true;
-          }
-          const users = getUsers();
-          users[user.id] = user;
-          saveUsers(users);
-        }
-      }
-
-      return sendJson(res, 200, { success: true, transaction: tx });
+      return sendJson(res, 200, order);
     } catch (e) {
-      return sendJson(res, 500, { error: 'Transaction log failed: ' + e.message });
+      return sendJson(res, 500, { error: 'Razorpay order creation failed: ' + (e.message || e.error?.description) });
+    }
+  }
+
+  // --- API: Razorpay Verify Signature ---
+  if (reqPath === '/api/payment/verify' && req.method === 'POST') {
+    try {
+      const body = await readJsonBody(req);
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId } = body;
+      const keySecret = process.env.RAZORPAY_KEY_SECRET || envVars.RAZORPAY_KEY_SECRET || 'YOUR_SECRET_HERE';
+
+      let isGenuine = false;
+
+      if (razorpay_order_id.startsWith('order_mock_')) {
+        // MOCK MODE FOR TESTING
+        isGenuine = true;
+      } else {
+        // REAL RAZORPAY SIGNATURE VERIFICATION
+        const text = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSignature = crypto.createHmac('sha256', keySecret).update(text.toString()).digest('hex');
+        isGenuine = (expectedSignature === razorpay_signature);
+      }
+
+      if (isGenuine) {
+        // Record Transaction
+        const txs = getTransactions();
+        const tx = {
+          id: 'TXN_' + Date.now(),
+          razorpay_order_id,
+          razorpay_payment_id,
+          userId: userId || 'guest',
+          status: 'approved',
+          createdAt: new Date().toISOString()
+        };
+        txs.push(tx);
+        saveTransactions(txs);
+
+        // Unlock Premium for User
+        if (userId && userId !== 'guest') {
+          const users = getUsers();
+          const user = users[userId];
+          if (user) {
+            const oneYearFromNow = new Date();
+            oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+            user.subscriptionExpiry = oneYearFromNow.toISOString();
+            saveUsers(users);
+          }
+        }
+
+        return sendJson(res, 200, { success: true, message: 'Payment verified! Premium Unlocked.' });
+      } else {
+        return sendJson(res, 400, { error: 'Invalid payment signature.' });
+      }
+    } catch (e) {
+      return sendJson(res, 500, { error: 'Verification failed: ' + e.message });
     }
   }
 

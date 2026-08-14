@@ -121,7 +121,7 @@ const AudioPodcastEngine = {
       const remainingText = "Speed changed."; 
       // SpeechSynthesis API doesn't allow live speed change easily, we just restart or let it be for next play
     }
-    document.getElementById('podcastSpeedBtn').textContent = \`\${speed}x\`;
+    document.getElementById('podcastSpeedBtn').textContent = `${speed}x`;
   },
 
   updatePlayerUI() {
@@ -135,7 +135,7 @@ const AudioPodcastEngine = {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    let html = \`
+    let html = `
       <div class="podcast-header" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <h2 style="font-size:22px; color:var(--text-heading); display:flex; align-items:center; gap:10px;">
@@ -149,35 +149,35 @@ const AudioPodcastEngine = {
       </div>
       
       <div style="display:flex; flex-direction:column; gap:16px;">
-    \`;
+    `;
 
     this.EPISODES.forEach(ep => {
       let subColor = 'var(--brand-cyan)';
       if(ep.subject === 'Chemistry') subColor = 'var(--brand-rose)';
       if(ep.subject === 'Biology') subColor = 'var(--brand-emerald)';
 
-      html += \`
+      html += `
         <div class="podcast-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px; display:flex; gap:16px; align-items:center; transition:0.2s;">
-          <button onclick="AudioPodcastEngine.playEpisode('\${ep.id}')" style="background:\${subColor}22; color:\${subColor}; width:50px; height:50px; border-radius:50%; border:none; font-size:20px; cursor:pointer; display:flex; justify-content:center; align-items:center; flex-shrink:0;" class="hover-scale">
+          <button onclick="AudioPodcastEngine.playEpisode('${ep.id}')" style="background:${subColor}22; color:${subColor}; width:50px; height:50px; border-radius:50%; border:none; font-size:20px; cursor:pointer; display:flex; justify-content:center; align-items:center; flex-shrink:0;" class="hover-scale">
             <i class="ph-fill ph-play"></i>
           </button>
           <div style="flex:1;">
-            <span style="font-size:10px; font-weight:800; color:\${subColor}; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px; margin-bottom:4px; display:inline-block;">\${ep.subject.toUpperCase()}</span>
-            <h4 style="font-size:15px; font-weight:700; color:var(--text-heading); margin-bottom:2px;">\${ep.title}</h4>
-            <div style="font-size:12px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">\${ep.hindi}</div>
+            <span style="font-size:10px; font-weight:800; color:${subColor}; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px; margin-bottom:4px; display:inline-block;">${ep.subject.toUpperCase()}</span>
+            <h4 style="font-size:15px; font-weight:700; color:var(--text-heading); margin-bottom:2px;">${ep.title}</h4>
+            <div style="font-size:12px; color:var(--text-muted); font-family:'Noto Sans Devanagari';">${ep.hindi}</div>
             
             <div style="margin-top:10px; font-size:12px; color:var(--text-dim); display:flex; flex-direction:column; gap:4px;">
-              \${ep.keyPoints.map(k => \`<div><i class="ph-bold ph-check" style="color:\${subColor};"></i> \${k}</div>\`).join('')}
+              ${ep.keyPoints.map(k => `<div><i class="ph-bold ph-check" style="color:${subColor};"></i> ${k}</div>`).join('')}
             </div>
           </div>
           <div style="text-align:right; font-size:12px; color:var(--text-dim); font-weight:600;">
-            <i class="ph-fill ph-clock"></i> \${ep.duration}
+            <i class="ph-fill ph-clock"></i> ${ep.duration}
           </div>
         </div>
-      \`;
+      `;
     });
 
-    html += \`
+    html += `
       </div>
       
       <!-- Sticky Player Controls -->
@@ -198,7 +198,7 @@ const AudioPodcastEngine = {
           </button>
         </div>
       </div>
-    \`;
+    `;
 
     container.innerHTML = html;
   }

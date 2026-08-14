@@ -95,6 +95,140 @@ const TestTreeEngine = {
   },
 
   // Calculate Overall Tree Progress
+  
+  
+  openChapterSelectorModal(level) {
+    const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
+    if (allCh.length === 0) return;
+
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
+    if (!modal || !modalBody) return;
+
+    const title = level === 1 ? 'Select Topic for Micro-Test' : 'Select Chapter for Exam';
+
+    // Group chapters by subject
+    const subjects = {
+      'phy': { name: 'Physics', icon: 'ph-atom', chapters: [] },
+      'chem': { name: 'Chemistry', icon: 'ph-flask', chapters: [] },
+      'bot': { name: 'Botany', icon: 'ph-plant', chapters: [] },
+      'zoo': { name: 'Zoology', icon: 'ph-paw-print', chapters: [] }
+    };
+
+    allCh.forEach(ch => {
+      if (subjects[ch.subjectCode]) {
+        subjects[ch.subjectCode].chapters.push(ch);
+      }
+    });
+
+    let html = `
+      <div style="padding:20px;">
+        <h2 style="margin-top:0; color:var(--text-main); font-size:18px;">${title}</h2>
+        <div style="max-height:65vh; overflow-y:auto; padding-right:5px; display:flex; flex-direction:column; gap:8px;">
+    `;
+
+    Object.keys(subjects).forEach(subKey => {
+      const sub = subjects[subKey];
+      if (sub.chapters.length === 0) return;
+
+      html += `
+        <details style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:8px; padding:10px;">
+          <summary style="font-weight:800; font-size:15px; cursor:pointer; color:var(--brand-sky); padding:5px; list-style:none; display:flex; justify-content:space-between; align-items:center;">
+            <span><i class="ph-fill ${sub.icon}"></i> ${sub.name} (${sub.chapters.length})</span>
+            <i class="ph ph-caret-down" style="font-size:12px;"></i>
+          </summary>
+          <div style="margin-top:10px; display:flex; flex-direction:column; gap:6px;">
+      `;
+
+      sub.chapters.forEach(ch => {
+        if (level === 2) {
+          // Level 2: Chapter Exam
+          html += `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:10px; border-radius:6px;">
+              <span style="font-size:13px; font-weight:600;">${ch.title}</span>
+              <button class="btn primary btn-sm" onclick="document.getElementById('modal').close(); TestTreeEngine.launchChapterTest(${level}, '${ch.id}')" style="flex-shrink:0;">
+                Start Test <i class="ph-bold ph-play"></i>
+              </button>
+            </div>
+          `;
+        } else {
+          // Level 1: Topic Micro-Test
+          let topics = [];
+          if (Array.isArray(ch.subtopics)) {
+            topics = ch.subtopics;
+          } else if (typeof ch.subtopics === 'string') {
+            topics = ch.subtopics.split(',').map(t => t.trim()).filter(Boolean);
+          } else {
+            topics = ['Core Concepts'];
+          }
+
+          html += `
+            <details style="background:rgba(0,0,0,0.1); border-left:3px solid var(--brand-teal); border-radius:4px; padding:8px;">
+              <summary style="font-size:13px; font-weight:700; cursor:pointer; color:var(--text-main); list-style:none; display:flex; justify-content:space-between;">
+                <span>${ch.title} (${topics.length} Topics)</span>
+                <i class="ph ph-caret-down" style="font-size:10px; color:var(--text-muted);"></i>
+              </summary>
+              <div style="margin-top:8px; margin-left:10px; display:flex; flex-direction:column; gap:4px;">
+          `;
+
+          topics.forEach(topic => {
+            const escapedTopic = topic.replace(/'/g, "\\'");
+            html += `
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:6px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <span style="font-size:11.5px; color:var(--text-muted);">${topic}</span>
+                <button class="btn primary btn-sm" onclick="document.getElementById('modal').close(); TestTreeEngine.launchChapterTest(${level}, '${ch.id}', '${escapedTopic}')" style="padding:4px 8px; font-size:10px;">
+                  Start
+                </button>
+              </div>
+            `;
+          });
+
+          html += `
+              </div>
+            </details>
+          `;
+        }
+      });
+
+      html += `
+          </div>
+        </details>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+
+    modalBody.innerHTML = html;
+    modal.showModal();
+  },
+
+  launchChapterTest(level, chapterId, topicName = null) {
+    const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
+    const ch = allCh.find(c => c.id === chapterId);
+    if (!ch) return;
+
+    const count = level === 1 ? 5 : 15;
+    const duration = level === 1 ? 5 : 15;
+    const testTitle = topicName ? `${topicName} (Micro-Test)` : ch.title + ' (Chapter Exam)';
+
+    if (window.MockTestEngine) {
+      window.MockTestEngine.initHierarchicalTest({
+        level: level,
+        testId: 'lvl' + level + '_' + chapterId + (topicName ? '_' + Date.now() : ''),
+        title: testTitle,
+        chapterId: chapterId,
+        chapterTitle: ch.title,
+        topicTitle: topicName,
+        subjectCode: ch.subjectCode,
+        count: count,
+        durationMinutes: duration
+      });
+    }
+  },
+
   getTreeStats() {
     const state = this.getTreeState();
     const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
@@ -144,31 +278,17 @@ const TestTreeEngine = {
     }
   },
 
-  // Launch Level 2: Chapter Milestone Test
-  launchChapterTest(chapterId) {
-    const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
-    const chapter = allCh.find(c => c.id === chapterId);
-    if (!chapter) return;
-
-    if (window.MockTestEngine) {
-      window.MockTestEngine.initHierarchicalTest({
-        level: 2,
-        testId: `ch_exam_${chapterId}`,
-        title: `Chapter Milestone Exam: ${chapter.title}`,
-        chapterId,
-        subjectCode: chapter.subjectCode,
-        count: 15,
-        durationMinutes: 15,
-        drillType: 'chapter_test',
-        chapterTitle: chapter.title
-      });
-    }
-  },
-
   // Launch Level 3: Subject Full Test
   launchSubjectTest(testId) {
     const config = this.SUBJECT_TESTS.find(t => t.id === testId);
     if (!config || !window.MockTestEngine) return;
+
+    // Progression Lock: Must pass at least 1 Chapter Test in this subject
+    const state = this.getTreeState();
+    const allCh = typeof getAllChapters === 'function' ? getAllChapters() : [];
+    const subjectChapters = allCh.filter(c => c.subjectCode === config.subjectCode).map(c => `ch_exam_${c.id}`);
+
+    // Level 2 lock removed
 
     window.MockTestEngine.initHierarchicalTest({
       level: 3,
@@ -183,6 +303,11 @@ const TestTreeEngine = {
 
   // Launch Level 4: 2-Subject Combo Test
   launchCombo2Test(testId) {
+    if (typeof window !== 'undefined' && window.PaymentEngine && !window.PaymentEngine.isLevelUnlocked(4)) {
+      window.PaymentEngine.openCheckoutModal('level4');
+      return;
+    }
+
     const config = this.COMBO_2_TESTS.find(t => t.id === testId);
     if (!config || !window.MockTestEngine) return;
 
@@ -275,6 +400,93 @@ const TestTreeEngine = {
     }
 
     this.saveTreeState();
+  },
+
+  renderTreeHTML() {
+    const isHindi = (typeof appState !== 'undefined' && appState.lang === 'hindi');
+
+    return `
+      <div style="padding: 10px 0;">
+        <h2 style="font-size:20px; margin-bottom:16px; color:var(--brand-gold);">🏆 NEET 6-Level Mastery Tree</h2>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">
+          Progressively unlock higher levels by conquering micro-tests and chapter milestones.
+        </p>
+        
+        <div class="card-grid">
+          <!-- Level 1 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-teal);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag" style="background:rgba(13,148,136,0.2); color:var(--brand-teal);">LEVEL 1</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-emerald);">UNLOCKED</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">Topic Micro-Tests</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">5 Qs • 5 Mins • Instant Review</p>
+            <button class="btn btn-sm" style="width:100%; background:var(--bg-surface); border:1px solid var(--brand-teal); color:var(--text-main);" onclick="TestTreeEngine.openChapterSelectorModal(1)">Take Topic Test <i class="ph-bold ph-arrow-right"></i></button>
+          </div>
+
+          <!-- Level 2 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-cyan);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag" style="background:rgba(6,182,212,0.2); color:var(--brand-cyan);">LEVEL 2</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-emerald);">UNLOCKED</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">Chapter Exams</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">15 Qs • 15 Mins • Milestones</p>
+            <button class="btn btn-sm" style="width:100%; background:var(--bg-surface); border:1px solid var(--brand-cyan); color:var(--text-main);" onclick="TestTreeEngine.openChapterSelectorModal(2)">Take Chapter Exam <i class="ph-bold ph-arrow-right"></i></button>
+          </div>
+
+          <!-- Level 3 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-indigo);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag" style="background:rgba(99,102,241,0.2); color:var(--brand-indigo);">LEVEL 3</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-emerald);">UNLOCKED</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">Subject Full Tests</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">45 Qs • 45 Mins • Mastery</p>
+            <button class="btn btn-sm" style="width:100%; background:var(--brand-indigo); color:white;" onclick="TestTreeEngine.launchSubjectTest('sub-phy-3')">Try Physics Grand →</button>
+          </div>
+
+          <!-- Level 4 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-violet);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag" style="background:rgba(139,92,246,0.2); color:var(--brand-violet);">LEVEL 4</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-gold);">PREMIUM</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">2-Subject Combo</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">90 Qs • 90 Mins • Mixed Drill</p>
+            <button class="btn btn-sm" style="width:100%; background:var(--bg-surface); border:1px solid var(--brand-violet); color:var(--text-main);" onclick="TestTreeEngine.launchCombo2Test('combo2-pc-1')">Start PC Combo →</button>
+          </div>
+
+          <!-- Level 5 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-rose);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag" style="background:rgba(244,63,94,0.2); color:var(--brand-rose);">LEVEL 5</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-gold);">PREMIUM</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">3-Subject Combo</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">135 Qs • 135 Mins • Integration</p>
+            <button class="btn btn-sm" style="width:100%; background:var(--bg-surface); border:1px solid var(--brand-rose); color:var(--text-main);" onclick="TestTreeEngine.launchCombo3Test('combo3-pcb-1')">Start PCB Combo →</button>
+          </div>
+
+          <!-- Level 6 -->
+          <div class="card" style="padding:16px; position:relative; overflow:hidden; border:1px solid rgba(245,158,11,0.3);">
+            <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:var(--brand-gold);"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="tag gold">LEVEL 6 (FINAL)</span>
+              <span style="font-size:12px; font-weight:700; color:var(--brand-gold);">PREMIUM</span>
+            </div>
+            <h3 style="font-size:16px; margin:0 0 4px;">10 Grand Mocks</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">200 Qs • 200 Mins • NTA Simulation</p>
+            <button class="btn btn-primary btn-sm" style="width:100%;" onclick="TestTreeEngine.launchPreNeetMock(1)">Start Mock 1 🚀</button>
+          </div>
+        </div>
+      </div>
+    `;
   }
 };
 
